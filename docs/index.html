@@ -9,627 +9,451 @@
 html{font-size:16px;scroll-behavior:smooth}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  background:#070b1a;color:#d0d6e3;min-height:100vh;line-height:1.6;
+  background:#060a18;color:#d0d6e3;min-height:100vh;line-height:1.6;
+  background-image:radial-gradient(ellipse at 20% 20%, rgba(212,160,23,.03) 0%, transparent 50%),
+                   radial-gradient(ellipse at 80% 80%, rgba(212,120,42,.02) 0%, transparent 50%);
 }
 
-/* ===== Layout ===== */
-.container{max-width:1080px;margin:0 auto;padding:8px 12px 30px}
+/* ===== Admin Mode ===== */
+body[data-admin]::before{content:'👑 管理模式 · 完整数据';position:fixed;top:0;left:0;right:0;z-index:999;background:linear-gradient(90deg,#1a3a1a,#0d260d);color:#51cf66;text-align:center;padding:3px 0;font-size:.6rem;font-weight:700;letter-spacing:2px;border-bottom:1px solid rgba(81,207,102,.2)}
+body[data-admin]{padding-top:20px}
+body[data-admin] #adminPanel{display:block!important}
+body[data-admin] .locked{display:none!important}
+
+/* ===== Admin Panel (hidden by default) ===== */
+#adminPanel{display:none;margin-bottom:10px}
+#adminPanel .inner{border:1px solid rgba(81,207,102,.1);border-radius:10px;padding:10px 12px;background:rgba(81,207,102,.02)}
+#adminPanel .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:6px 0}
+#adminPanel .stat{background:rgba(255,255,255,.015);border-radius:6px;padding:6px;text-align:center}
+#adminPanel .stat .n{font-size:1rem;font-weight:800}
+#adminPanel .stat .l{font-size:.5rem;color:rgba(255,255,255,.2);margin-top:1px}
+#adminPanel .records{font-size:.55rem;color:rgba(255,255,255,.2);min-height:16px}
+#adminPanel .record{display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(255,255,255,.02)}
+
+/* ===== Container ===== */
+.w{max-width:1000px;margin:0 auto;padding:6px 10px 24px}
 
 /* ===== Header ===== */
-.header{text-align:center;padding:16px 0 4px;position:relative}
-.header::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:200px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,.2),transparent)}
-.header .brand{font-size:.7rem;color:rgba(255,215,0,.35);letter-spacing:6px;text-transform:uppercase;font-weight:500}
-.header h1{font-size:1.6rem;font-weight:800;margin-top:2px;background:linear-gradient(135deg,#F0D060 0%,#E8A830 40%,#D4782A 70%,#F0D060 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:1px}
-.header .sub{font-size:.75rem;color:rgba(255,255,255,.2);margin-top:1px;letter-spacing:3px}
-.header .loc{font-size:.65rem;color:rgba(255,215,0,.2);margin-top:1px}
-.header .ut{font-size:.6rem;color:rgba(255,255,255,.1);margin-top:4px}
+.hd{display:flex;justify-content:space-between;align-items:center;padding:2px 0;margin-bottom:4px}
+.hd .br{font-size:.65rem;color:rgba(255,215,0,.3);letter-spacing:4px}
+.hd .tg{font-size:.55rem;padding:2px 8px;border-radius:8px;background:rgba(255,255,255,.02);color:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.03)}
+
+.ht{text-align:center;padding:8px 0 2px}
+.ht h1{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,#F0D060,#E8A830,#D4782A,#F0D060);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:1px}
+.ht .s{font-size:.65rem;color:rgba(255,255,255,.15);letter-spacing:6px}
+.ht .l{font-size:.58rem;color:rgba(255,215,0,.15);margin-top:1px}
+.ut{text-align:center;font-size:.55rem;color:rgba(255,255,255,.08);margin:2px 0 6px}
 
 /* ===== Creator Bar ===== */
-.creator{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.015);border:1px solid rgba(255,255,255,.03);border-radius:10px;padding:8px 10px;margin:8px 0}
-.creator .av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#F0D060,#D4782A);display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}
-.creator .info{flex:1;min-width:0}
-.creator .info .name{font-size:.75rem;font-weight:600}
-.creator .info .desc{font-size:.6rem;color:rgba(255,255,255,.3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.creator .pay-btn{padding:4px 14px;border-radius:14px;font-size:.68rem;font-weight:600;cursor:pointer;transition:all .12s;text-decoration:none;display:inline-block;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0:.12);color:#E8A830}
-.creator .pay-btn:hover{background:rgba(255,215,0,.12)}
+.cb{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.01);border:1px solid rgba(255,255,255,.02);border-radius:8px;padding:6px 8px;margin:6px 0}
+.cb .av{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#F0D060,#D4782A);display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0}
+.cb .ci{flex:1;min-width:0}
+.cb .ci .n{font-size:.7rem;font-weight:600}
+.cb .ci .d{font-size:.55rem;color:rgba(255,255,255,.25);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cb .btn{padding:3px 12px;border-radius:10px;font-size:.62rem;font-weight:600;cursor:pointer;background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.1);color:#E8A830;text-decoration:none;white-space:nowrap}
+.cb .btn:hover{background:rgba(255,215,0,.1)}
 
 /* ===== Section Header ===== */
-.sh{display:flex;align-items:center;gap:6px;margin:14px 0 8px}
-.sh .line{flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.04),transparent)}
-.sh .label{font-size:.65rem;font-weight:600;color:rgba(255,255,255,.2);letter-spacing:3px;white-space:nowrap}
-.sh .tag{font-size:.52rem;padding:1px 8px;border-radius:4px;font-weight:600}
-.sh .tag.free{background:rgba(81,207,102,.08);color:#51cf66}
-.sh .tag.premium{background:rgba(255,215,0,.1);color:#E8A830}
+.sh{display:flex;align-items:center;gap:6px;margin:10px 0 6px}
+.sh .ln{flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.04),transparent)}
+.sh .lb{font-size:.6rem;font-weight:600;color:rgba(255,255,255,.15);letter-spacing:3px;white-space:nowrap}
+.sh .tg{font-size:.5rem;padding:1px 6px;border-radius:3px;font-weight:600}
+.sh .tg.f{background:rgba(81,207,102,.06);color:#51cf66}
+.sh .tg.p{background:rgba(255,215,0,.08);color:#E8A830}
 
-/* ===== Hero ===== */
-.hero{background:linear-gradient(135deg,rgba(255,215,0,.03),rgba(212,120,42,.01));border:1px solid rgba(255,215,0,.06);border-radius:12px;padding:14px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
-.hero .badge{background:linear-gradient(135deg,#F0D060,#D4782A);color:#0a0e1a;font-weight:800;font-size:.55rem;padding:2px 8px;border-radius:10px;display:inline-block}
-.hero .day{font-size:.95rem;font-weight:700;color:#F0D060}
-.hero .detail{font-size:.68rem;color:rgba(255,255,255,.4);line-height:1.5;flex:1;min-width:140px}
-.hero .score{font-size:1.8rem;font-weight:800;color:#F0D060;text-align:center}
-.hero .stars{font-size:.8rem;letter-spacing:1px;color:#F0D060;text-align:center}
+/* ===== Hero (Best Day) ===== */
+.hero{background:linear-gradient(135deg,rgba(255,215,0,.03),rgba(212,120,42,.01));border:1px solid rgba(255,215,0,.05);border-radius:10px;padding:12px 14px;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.hero .bdg{background:linear-gradient(135deg,#F0D060,#D4782A);color:#060a18;font-weight:800;font-size:.5rem;padding:2px 8px;border-radius:8px;display:inline-block}
+.hero .dy{font-size:.9rem;font-weight:700;color:#F0D060}
+.hero .dt{font-size:.62rem;color:rgba(255,255,255,.35);line-height:1.4;flex:1;min-width:120px}
+.hero .sc{font-size:1.6rem;font-weight:800;color:#F0D060;text-align:center;line-height:1}
+.hero .st{font-size:.65rem;color:#F0D060;text-align:center;letter-spacing:1px}
 
 /* ===== Prediction Card ===== */
-.pred-card{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:4px 0}
-.ring{position:relative;width:80px;height:80px;flex-shrink:0}
-.ring svg{transform:rotate(-90deg);width:80px;height:80px}
-.ring .bg{fill:none;stroke:rgba(255,255,255,.02);stroke-width:4}
+.pc{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:2px 0}
+.ring{position:relative;width:72px;height:72px;flex-shrink:0}
+.ring svg{transform:rotate(-90deg);width:72px;height:72px}
+.ring .bg{fill:none;stroke:rgba(255,255,255,.015);stroke-width:4}
 .ring .fg{fill:none;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .8s,stroke .4s}
 .ring .ct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
-.ring .ct .v{font-size:1.3rem;font-weight:800;line-height:1}
-.ring .ct .l{font-size:.45rem;color:rgba(255,255,255,.2)}
-.pred-info{flex:1;min-width:140px}
-.pred-info .level{font-size:.9rem;font-weight:700}
-.pred-info .meta{font-size:.65rem;color:rgba(255,255,255,.35);line-height:1.4;margin-top:1px}
-.pred-info .tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:3px}
-.pred-info .tags .t{padding:1px 7px;border-radius:6px;font-size:.55rem;font-weight:500}
+.ring .ct .v{font-size:1.1rem;font-weight:800;line-height:1}
+.ring .ct .l{font-size:.4rem;color:rgba(255,255,255,.15)}
+.pi{flex:1;min-width:120px}
+.pi .lv{font-size:.85rem;font-weight:700}
+.pi .mt{font-size:.6rem;color:rgba(255,255,255,.3);line-height:1.3}
+.pi .tg{display:flex;flex-wrap:wrap;gap:2px;margin-top:2px}
+.pi .tg .t{padding:1px 6px;border-radius:5px;font-size:.5rem;font-weight:500}
 
 /* ===== Countdown ===== */
-.cd-wrap{text-align:center;padding:4px 0}
-.cd-wrap .cd-label{font-size:.62rem;color:rgba(255,255,255,.25)}
-.cd{display:flex;gap:6px;justify-content:center;margin:2px 0}
-.cd-item{text-align:center;min-width:30px}
-.cd-item .n{font-size:.95rem;font-weight:700;background:rgba(255,255,255,.03);border-radius:4px;padding:2px 5px;display:inline-block;font-variant-numeric:tabular-nums}
-.cd-item .l{font-size:.42rem;color:rgba(255,255,255,.15);margin-top:1px}
+.cdw{text-align:center;padding:2px 0}
+.cdw .lbl{font-size:.55rem;color:rgba(255,255,255,.2)}
+.cd{display:flex;gap:4px;justify-content:center;margin:2px 0}
+.cdi{text-align:center;min-width:28px}
+.cdi .n{font-size:.85rem;font-weight:700;background:rgba(255,255,255,.02);border-radius:3px;padding:1px 4px;display:inline-block;font-variant-numeric:tabular-nums}
+.cdi .l{font-size:.4rem;color:rgba(255,255,255,.12)}
 
-/* ===== Weather Grid ===== */
-.wx{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
-.wx-item{background:rgba(255,255,255,.01);border-radius:6px;padding:5px;text-align:center}
-.wx-item .icon{font-size:.85rem}
-.wx-item .val{font-size:.72rem;font-weight:600;margin-top:1px}
-.wx-item .lbl{font-size:.5rem;color:rgba(255,255,255,.2);margin-top:1px}
+/* ===== Weather ===== */
+.wx{gap:4px;display:grid;grid-template-columns:repeat(4,1fr)}
+.wxi{background:rgba(255,255,255,.008);border-radius:5px;padding:4px;text-align:center}
+.wxi .ic{font-size:.75rem}
+.wxi .v{font-size:.65rem;font-weight:600}
+.wxi .lb{font-size:.45rem;color:rgba(255,255,255,.18)}
 
 /* ===== Day Cards ===== */
-.days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
-.day-card{background:rgba(255,255,255,.01);border-radius:8px;padding:6px 3px;text-align:center;transition:all .12s;position:relative;border:1px solid transparent}
-.day-card:hover{background:rgba(255,255,255,.025)}
-.day-card.best{border-color:rgba(255,215,0,.12);background:rgba(255,215,0,.02)}
-.day-card.best .crown{position:absolute;top:-6px;right:-3px;font-size:.5rem}
-.day-card .d{font-size:.55rem;color:rgba(255,255,255,.25)}
-.day-card .n{font-size:.7rem;font-weight:600;margin-top:1px}
-.day-card .w{font-size:.95rem;margin:1px 0}
-.day-card .s{font-size:1.05rem;font-weight:800}
-.day-card .st{font-size:.58rem}
-.day-card .m{font-size:.55rem;color:rgba(255,255,255,.25);line-height:1.2}
-.day-card .cb{border-radius:2px;margin:2px auto 0}
-.day-card .t{font-size:.55rem;color:rgba(255,255,255,.15);margin-top:1px}
+.dy-cards{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.dc{background:rgba(255,255,255,.008);border-radius:6px;padding:4px 2px;text-align:center;position:relative;border:1px solid transparent;transition:all .1s}
+.dc:hover{background:rgba(255,255,255,.015)}
+.dc.bst{border-color:rgba(255,215,0,.1);background:rgba(255,215,0,.015)}
+.dc .cr{position:absolute;top:-5px;right:-2px;font-size:.42rem}
+.dc .d{font-size:.5rem;color:rgba(255,255,255,.2)}
+.dc .n{font-size:.65rem;font-weight:600}
+.dc .w{font-size:.85rem;margin:1px 0}
+.dc .s{font-size:.95rem;font-weight:800}
+.dc .st{font-size:.5rem}
+.dc .m{font-size:.5rem;color:rgba(255,255,255,.22);line-height:1.2}
+.dc .cb{height:1.5px;border-radius:1.5px;margin:1px auto 0}
+.dc .t{font-size:.5rem;color:rgba(255,255,255,.12);margin-top:1px}
 
-/* ===== Premium Lock ===== */
-.lock{position:relative;overflow:hidden;border-radius:10px;border:1px solid rgba(255,215,0,.04);background:rgba(255,255,255,.01);padding:12px;margin-bottom:8px}
-.lock::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:100%;background:linear-gradient(0deg,rgba(7,11,26,.95) 15%,rgba(7,11,26,.1) 55%,transparent 100%);pointer-events:none;z-index:2}
-.lock .preview{opacity:.08;filter:blur(8px);pointer-events:none;user-select:none}
-.lock .overlay{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);z-index:3;text-align:center;width:90%}
-.lock .overlay .icon{font-size:1rem}
-.lock .overlay .text{font-size:.65rem;color:rgba(255,255,255,.35);margin:2px 0 6px;line-height:1.3}
-.lock .overlay .text b{color:#E8A830}
-.lock .overlay .pb{padding:5px 18px;border-radius:14px;font-size:.72rem;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#F0D060,#D4782A);color:#0a0e1a;border:none;box-shadow:0 2px 10px rgba(228,173,53,.12)}
+/* ===== Premium Features Preview ===== */
+.pf{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.pfi{display:flex;align-items:flex-start;gap:5px;background:rgba(255,255,255,.006);border-radius:5px;padding:5px 6px}
+.pfi .i{font-size:.75rem;flex-shrink:0}
+.pfi .b{flex:1}
+.pfi .t{font-size:.62rem;font-weight:600}
+.pfi .d{font-size:.5rem;color:rgba(255,255,255,.25)}
 
-/* ===== Premium Feature Grid ===== */
-.pf{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:4px}
-.pf-item{display:flex;align-items:flex-start;gap:6px;background:rgba(255,255,255,.008);border-radius:6px;padding:6px 8px}
-.pf-item .i{font-size:.85rem;flex-shrink:0}
-.pf-item .b{flex:1}
-.pf-item .t{font-size:.68rem;font-weight:600}
-.pf-item .d{font-size:.55rem;color:rgba(255,255,255,.3);margin-top:1px}
+/* ===== Locked Sections ===== */
+.lk{position:relative;overflow:hidden;border-radius:8px;border:1px solid rgba(255,255,255,.02);background:rgba(255,255,255,.006);padding:10px;margin-bottom:6px}
+.lk .pv{opacity:.06;filter:blur(6px);pointer-events:none;user-select:none;min-height:30px}
+.lk .ov{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);z-index:3;text-align:center;width:90%}
+.lk .ov .lk-icon{font-size:.9rem;display:block}
+.lk .ov .lk-txt{font-size:.58rem;color:rgba(255,255,255,.3);margin:1px 0 4px;line-height:1.2}
+.lk .ov .lk-btn{padding:4px 16px;border-radius:12px;font-size:.65rem;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#F0D060,#D4782A);color:#060a18;border:none;box-shadow:0 2px 8px rgba(228,173,53,.1)}
 
 /* ===== Pricing ===== */
-.pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:4px 0}
-.plan{background:rgba(255,255,255,.008);border-radius:10px;padding:10px;text-align:center;border:1px solid rgba(255,255,255,.02);transition:all .12s;position:relative}
-.plan:hover{border-color:rgba(255,215,0,.08)}
-.plan.hot{border-color:rgba(255,215,0:.1);background:rgba(255,215,0,.02)}
-.plan.hot::before{content:'推荐';position:absolute;top:-5px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#F0D060,#D4782A);color:#0a0e1a;font-size:.45rem;font-weight:700;padding:1px 6px;border-radius:6px}
-.plan .tier{font-size:.78rem;font-weight:700}
-.plan .price{font-size:1.3rem;font-weight:800;color:#F0D060;margin:2px 0}
-.plan .price small{font-size:.55rem;font-weight:400;color:rgba(255,255,255,.15)}
-.plan .feat{list-style:none;font-size:.6rem;color:rgba(255,255,255,.35);text-align:left;margin:4px 0}
-.plan .feat li{padding:1.5px 0;display:flex;align-items:center;gap:4px}
-.plan .feat li::before{content:'✓';color:#51cf66;font-size:.55rem;font-weight:600}
-.plan .feat li.lock-item::before{content:'🔒';font-size:.5rem}
-.plan .feat li.lock-item{color:rgba(255,255,255,.12)}
-.plan .btn{display:inline-block;padding:5px 16px;border-radius:12px;font-size:.65rem;font-weight:600;cursor:pointer;border:none;transition:all .1s}
-.plan .btn.primary{background:linear-gradient(135deg,#F0D060,#D4782A);color:#0a0e1a}
-.plan .btn.outline{background:transparent;border:1px solid rgba(255,215,0:.15);color:#E8A830}
-.plan .btn.disabled{opacity:.3;cursor:default}
+.pr{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:4px 0}
+.pl{background:rgba(255,255,255,.006);border-radius:8px;padding:8px;text-align:center;border:1px solid rgba(255,255,255,.015);position:relative}
+.pl:hover{border-color:rgba(255,215,0,.06)}
+.pl.ht{border-color:rgba(255,215,0,.08);background:rgba(255,215,0,.015)}
+.pl.ht::before{content:'推荐';position:absolute;top:-4px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#F0D060,#D4782A);color:#060a18;font-size:.4rem;font-weight:700;padding:1px 6px;border-radius:5px}
+.pl .t{font-size:.72rem;font-weight:700}
+.pl .p{font-size:1.15rem;font-weight:800;color:#F0D060;margin:1px 0}
+.pl .p small{font-size:.5rem;font-weight:400;color:rgba(255,255,255,.1)}
+.pl .fl{list-style:none;font-size:.55rem;color:rgba(255,255,255,.3);text-align:left;margin:3px 0;padding:0}
+.pl .fl li{padding:1px 0;display:flex;align-items:center;gap:3px}
+.pl .fl li::before{content:'✓';color:#51cf66;font-size:.5rem}
+.pl .fl li.l::before{content:'🔒';font-size:.42rem}
+.pl .fl li.l{color:rgba(255,255,255,.1)}
+.pl .btn{display:inline-block;padding:4px 14px;border-radius:10px;font-size:.6rem;font-weight:600;cursor:pointer;border:none;transition:all .1s}
+.pl .btn.pr{background:linear-gradient(135deg,#F0D060,#D4782A);color:#060a18}
+.pl .btn.ol{background:transparent;border:1px solid rgba(255,215,0,.12);color:#E8A830}
+.pl .btn.dis{opacity:.25;cursor:default}
 
 /* ===== Analysis ===== */
-.analysis-box{background:rgba(255,255,255,.005);border:1px solid rgba(255,255,255,.02);border-radius:8px;padding:8px 10px;font-size:.68rem;line-height:1.5;min-height:30px;color:rgba(255,255,255,.55)}
-.analysis-box .hl{color:#F0D060}
-.analysis-box .ok{color:#51cf66}
+.ab{background:rgba(255,255,255,.005);border:1px solid rgba(255,255,255,.015);border-radius:6px;padding:6px 8px;font-size:.62rem;line-height:1.4;color:rgba(255,255,255,.45);min-height:22px}
+.ab .hl{color:#F0D060}
+.ab .ok{color:#51cf66}
 
 /* ===== Season ===== */
-.season-box{background:rgba(255,255,255,.005);border:1px solid rgba(255,255,255,.015);border-radius:8px;padding:6px 10px;font-size:.65rem;color:rgba(255,255,255,.35);line-height:1.4}
+.sb{background:rgba(255,255,255,.005);border:1px solid rgba(255,255,255,.01);border-radius:6px;padding:5px 8px;font-size:.58rem;color:rgba(255,255,255:.3);line-height:1.3}
 
-/* ===== Card ===== */
-.card{background:rgba(255,255,255,.008);border:1px solid rgba(255,255,255,.025);border-radius:10px;padding:10px 12px;margin-bottom:8px}
-.card.premium-bg{background:linear-gradient(135deg,rgba(255,215,0,.01),rgba(212,120,42,.005));border-color:rgba(255,215,0,.04)}
+/* ===== Cards ===== */
+.cd{background:rgba(255,255,255,.006);border:1px solid rgba(255,255,255,.02);border-radius:8px;padding:8px 10px;margin-bottom:6px}
+.cd.g{border-color:rgba(255,215,0,.035);background:rgba(255,215,0,.008)}
 
 /* ===== Modal ===== */
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:100;justify-content:center;align-items:center}
-.modal.show{display:flex}
-.modal-inner{background:linear-gradient(180deg,#0f152e,#070b1a);border:1px solid rgba(255,215,0,.08);border-radius:12px;padding:16px;max-width:340px;width:90%;text-align:center;max-height:90vh;overflow-y:auto}
-.modal-inner h2{font-size:.9rem;margin-bottom:2px}
-.modal-inner .sub{font-size:.62rem;color:rgba(255,255,255,.25);margin-bottom:8px}
+.mo{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.75);backdrop-filter:blur(5px);z-index:100;justify-content:center;align-items:center}
+.mo.s{display:flex}
+.mi{background:linear-gradient(180deg,#0e1328,#060a18);border:1px solid rgba(255,215,0,.06);border-radius:10px;padding:14px;max-width:320px;width:90%;text-align:center;max-height:90vh;overflow-y:auto}
+.mi h2{font-size:.82rem;margin-bottom:1px}
+.mi .sub{font-size:.58rem;color:rgba(255,255,255,.2);margin-bottom:6px}
+.qrb{background:#fff;border-radius:6px;padding:5px;display:inline-block;margin:2px auto}
+.qrb img{width:140px;height:140px;display:block;border-radius:2px}
+.ps{margin:4px 0}
+.ps .ok{color:#51cf66;font-size:.65rem}
 
-/* QR in modal */
-.qr-box{background:#fff;border-radius:8px;padding:6px;display:inline-block;margin:2px auto}
-.qr-box img{width:150px;height:150px;display:block;border-radius:2px}
+/* ===== Footer ===== */
+.ft{text-align:center;font-size:.5rem;color:rgba(255,255,255,.05);padding:12px 0 2px;line-height:1.3}
 
-/* Steps */
-.pay-steps{text-align:left;font-size:.62rem;color:rgba(255,255,255,.4);margin:6px 0;line-height:1.5}
-.pay-steps .sn{display:inline-block;width:14px;height:14px;line-height:14px;text-align:center;background:rgba(255,215,0,.08);color:#E8A830;border-radius:50%;font-size:.5rem;font-weight:700;margin-right:3px}
+/* ===== Mode Tabs ===== */
+.mt{display:flex;gap:2px;background:rgba(255,255,255,.015);border-radius:6px;padding:2px;margin:4px 0 8px}
+.mt button{flex:1;text-align:center;padding:3px;border-radius:5px;font-size:.6rem;cursor:pointer;border:none;background:transparent;color:rgba(255,255,255,.2);transition:all .1s}
+.mt button.on{background:rgba(255,255,255,.03);color:#F0D060;font-weight:600}
+.mt button:hover{color:rgba(255,255,255,.4)}
 
-/* Verify */
-.verify-row{display:flex;gap:4px;margin:6px 0}
-.verify-row input{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:5px;padding:5px 8px;color:#fff;font-size:.7rem;outline:none}
-.verify-row input:focus{border-color:rgba(255,215,0,.15)}
-.verify-row button{background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0:.1);color:#E8A830;padding:5px 10px;border-radius:5px;cursor:pointer;font-weight:600;font-size:.65rem}
-.verify-hint{font-size:.5rem;color:rgba(255,255,255,.1);margin-top:2px}
+/* ===== Voucher ===== */
+.vc{display:flex;gap:4px;align-items:center;background:rgba(81,207,102,.015);border:1px solid rgba(81,207,102,.025);border-radius:6px;padding:4px 6px;margin-bottom:6px}
+.vc input{flex:1;min-width:50px;background:rgba(255,255,255,.015);border:1px solid rgba(255,255,255,.025);border-radius:4px;padding:2px 5px;color:#fff;font-size:.55rem;outline:none}
+.vc input:focus{border-color:rgba(81,207,102,.08)}
+.vc .vb{background:rgba(81,207,102,.05);border:1px solid rgba(81,207,102,.06);color:#51cf66;padding:2px 7px;border-radius:4px;cursor:pointer;font-weight:600;font-size:.55rem}
+.vc .vs{font-size:.55rem;color:#51cf66}
 
-/* Voucher fallback */
-.vf{border-top:1px solid rgba(255,255,255,.02);padding-top:6px;margin-top:6px}
-.vf .vl{font-size:.58rem;color:rgba(255,255,255,.15);margin-bottom:2px}
-
-/* Pay state */
-.pay-state{margin:4px 0;min-height:24px}
-.pay-state .success{color:#51cf66;font-size:.78rem;font-weight:600}
-.pay-state .error{color:#ff6b6b;font-size:.72rem}
-.spin{display:inline-block;width:12px;height:12px;border:2px solid rgba(255,215,0,.06);border-top-color:#E8A830;border-radius:50%;animation:sp .6s linear infinite}
-@keyframes sp{to{transform:rotate(360deg)}}
-
-.close-btn{background:transparent;border:none;color:rgba(255,255,255,.12);font-size:.62rem;cursor:pointer;margin-top:4px}
-
-/* Footer */
-.footer{text-align:center;font-size:.55rem;color:rgba(255,255,255,.06);padding:14px 0 2px;line-height:1.4}
-.footer a{color:rgba(255,215,0,.12);text-decoration:none}
-
-/* Mode Toggle */
-.mode-tabs{display:flex;gap:2px;background:rgba(255,255,255,.02);border-radius:8px;padding:2px;margin:6px 0 10px}
-.mode-tab{flex:1;text-align:center;padding:4px;border-radius:6px;font-size:.65rem;cursor:pointer;transition:all .12s;color:rgba(255,255,255,.25);border:none;background:transparent}
-.mode-tab.active{background:rgba(255,255,255,.04);color:#F0D060;font-weight:600}
-.mode-tab:hover{color:rgba(255,255,255,.5)}
-
-/* Voucher bar */
-.voc{display:flex;gap:6px;align-items:center;background:rgba(81,207,102,.02);border:1px solid rgba(81,207,102,.03);border-radius:8px;padding:5px 8px;margin-bottom:6px}
-.voc input{flex:1;min-width:60px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.03);border-radius:4px;padding:3px 6px;color:#fff;font-size:.62rem;outline:none}
-.voc input:focus{border-color:rgba(81,207,102,.1)}
-.voc .vob{background:rgba(81,207,102,.06);border:1px solid rgba(81,207,102:.08);color:#51cf66;padding:3px 8px;border-radius:4px;cursor:pointer;font-weight:600;font-size:.62rem}
-.voc .vos{font-size:.6rem;color:#51cf66;font-weight:500}
-
+/* ===== Responsive ===== */
 @media(max-width:640px){
-  .container{padding:4px 6px 20px}
-  .header h1{font-size:1.15rem}
-  .days{grid-template-columns:repeat(4,1fr)}
-  .pricing{grid-template-columns:1fr}
-  .wx{grid-template-columns:repeat(4,1fr)}
+  .w{padding:4px 6px 16px}
+  .ht h1{font-size:1rem}
+  .dy-cards{grid-template-columns:repeat(4,1fr);gap:2px}
+  .dy-cards .dc:nth-child(n+5){display:none}
+  .pr{grid-template-columns:1fr}
   .pf{grid-template-columns:1fr 1fr}
+  .ring{width:60px;height:60px}
+  .ring svg{width:60px;height:60px}
+  .ring .ct .v{font-size:.9rem}
+  .hero .sc{font-size:1.2rem}
 }
 </style>
 </head>
 <body>
 
-<div class="container" id="app">
+<div class="w">
 
-<!-- ===== Header ===== -->
-<div class="header">
-  <div class="brand">✦ Meili Snow Mountain ✦</div>
+<!-- Header -->
+<div class="hd"><div class="br">✦ MEILI SNOW MOUNTAIN ✦</div><div class="tg">创作者 @梅里天气学长</div></div>
+<div class="ht">
   <h1>日照金山 · 预测</h1>
-  <div class="sub">梅里雪山 · 卡瓦格博 · 海拔3,400m</div>
-  <div class="ut" id="ut"></div>
+  <div class="s">卡瓦格博峰 · 海拔 3,400m</div>
+  <div class="l">📍 飞来寺观景台</div>
 </div>
+<div class="ut" id="ut"></div>
 
-<!-- ===== Creator ===== -->
-<div class="creator">
+<!-- Creator + Admin link -->
+<div class="cb">
   <div class="av">🎙</div>
-  <div class="info">
-    <div class="name">梅里天气学长</div>
-    <div class="desc">每日更新 · 专注梅里气象 · 付费解锁深度数据</div>
-  </div>
-  <button class="pay-btn" onclick="openPay()">🔓 解锁完整版</button>
+  <div class="ci"><div class="n">梅里天气学长</div><div class="d">每日更新 · 付费解锁完整数据</div></div>
+  <a class="btn" href="?admin=meili2025" target="_blank">👑 管理后台</a>
+  <a class="btn" onclick="openPay()">🔓 解锁</a>
 </div>
 
-<!-- ===== Voucher ===== -->
-<div class="voc" id="voc">
-  <span style="font-size:.7rem">🔑</span>
-  <input type="text" id="vocInp" placeholder="已购用户输入兑换码">
-  <button class="vob" onclick="unlockVoc()">验证</button>
-  <span class="vos" id="vos"></span>
+<!-- Voucher -->
+<div class="vc" id="vc">
+  <span style="font-size:.65rem">🔑</span>
+  <input type="text" id="vcInp" placeholder="兑换码">
+  <button class="vb" onclick="unlockVC()">验证</button>
+  <span class="vs" id="vs"></span>
 </div>
 
-<!-- ===== Mode Tabs ===== -->
-<div class="mode-tabs">
-  <button class="mode-tab active" onclick="setMode('sunrise')">🌅 日照金山</button>
-  <button class="mode-tab" onclick="setMode('sunset')">🌇 晚霞金山</button>
+<!-- Mode Tabs -->
+<div class="mt">
+  <button class="on" onclick="setM('sunrise')">🌅 日照金山</button>
+  <button onclick="setM('sunset')">🌇 晚霞金山</button>
 </div>
 
-<!-- ===== Hero Best Day ===== -->
+<!-- Hero -->
 <div class="hero" id="hero">
-  <div><div class="badge">最佳观赏日</div><div class="day" id="heroDay">加载中…</div></div>
-  <div class="detail" id="heroDetail"></div>
-  <div><div class="score" id="heroScore">--%</div><div class="stars" id="heroStars"></div></div>
+  <div><div class="bdg">✦ 本期最佳</div><div class="dy" id="hDay">加载中…</div></div>
+  <div class="dt" id="hDtl"></div>
+  <div><div class="sc" id="hSc">--</div><div class="st" id="hSt"></div></div>
 </div>
 
-<!-- ===== Today's Prediction ===== -->
-<div class="card">
-  <div class="pred-card">
-    <div class="ring">
-      <svg viewBox="0 0 80 80"><circle class="bg" cx="40" cy="40" r="34"/><circle class="fg" id="mc" cx="40" cy="40" r="34" stroke-dasharray="213" stroke-dashoffset="213" stroke="#666"/></svg>
-      <div class="ct"><div class="v" id="pv">--</div><div class="l">概率</div></div>
-    </div>
-    <div class="pred-info">
-      <div class="level" id="pl">加载中…</div>
-      <div class="meta" id="pm"></div>
-      <div class="tags" id="pt"></div>
+<!-- Prediction -->
+<div class="cd">
+  <div class="pc">
+    <div class="ring"><svg viewBox="0 0 72 72"><circle class="bg" cx="36" cy="36" r="30"/><circle class="fg" id="mc" cx="36" cy="36" r="30" stroke-dasharray="188" stroke-dashoffset="188" stroke="#666"/></svg><div class="ct"><div class="v" id="pv">--</div><div class="l">概率</div></div></div>
+    <div class="pi">
+      <div class="lv" id="pl">加载中…</div>
+      <div class="mt" id="pm"></div>
+      <div class="tg" id="pt"></div>
     </div>
   </div>
 </div>
 
-<!-- ===== Countdown ===== -->
-<div class="card">
-  <div class="cd-wrap">
-    <div class="cd-label" id="cdl">距离下次日出</div>
-    <div class="cd" id="cd"></div>
-  </div>
+<!-- Countdown -->
+<div class="cd">
+  <div class="cdw"><div class="lbl" id="cdl">加载倒计时</div><div class="cd" id="cd"></div></div>
 </div>
 
-<!-- ===== Current Weather ===== -->
-<div class="card">
-  <div class="sh"><div class="label">实况天气</div><div class="line"></div></div>
+<!-- Weather -->
+<div class="cd">
+  <div class="sh"><div class="lb">实况</div><div class="ln"></div></div>
   <div class="wx" id="wx"></div>
 </div>
 
-<!-- ===== 7-Day Forecast ===== -->
-<div class="card">
-  <div class="sh"><div class="label">7日预测</div><span class="tag free">免费</span><div class="line"></div></div>
-  <div class="days" id="days"></div>
+<!-- 7 Days -->
+<div class="cd">
+  <div class="sh"><div class="lb">7日预测</div><span class="tg f">免费</span><div class="ln"></div></div>
+  <div class="dy-cards" id="dc"></div>
 </div>
 
-<!-- ===== Premium Feature Preview ===== -->
-<div class="card premium-bg">
-  <div class="sh"><div class="label">完整版特权</div><span class="tag premium">付费</span><div class="line"></div></div>
+<!-- Premium Preview -->
+<div class="cd g">
+  <div class="sh"><div class="lb">完整版特权</div><span class="tg p">付费</span><div class="ln"></div></div>
   <div class="pf">
-    <div class="pf-item"><div class="i">📈</div><div class="b"><div class="t">概率趋势</div><div class="d">7天柱状图</div></div></div>
-    <div class="pf-item"><div class="i">📋</div><div class="b"><div class="t">每日参数</div><div class="d">完整数据表</div></div></div>
-    <div class="pf-item"><div class="i">⏳</div><div class="b"><div class="t">逐时云量</div><div class="d">24小时趋势</div></div></div>
-    <div class="pf-item"><div class="i">🔬</div><div class="b"><div class="t">因子诊断</div><div class="d">5项评分</div></div></div>
-    <div class="pf-item"><div class="i">🎯</div><div class="b"><div class="t">拍摄窗口</div><div class="d">精准推荐</div></div></div>
-    <div class="pf-item"><div class="i">📱</div><div class="b"><div class="t">分享卡片</div><div class="d">一键生成</div></div></div>
+    <div class="pfi"><div class="i">📈</div><div class="b"><div class="t">概率趋势</div><div class="d">7天变化一目了然</div></div></div>
+    <div class="pfi"><div class="i">📋</div><div class="b"><div class="t">完整参数</div><div class="d">每日详细数据表</div></div></div>
+    <div class="pfi"><div class="i">⏳</div><div class="b"><div class="t">逐时云量</div><div class="d">24小时趋势分析</div></div></div>
+    <div class="pfi"><div class="i">🔬</div><div class="b"><div class="t">因子诊断</div><div class="d">5项核心评分</div></div></div>
+    <div class="pfi"><div class="i">🎯</div><div class="b"><div class="t">精确窗口</div><div class="d">最佳拍摄时段</div></div></div>
+    <div class="pfi"><div class="i">📱</div><div class="b"><div class="t">分享卡片</div><div class="d">一键生成转发</div></div></div>
   </div>
 </div>
 
-<!-- ===== Locked Premium Sections ===== -->
-<div class="lock" id="lock1">
-  <div class="preview">
-    <div class="sh"><div class="label">📈 概率趋势图</div></div>
-    <div style="height:50px;background:rgba(255,255,255,.02);border-radius:4px"></div>
+<!-- Locked Sections -->
+<div class="lk"><div class="pv"><div class="sh"><div class="lb">📈 概率趋势图</div></div><div style="height:40px"></div></div><div class="ov"><span class="lk-icon">🔒</span><div class="lk-txt">解锁查看 <b style="color:#F0D060">7天概率趋势</b></div><button class="lk-btn" onclick="openPay()">解锁</button></div></div>
+<div class="lk"><div class="pv"><div class="sh"><div class="lb">📋 每日参数表</div></div><div style="height:50px"></div></div><div class="ov"><span class="lk-icon">🔒</span><div class="lk-txt">解锁查看 <b style="color:#F0D060">完整参数</b></div><button class="lk-btn" onclick="openPay()">解锁</button></div></div>
+<div class="lk"><div class="pv"><div class="sh"><div class="lb">⏳ 逐时云量</div></div><div style="height:30px"></div></div><div class="ov"><span class="lk-icon">🔒</span><div class="lk-txt">解锁查看 <b style="color:#F0D060">24小时变化</b></div><button class="lk-btn" onclick="openPay()">解锁</button></div></div>
+<div class="lk"><div class="pv"><div class="sh"><div class="lb">🔬 因子诊断</div></div><div style="height:40px"></div></div><div class="ov"><span class="lk-icon">🔒</span><div class="lk-txt">解锁查看 <b style="color:#F0D060">5项评分</b></div><button class="lk-btn" onclick="openPay()">解锁</button></div></div>
+
+<!-- Pricing -->
+<div class="cd g">
+  <div class="sh"><div class="lb">方案</div><div class="ln"></div></div>
+  <div class="pr">
+    <div class="pl"><div class="t">🌤 免费</div><div class="p">¥0</div><ul class="fl"><li>7日基本预测</li><li>最佳日</li><li>实况天气</li><li class="l">趋势图</li><li class="l">参数表</li><li class="l">逐时云量</li></ul><div class="btn ol dis">使用中</div></div>
+    <div class="pl ht"><div class="t">🔓 完整版</div><div class="p">¥9.9 <small>¥29.9</small></div><ul class="fl"><li>所有免费内容</li><li>概率趋势图</li><li>每日参数表</li><li>逐时云量</li><li>因子诊断</li><li>永久有效</li></ul><button class="btn pr" onclick="openPay()">解锁</button></div>
+    <div class="pl"><div class="t">👑 会员</div><div class="p">¥29.9 <small>/月</small></div><ul class="fl"><li>完整版全部</li><li>每日推送</li><li>定制建议</li><li>1v1咨询</li></ul><button class="btn pr" onclick="alert('私信 @梅里天气学长')">开通</button></div>
   </div>
-  <div class="overlay"><div class="icon">🔒</div><div class="text">解锁后查看 <b>7天概率趋势</b></div><button class="pb" onclick="openPay()">解锁</button></div>
 </div>
 
-<div class="lock" id="lock2">
-  <div class="preview">
-    <div class="sh"><div class="label">📋 每日参数表</div></div>
-    <div style="height:60px;background:rgba(255,255,255,.02);border-radius:4px"></div>
-  </div>
-  <div class="overlay"><div class="icon">🔒</div><div class="text">解锁后查看 <b>完整每日参数</b></div><button class="pb" onclick="openPay()">解锁</button></div>
-</div>
-
-<div class="lock" id="lock3">
-  <div class="preview">
-    <div class="sh"><div class="label">⏳ 逐时云量</div></div>
-    <div style="height:40px;background:rgba(255,255,255,.02);border-radius:4px"></div>
-  </div>
-  <div class="overlay"><div class="icon">🔒</div><div class="text">解锁后查看 <b>每小时的云量变化</b></div><button class="pb" onclick="openPay()">解锁</button></div>
-</div>
-
-<div class="lock" id="lock4">
-  <div class="preview">
-    <div class="sh"><div class="label">🔬 因子诊断</div></div>
-    <div style="height:50px;background:rgba(255,255,255,.02);border-radius:4px"></div>
-  </div>
-  <div class="overlay"><div class="icon">🔒</div><div class="text">解锁后查看 <b>5大核心因子评分</b></div><button class="pb" onclick="openPay()">解锁</button></div>
-</div>
-
-<!-- ===== Pricing ===== -->
-<div class="card premium-bg">
-  <div class="sh"><div class="label">选择方案</div><div class="line"></div></div>
-  <div class="pricing">
-    <div class="plan">
-      <div class="tier">🌤 免费</div>
-      <div class="price">¥0</div>
-      <ul class="feat"><li>7日基本预测</li><li>最佳日推荐</li><li>天气实况</li><li class="lock-item">趋势图</li><li class="lock-item">逐时云量</li></ul>
-      <div class="btn outline disabled">使用中</div>
+<!-- Admin Panel (hidden, shown only in admin mode) -->
+<div id="adminPanel">
+  <div class="inner">
+    <div class="sh"><div class="lb">📊 创作者面板</div><div class="ln"></div></div>
+    <div class="grid">
+      <div class="stat"><div class="n" style="color:#F0D060" id="aVisits">0</div><div class="l">管理访问</div></div>
+      <div class="stat"><div class="n" style="color:#51cf66" id="aPayments">0</div><div class="l">累计付款</div></div>
+      <div class="stat"><div class="n" style="color:#F0D060" id="aRevenue">¥0</div><div class="l">预估收入</div></div>
     </div>
-    <div class="plan hot">
-      <div class="tier">🔓 完整版</div>
-      <div class="price">¥9.9 <small>¥29.9</small></div>
-      <ul class="feat"><li>所有免费内容</li><li>概率趋势图</li><li>每日参数表</li><li>逐时云量</li><li>因子诊断</li><li>永久有效</li></ul>
-      <button class="btn primary" onclick="openPay()">解锁</button>
-    </div>
-    <div class="plan">
-      <div class="tier">👑 会员</div>
-      <div class="price">¥29.9 <small>/月</small></div>
-      <ul class="feat"><li>完整版全部</li><li>每日推送</li><li>定制建议</li><li>1v1咨询</li></ul>
-      <button class="btn primary" onclick="alert('私信 @梅里天气学长 开通')">开通</button>
-    </div>
+    <div class="records" id="aRecords">暂无付款记录</div>
   </div>
 </div>
+
+<!-- AI Analysis -->
+<div class="cd">
+  <div class="sh"><div class="lb">AI 分析</div><span class="tg f">免费</span><div class="ln"></div></div>
+  <div class="ab" id="ab"></div>
+</div>
+
+<!-- Season -->
+<div class="cd">
+  <div class="sh"><div class="lb">季节背景</div><div class="ln"></div></div>
+  <div class="sb" id="sb"></div>
+</div>
+
+<!-- Footer -->
+<div class="ft">
+  <div>数据 © <a href="https://open-meteo.com">Open-Meteo</a> · @梅里天气学长</div>
+</div>
+
+</div><!-- /.w -->
 
 <!-- ===== PAYMENT MODAL ===== -->
-<div class="modal" id="payModal">
-  <div class="modal-inner">
+<div class="mo" id="pm">
+  <div class="mi">
     <h2>🔓 解锁完整版</h2>
-    <div class="sub">永久有效 · 选择支付方式</div>
-
-    <!-- Auto Pay: Afdian -->
-    <div style="background:rgba(81,207,102,.02);border:1px solid rgba(81,207,102,.06);border-radius:8px;padding:10px;margin:4px 0">
-      <div style="font-size:.75rem;font-weight:600">💚 自动支付（推荐）</div>
-      <div style="font-size:.6rem;color:rgba(255,255,255,.35);margin:2px 0 6px">支付后自动解锁 · 无需手动操作</div>
-      <a href="https://afdian.com/a/meiliguide" target="_blank" onclick="afdPay()" style="display:inline-block;padding:6px 20px;border-radius:16px;font-size:.72rem;font-weight:700;background:linear-gradient(135deg,#51cf66,#2b8a3e);color:#fff;text-decoration:none;box-shadow:0 2px 8px rgba(81,207,102,.15)">去支付 →</a>
+    <div class="sub">永久有效 · 选择方式</div>
+    <div style="background:rgba(81,207,102,.02);border:1px solid rgba(81,207,102,.05);border-radius:8px;padding:8px;margin:4px 0">
+      <div style="font-size:.7rem;font-weight:600">💚 自动支付</div>
+      <div style="font-size:.55rem;color:rgba(255,255,255,.3);margin:1px 0 4px">支付后自动解锁 · 无需操作</div>
+      <a href="https://afdian.com/a/meiliguide" target="_blank" onclick="afdPay()" style="display:inline-block;padding:5px 18px;border-radius:14px;font-size:.65rem;font-weight:700;background:linear-gradient(135deg,#51cf66,#2b8a3e);color:#fff;text-decoration:none;">去支付 →</a>
     </div>
-
-    <!-- WeChat Pay -->
-    <details style="margin:4px 0">
-      <summary style="font-size:.6rem;color:rgba(255,255,255,.2);cursor:pointer">💳 扫码支付（需手动验证）</summary>
-      <div style="padding:6px 0">
-        <div class="qr-box"><img src="qr-pay.jpg" alt="收款码"></div>
-        <div class="pay-steps"><div><span class="sn">1</span> 扫码支付 <b style="color:#F0D060">¥9.9</b></div><div><span class="sn">2</span> 输入你的微信昵称验证</div></div>
-        <div class="verify-row"><input type="text" id="payName" placeholder="输入微信昵称"><button onclick="verifyPay()">验证</button></div>
-        <div class="pay-state" id="payState"></div>
+    <details style="margin:2px 0">
+      <summary style="font-size:.55rem;color:rgba(255,255,255,.18);cursor:pointer">💳 扫码支付</summary>
+      <div style="padding:4px 0">
+        <div class="qrb"><img src="qr-pay.jpg" alt="收款码"></div>
+        <div class="ps" id="ps"></div>
+        <div style="display:flex;gap:3px;margin:4px 0"><input type="text" id="payNm" placeholder="微信昵称" style="flex:1;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:4px;padding:4px 6px;color:#fff;font-size:.6rem;outline:none"><button onclick="vrfPay()" style="background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.08);color:#E8A830;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:.6rem">验证</button></div>
       </div>
     </details>
-
-    <!-- Voucher -->
-    <div class="vf"><div class="vl">已有兑换码？</div>
-      <div class="verify-row"><input type="text" id="modVoc" placeholder="输入兑换码"><button onclick="modVocCheck()">验证</button></div>
+    <div style="border-top:1px solid rgba(255,255,255,.015);padding-top:4px;margin-top:4px">
+      <div style="display:flex;gap:3px"><input type="text" id="mVc" placeholder="兑换码" style="flex:1;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:4px;padding:4px 6px;color:#fff;font-size:.6rem;outline:none"><button onclick="mVcChk()" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.4);padding:4px 8px;border-radius:4px;cursor:pointer;font-size:.6rem">验证</button></div>
     </div>
-    <button class="close-btn" onclick="closePay()">✕ 关闭</button>
+    <button style="background:transparent;border:none;color:rgba(255,255,255,.08);font-size:.55rem;cursor:pointer;margin-top:4px" onclick="closePay()">✕ 关闭</button>
   </div>
-</div>
-
-<!-- ===== AI Analysis ===== -->
-<div class="card">
-  <div class="sh"><div class="label">AI 分析</div><span class="tag free">免费</span><div class="line"></div></div>
-  <div class="analysis-box" id="ab"><div style="color:rgba(255,255,255,.15);font-size:.6rem">加载中…</div></div>
-</div>
-
-<!-- ===== Season ===== -->
-<div class="card">
-  <div class="sh"><div class="label">季节背景</div><div class="line"></div></div>
-  <div class="season-box" id="sb"></div>
-</div>
-
-<!-- ===== ADMIN PANEL (only visible in admin mode) ===== -->
-<div id="adminPanel" style="display:none;margin-bottom:10px">
-  <div class="card" style="border-color:rgba(81,207,102,.1);background:rgba(81,207,102,.01)">
-    <div class="sh"><div class="label">📊 创作者面板</div><div class="line"></div></div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px">
-      <div style="background:rgba(255,255,255,.01);border-radius:6px;padding:6px;text-align:center">
-        <div style="font-size:1rem;font-weight:800" id="adminVisits">0</div>
-        <div style="font-size:.55rem;color:rgba(255,255,255,.25)">今日访问</div>
-      </div>
-      <div style="background:rgba(255,255,255,.01);border-radius:6px;padding:6px;text-align:center">
-        <div style="font-size:1rem;font-weight:800;color:#51cf66" id="adminPayments">0</div>
-        <div style="font-size:.55rem;color:rgba(255,255,255,.25)">累计付款</div>
-      </div>
-      <div style="background:rgba(255,255,255,.01);border-radius:6px;padding:6px;text-align:center">
-        <div style="font-size:1rem;font-weight:800;color:#F0D060" id="adminRevenue">¥0</div>
-        <div style="font-size:.55rem;color:rgba(255,255,255,.25)">预估收入</div>
-      </div>
-    </div>
-    <div style="font-size:.6rem;color:rgba(255,255,255,.15);margin-bottom:4px">📋 付款记录</div>
-    <div id="adminRecords" style="font-size:.58rem;color:rgba(255,255,255,.25);min-height:20px">暂无记录</div>
-    <div style="margin-top:6px;display:flex;gap:4px">
-      <span style="font-size:.5rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.03);border-radius:4px;padding:2px 6px;color:rgba(255,255,255,.12)">🔗 管理员: ?admin=meili2025</span>
-    </div>
-  </div>
-</div>
-
-<!-- ===== Footer ===== -->
-<div class="footer">
-  <div>数据 © <a href="https://open-meteo.com" target="_blank">Open-Meteo</a> · 仅供出行参考</div>
-  <div style="margin-top:1px">📱 @梅里天气学长 · 抖音/小红书</div>
-  <div style="margin-top:3px">梅里雪山 · 日照金山预测</div>
-</div>
-
 </div>
 
 <script>
-const LOC={lat:28.45,lng:98.78},API='https://api.open-meteo.com/v1/forecast';
-let mode='sunrise',data=null,cur=null,hr=null,dd=null,unlocked=false,ctimer=null;
+const L={lat:28.45,lng:98.78},A='https://api.open-meteo.com/v1/forecast';
+let M='sunrise',D=null,C=null,H=null,DD=null,U=false,CT=null;
+const W={0:{d:'晴',i:'☀️'},1:{d:'大部晴',i:'🌤️'},2:{d:'多云',i:'⛅'},3:{d:'阴',i:'☁️'},45:{d:'雾',i:'🌫️'},48:{d:'雾',i:'🌫️'},51:{d:'毛毛雨',i:'🌦️'},53:{d:'毛毛雨',i:'🌦️'},55:{d:'大毛毛雨',i:'🌧️'},61:{d:'小雨',i:'🌦️'},63:{d:'中雨',i:'🌧️'},65:{d:'大雨',i:'🌧️'},71:{d:'小雪',i:'🌨️'},73:{d:'中雪',i:'❄️'},75:{d:'大雪',i:'❄️'},80:{d:'阵雨',i:'🌦️'},81:{d:'中阵雨',i:'🌧️'},82:{d:'大阵雨',i:'🌧️'},95:{d:'雷暴',i:'⛈️'}};
+const VC={MEILI2025:true,KAWAGEBO:true,JINSHAN:true,GOLDEN:true,'888888':true};
 
-const WMO={0:{d:'晴',i:'☀️'},1:{d:'大部晴',i:'🌤️'},2:{d:'多云',i:'⛅'},3:{d:'阴',i:'☁️'},45:{d:'雾',i:'🌫️'},48:{d:'雾',i:'🌫️'},51:{d:'毛毛雨',i:'🌦️'},53:{d:'毛毛雨',i:'🌦️'},55:{d:'大毛毛雨',i:'🌧️'},61:{d:'小雨',i:'🌦️'},63:{d:'中雨',i:'🌧️'},65:{d:'大雨',i:'🌧️'},71:{d:'小雪',i:'🌨️'},73:{d:'中雪',i:'❄️'},75:{d:'大雪',i:'❄️'},80:{d:'阵雨',i:'🌦️'},81:{d:'中阵雨',i:'🌧️'},82:{d:'大阵雨',i:'🌧️'},95:{d:'雷暴',i:'⛈️'}};
-
-function ss(){var m=new Date().getMonth()+1;return m>=10||m<=4?100:m===5?70:m===6||m===9?40:20;}
-function hi(di,h){var p=dd.time[di],bi=-1,bd=Infinity;for(var i=0;i<hr.time.length;i++){var t=hr.time[i];if(t.startsWith(p)){var d=Math.abs(parseInt(t.substring(11,13))-Math.floor(h));if(d<bd){bd=d;bi=i;}}}return bi;}
-
-function dp(di,m){
-  if(!data)return null;
-  var sr=new Date(dd.sunrise[di]),ss2=new Date(dd.sunset[di]);
-  var th=m==='sunrise'?sr.getHours()+sr.getMinutes()/60:ss2.getHours()+ss2.getMinutes()/60;
-  var ti=hi(di,th);if(ti<0)return null;
-  var cc=hr.cloud_cover[ti],wc=hr.weather_code[ti],pp=hr.precipitation_probability[ti],hu=hr.relative_humidity_2m[ti],sf=ss();
-  var ccS=cc<=10?100:cc<=20?90:cc<=30?70:cc<=50?40:cc<=70?15:5;
-  var wcS=wc===0?100:wc===1?90:wc===2?55:[3].includes(wc)?30:[45,48].includes(wc)?10:0;
-  var ppS=pp<=5?100:pp<=10?85:pp<=20?65:pp<=40?30:pp<=60?12:0;
-  var huS=hu<=30?100:hu<=50?85:hu<=65?65:hu<=80?35:12;
-  var raw=ccS*.35+wcS*.25+ppS*.2+huS*.1+sf*.1;
-  var score=Math.max(0,Math.min(100,Math.round(raw)));
-  var lv=score>=85?'🌟极佳':score>=70?'👍良好':score>=50?'🤞一般':score>=30?'😕较低':'😢很低';
-  var stars=score>=90?5:score>=80?4:score>=65?3:score>=45?2:1;
-  return{score,level:lv,stars,cc,wc,pp,hu,sf,sr,ss:ss2,ti,di,wmo:WMO[wc]||WMO[0],dateStr:dd.time[di],arrivalMin:40,high:dd.temperature_2m_max[di],low:dd.temperature_2m_min[di]};
+function SS(){var m=new Date().getMonth()+1;return m>=10||m<=4?100:m===5?70:m===6||m===9?40:20}
+function HI(di,h){var p=DD.time[di],bi=-1,bd=Infinity;for(var i=0;i<H.time.length;i++){var t=H.time[i];if(t.slice(0,10)===p){var d=Math.abs(parseInt(t.slice(11,13))-Math.floor(h));if(d<bd){bd=d;bi=i}}}return bi}
+function DP(di,m){if(!D)return null;
+  var sr=new Date(DD.sunrise[di]),ss=new Date(DD.sunset[di]);
+  var th=m==='sunrise'?sr.getHours()+sr.getMinutes()/60:ss.getHours()+ss.getMinutes()/60;
+  var ti=HI(di,th);if(ti<0)return null;
+  var cc=H.cloud_cover[ti],wc=H.weather_code[ti],pp=H.precipitation_probability[ti],hu=H.relative_humidity_2m[ti],sf=SS();
+  var cs=cc<=10?100:cc<=20?90:cc<=30?70:cc<=50?40:cc<=70?15:5;
+  var ws=wc===0?100:wc===1?90:wc===2?55:[3].includes(wc)?30:[45,48].includes(wc)?10:0;
+  var ps=pp<=5?100:pp<=10?85:pp<=20?65:pp<=40?30:pp<=60?12:0;
+  var hs=hu<=30?100:hu<=50?85:hu<=65?65:hu<=80?35:12;
+  var r=cs*.35+ws*.25+ps*.2+hs*.1+sf*.1;
+  var sc=Math.max(0,Math.min(100,Math.round(r)));
+  var lv=sc>=85?'🌟极佳':sc>=70?'👍良好':sc>=50?'🤞一般':sc>=30?'😕较低':'😢很低';
+  var st=sc>=90?5:sc>=80?4:sc>=65?3:sc>=45?2:1;
+  return{score:sc,level:lv,stars:st,cc,wc,pp,hu,sf,sr,ss,ti,di,wmo:W[wc]||W[0],ds:DD.time[di],ar:40,hi:DD.temperature_2m_max[di],lo:DD.temperature_2m_min[di]};
 }
+function CTI(m){if(!DD)return 0;var n=new Date(),ts=n.toISOString().slice(0,10);var di=0;for(var i=0;i<DD.time.length;i++)if(DD.time[i]===ts){di=i;break}var t=m==='sunrise'?new Date(DD.sunrise[di]):new Date(DD.sunset[di]);if(n>t&&di<DD.time.length-1)di++;return di}
+function CS(s){return s>=85?'#F0D060':s>=70?'#51cf66':s>=50?'#ffd43b':s>=30?'#ff922b':'#ff6b6b'}
+function ST(n){return'★'.repeat(n)+'☆'.repeat(5-n)}
+function FD(ds,di){var t=new Date().toISOString().slice(0,10),tm=new Date(Date.now()+864e5).toISOString().slice(0,10);if(ds===t)return'今天';if(ds===tm)return'明天';return ds.slice(5)+' '+['周日','周一','周二','周三','周四','周五','周六'][new Date(ds).getDay()]}
 
-function cti(m){if(!dd)return 0;var n=new Date(),ts=n.toISOString().substring(0,10);var di=0;for(var i=0;i<dd.time.length;i++)if(dd.time[i]===ts){di=i;break;}var t=m==='sunrise'?new Date(dd.sunrise[di]):new Date(dd.sunset[di]);if(n>t&&di<dd.time.length-1)di++;return di;}
-function cs(s){return s>=85?'#F0D060':s>=70?'#51cf66':s>=50?'#ffd43b':s>=30?'#ff922b':'#ff6b6b';}
-function st(n){return'★'.repeat(n)+'☆'.repeat(5-n);}
-function fd(ds,di){var t=new Date().toISOString().substring(0,10),tm=new Date(Date.now()+864e5).toISOString().substring(0,10);if(ds===t)return'今天';if(ds===tm)return'明天';return ds.substring(5)+' '+['周日','周一','周二','周三','周四','周五','周六'][new Date(ds).getDay()];}
-
-var VOC={MEILI2025:true,KAWAGEBO:true,JINSHAN:true,GOLDEN:true,'888888':true};
-var payRecord={};
-
-function openPay(){document.getElementById('payModal').classList.add('show')}
-function closePay(){document.getElementById('payModal').classList.remove('show')}
-
-function afdPay(){closePay();setTimeout(function(){unlocked=true;applyUnlock();try{localStorage.setItem('meili_unlocked','1')}catch(e){}},100)}
-
-// ===== ADMIN ACCESS =====
-(function(){
-  try{if(localStorage.getItem('meili_unlocked')==='1'){unlocked=true;setTimeout(applyUnlock,300)}}catch(e){}
+// Admin detection
+(function(){try{if(localStorage.getItem('_u')==='1'){U=true;setTimeout(AU,300)}}catch(e){}
   var p=new URLSearchParams(location.search);
-  if(p.get('unlock')||p.get('pay_success')){unlocked=true;setTimeout(applyUnlock,500)}
-  
-  // 🔐 Creator admin mode: add ?admin=meili2025 to URL to unlock everything & show admin panel
+  if(p.get('unlock')||p.get('pay_success')){U=true;setTimeout(AU,500)}
   if(p.get('admin')==='meili2025'||p.get('owner')==='true'){
-    unlocked=true;
-    setTimeout(function(){
-      applyUnlock();
-      // Show admin badge
-      var badge=document.createElement('div');
-      badge.id='adminBadge';
-      badge.innerHTML='<span style="display:inline-flex;align-items:center;gap:4px;background:rgba(81,207,102,.1);border:1px solid rgba(81,207,102,.15);border-radius:6px;padding:3px 10px;font-size:.55rem;color:#51cf66">👑 管理后台 · 全部可见</span>';
-      var voc=document.getElementById('voc');
-      if(voc){voc.parentNode.insertBefore(badge,voc.nextSibling)}
-      
-      // Show admin panel
-      var panel=document.getElementById('adminPanel');
-      if(panel){
-        panel.style.display='block';
-        var visits=0;try{visits=parseInt(localStorage.getItem('meili_admin_visits')||'0')}catch(e){}
-        visits++;try{localStorage.setItem('meili_admin_visits',visits.toString())}catch(e){}
-        document.getElementById('adminVisits')&&(document.getElementById('adminVisits').textContent=visits);
-        var records=[];try{records=JSON.parse(localStorage.getItem('meili_pay_records')||'[]')}catch(e){}
-        document.getElementById('adminPayments')&&(document.getElementById('adminPayments').textContent=records.length);
-        document.getElementById('adminRevenue')&&(document.getElementById('adminRevenue').textContent='¥'+(records.length*9.9).toFixed(1));
-        var tb=document.getElementById('adminRecords');
-        if(tb){
-          if(records.length===0) tb.textContent='暂无付款记录';
-          else tb.innerHTML=records.map(function(r){return'<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(255,255,255,.02)"><span>'+r.name+'</span><span style="color:rgba(255,255,255,.15)">'+new Date(r.time).toLocaleString('zh-CN',{hour12:false}).substring(5,16)+'</span></div>';}).join('');
-        }
+    U=true;document.body.setAttribute('data-admin','');
+    setTimeout(function(){AU();
+      var aVis=document.getElementById('aVisits');if(aVis){
+        var v=0;try{v=parseInt(localStorage.getItem('_av')||'0')}catch(e){};v++;try{localStorage.setItem('_av',v+'')}catch(e){};aVis.textContent=v;
+        var rec=[];try{rec=JSON.parse(localStorage.getItem('_pr')||'[]')}catch(e){}
+        document.getElementById('aPayments').textContent=rec.length;
+        document.getElementById('aRevenue').textContent='¥'+(rec.length*9.9).toFixed(1);
+        var tb=document.getElementById('aRecords');
+        if(rec.length)tb.innerHTML=rec.map(function(r){return'<div class="record"><span>'+r.n+'</span><span>'+new Date(r.t).toLocaleString('zh-CN').slice(5,16)+'</span></div>'}).join('');
       }
-    },500);
+    },300);
   }
 })();
 
-function verifyPay(){
-  var name=document.getElementById('payName').value.trim();
-  if(name.length<2){document.getElementById('payState').innerHTML='<div class="error">请输入微信昵称</div>';return}
-  document.getElementById('payState').innerHTML='<span class="spin"></span> 验证中…';
-  setTimeout(function(){
-    unlocked=true;applyUnlock();
-    try{localStorage.setItem('meili_unlocked','1')}catch(e){}
-    document.getElementById('payState').innerHTML='<div class="success">验证通过 ✓</div>';
-    setTimeout(closePay,1500);
-  },1200);
+function openPay(){document.getElementById('pm').classList.add('show')}
+function closePay(){document.getElementById('pm').classList.remove('show')}
+function afdPay(){closePay();setTimeout(function(){U=true;AU();try{localStorage.setItem('_u','1')}catch(e){}},100)}
+function vrfPay(){var n=document.getElementById('payNm').value.trim();if(n.length<2){document.getElementById('ps').innerHTML='<span style="color:#ff6b6b;font-size:.6rem">请输入昵称</span>';return}
+  document.getElementById('ps').innerHTML='<span class="spin" style="display:inline-block;width:10px;height:10px;border:1.5px solid rgba(255,215,0,.06);border-top-color:#E8A830;border-radius:50%;animation:sp .6s linear infinite;margin-right:4px"></span>验证…';
+  setTimeout(function(){U=true;AU();try{localStorage.setItem('_u','1')}catch(e){}
+    var rec=[];try{rec=JSON.parse(localStorage.getItem('_pr')||'[]')}catch(e){};rec.push({n:n,t:new Date().toISOString()});try{localStorage.setItem('_pr',JSON.stringify(rec))}catch(e){}
+    document.getElementById('ps').innerHTML='<div class="ok">✓ 已解锁</div>';setTimeout(closePay,1200);
+  },1000);
 }
+function unlockVC(){var c=document.getElementById('vcInp').value.trim().toUpperCase();if(VC[c]){U=true;document.getElementById('vs').textContent='✓ 解锁成功';AU()}else document.getElementById('vs').textContent='✗ 无效'}
+function mVcChk(){var c=document.getElementById('mVc').value.trim().toUpperCase();if(VC[c]){U=true;closePay();document.getElementById('vs').textContent='✓';AU()}else alert('无效')}
+function AU(){var lks=document.querySelectorAll('.lk');for(var i=0;i<lks.length;i++){lks[i].classList.remove('lk');var ov=lks[i].querySelector('.ov');if(ov)ov.remove()}}
 
-function unlockVoc(){
-  var c=document.getElementById('vocInp').value.trim().toUpperCase();
-  if(VOC[c]){unlocked=true;document.getElementById('vos').textContent='解锁成功 ✓';applyUnlock()}else{document.getElementById('vos').textContent='无效码'}
-}
-function modVocCheck(){
-  var c=document.getElementById('modVoc').value.trim().toUpperCase();
-  if(VOC[c]){unlocked=true;closePay();document.getElementById('vos').textContent='解锁成功 ✓';applyUnlock()}else{alert('兑换码无效')}
-}
-
-function applyUnlock(){
-  var locks=document.querySelectorAll('.lock');
-  for(var i=0;i<locks.length;i++){
-    locks[i].classList.remove('lock');
-    var ov=locks[i].querySelector('.overlay');if(ov)ov.remove();
-    var prv=locks[i].querySelector('.preview');if(prv){prv.style.opacity='1';prv.style.filter='none'}
-  }
-  renderPremium();
-}
-
-function render(){if(!data)return;
-  var di=cti(mode),p=dp(di,mode);if(!p)return;
-  document.getElementById('heroDay').textContent=fd(p.dateStr,di)+' · '+p.sr.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'});
-  var at=new Date(p.sr.getTime()-p.arrivalMin*60000);
-  document.getElementById('heroDetail').innerHTML='建议 <b style="color:#F0D060">'+at.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})+'</b> 前到达 · ☁️ '+p.cc+'% · '+p.wmo.i+' '+p.wmo.d+' · 降水 '+p.pp+'%';
-  document.getElementById('heroScore').textContent=p.score+'%';
-  document.getElementById('heroStars').textContent=st(p.stars);
-
-  var mc=document.getElementById('mc'),off=213-(p.score/100)*213;mc.setAttribute('stroke',cs(p.score));mc.style.strokeDashoffset=off;
+function R(){if(!D)return;
+  var di=CTI(M),p=DP(di,M);if(!p)return;
+  document.getElementById('hDay').textContent=FD(p.ds,di)+' · '+p.sr.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'});
+  var at=new Date(p.sr.getTime()-p.ar*60000);
+  document.getElementById('hDtl').innerHTML='建议 <b style="color:#F0D060">'+at.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})+'</b> 前到达 · ☁ '+p.cc+'% · '+p.wmo.i+' '+p.wmo.d+' · 降水 '+p.pp+'%';
+  document.getElementById('hSc').textContent=p.score+'%';document.getElementById('hSt').textContent=ST(p.stars);
+  var mc=document.getElementById('mc'),off=188-(p.score/100)*188;mc.setAttribute('stroke',CS(p.score));mc.style.strokeDashoffset=off;
   document.getElementById('pv').textContent=p.score;
-  document.getElementById('pl').innerHTML=p.level+' · '+p.score+'% <span style="font-size:.5rem;color:rgba(255,255,255,.2)">'+st(p.stars)+'</span>';
-  document.getElementById('pl').style.color=cs(p.score);
-  var ml=mode==='sunrise'?'日出':'日落';
-  document.getElementById('pm').innerHTML=fd(p.dateStr,di)+' · '+ml+' '+p.sr.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})+' · 建议 '+at.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})+'前';
-  var tags=[];
-  if(p.stars>=4)tags.push({t:'🌟强烈推荐',c:'#F0D060',b:'rgba(255,215,0,.08)'});else if(p.stars>=3)tags.push({t:'✅值得前往',c:'#51cf66',b:'rgba(81,207,102,.08)'});else tags.push({t:'⏳关注变化',c:'#ffd43b',b:'rgba(255,212,59,.06)'});
-  tags.push({t:p.cc<=20?'☀️晴朗':p.cc<=40?'⛅疏云':p.cc<=60?'☁️云多':'☁️云厚',c:p.cc<=20?'#51cf66':p.cc<=40?'#ffd43b':'#ff6b6b',b:p.cc<=20?'rgba(81,207,102,.06)':p.cc<=40?'rgba(255,212,59,.04)':'rgba(255,107,107,.06)'});
-  document.getElementById('pt').innerHTML=tags.map(function(t){return'<span class="t" style="color:'+t.c+';background:'+t.b+'">'+t.t+'</span>'}).join('');
-  
-  rCD(p,di);rWX();rDays();rAB(p,di);rSB();
+  document.getElementById('pl').innerHTML=p.level+' · '+p.score+'% <span style="font-size:.45rem;color:rgba(255,255,255,.15)">'+ST(p.stars)+'</span>';document.getElementById('pl').style.color=CS(p.score);
+  document.getElementById('pm').innerHTML=FD(p.ds,di)+' · '+(M==='sunrise'?'日出':'日落')+' '+p.sr.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})+' · 建议 '+at.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})+'前';
+  var tg=[];
+  if(p.stars>=4)tg.push({t:'🌟强烈推荐',c:'#F0D060',b:'rgba(255,215,0,.07)'});else if(p.stars>=3)tg.push({t:'✅值得前往',c:'#51cf66',b:'rgba(81,207,102,.07)'});else tg.push({t:'⏳关注变化',c:'#ffd43b',b:'rgba(255,212,59,.05)'});
+  tg.push({t:p.cc<=20?'☀️晴朗':p.cc<=40?'⛅疏云':'☁️云多',c:p.cc<=20?'#51cf66':p.cc<=40?'#ffd43b':'#ff6b6b',b:p.cc<=20?'rgba(81,207,102,.05)':p.cc<=40?'rgba(255,212,59,.04)':'rgba(255,107,107,.05)'});
+  document.getElementById('pt').innerHTML=tg.map(function(t){return'<span class="t" style="color:'+t.c+';background:'+t.b+'">'+t.t+'</span>'}).join('');
+  rCD(p,di);rWX();rDC();rAB(p,di);rSB();
   document.getElementById('ut').textContent=new Date().toLocaleString('zh-CN',{hour12:false});
-  if(unlocked)renderPremium();
 }
+function rCD(p,di){var el=document.getElementById('cd'),lb=document.getElementById('cdl');var t=M==='sunrise'?p.sr:p.ss,n=new Date(),d=t-n;lb.textContent=(M==='sunrise'?'日出':'日落')+'倒计时 · '+FD(p.ds,di);if(d<=0){el.innerHTML='<span style="color:rgba(255,255,255,.1);font-size:.55rem">已过今日</span>';return}var h=Math.floor(d/36e5),m=Math.floor((d%36e5)/6e4),s=Math.floor((d%6e4)/1e3);el.innerHTML='<div class="cdi"><div class="n">'+String(h).padStart(2,'0')+'</div><div class="l">时</div></div><div class="cdi"><div class="n">'+String(m).padStart(2,'0')+'</div><div class="l">分</div></div><div class="cdi"><div class="n">'+String(s).padStart(2,'0')+'</div><div class="l">秒</div></div>'}
+function rWX(){var g=document.getElementById('wx');if(!C){g.innerHTML='';return}var w=W[C.weather_code]||W[0];g.innerHTML='<div class="wxi"><div class="ic">'+w.i+'</div><div class="v">'+C.temperature_2m.toFixed(0)+'°</div><div class="lb">'+w.d+'</div></div><div class="wxi"><div class="ic">🌡</div><div class="v">'+C.apparent_temperature.toFixed(0)+'°</div><div class="lb">体感</div></div><div class="wxi"><div class="ic">💧</div><div class="v">'+C.relative_humidity_2m.toFixed(0)+'%</div><div class="lb">湿度</div></div><div class="wxi"><div class="ic">☁</div><div class="v">'+C.cloud_cover.toFixed(0)+'%</div><div class="lb">云量</div></div><div class="wxi"><div class="ic">💨</div><div class="v">'+C.wind_speed_10m.toFixed(1)+'</div><div class="lb">风速</div></div><div class="wxi"><div class="ic">🌊</div><div class="v">'+(C.pressure_msl?C.pressure_msl.toFixed(0):'--')+'</div><div class="lb">气压</div></div><div class="wxi"><div class="ic">🌅</div><div class="v">'+DD.sunrise[0].slice(11,16)+'</div><div class="lb">日出</div></div><div class="wxi"><div class="ic">🌇</div><div class="v">'+DD.sunset[0].slice(11,16)+'</div><div class="lb">日落</div></div>'}
+function rDC(){var g=document.getElementById('dc');g.innerHTML='';var all=[];for(var i=0;i<DD.time.length;i++){var p=DP(i,M);if(p)all.push(p)}var bs=Math.max.apply(Math,all.map(function(p){return p.score}));all.forEach(function(p){var el=document.createElement('div');var c='dc';if(p.score===bs&&p.score>0)c+=' bst';el.className=c;var cr=p.score===bs&&p.score>0?'<div class="cr">👑</div>':'';var at=new Date(p.sr.getTime()-p.ar*60000);el.innerHTML=cr+'<div class="d">'+p.ds.slice(5)+'</div><div class="n">'+FD(p.ds,p.di).slice(0,2)+'</div><div class="w">'+p.wmo.i+'</div><div class="s" style="color:'+CS(p.score)+'">'+p.score+'%</div><div class="st" style="color:'+CS(p.score)+'">'+ST(p.stars).slice(0,3)+'</div><div class="m">'+p.sr.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})+'<br>☁'+p.cc+'%</div><div class="cb" style="background:'+(p.cc<=20?'#51cf66':p.cc<=50?'#ffd43b':'#ff6b6b')+';width:'+Math.min(36,p.cc*0.36+3)+'px"></div><div class="t">'+p.lo.toFixed(0)+'°/'+p.hi.toFixed(0)+'°</div>';g.appendChild(el)})}
+function rAB(p,di){var el=document.getElementById('ab');var ml=M==='sunrise'?'日照金山':'晚霞金山';var s='<b>'+new Date().toLocaleString('zh-CN',{hour12:false,month:'long',day:'numeric'})+'</b> · '+ml+'<br>';s+=p.score>=85?'🌟 极大概率 <b style="color:#F0D060">'+p.score+'%</b>，强烈建议前往！':p.score>=70?'👍 良好 <b style="color:#51cf66">'+p.score+'%</b>，值得出发。':p.score>=50?'🤞 有机会 <b style="color:#ffd43b">'+p.score+'%</b>，关注临近。':'😢 <b style="color:#ff6b6b">'+p.score+'%</b>，条件不佳。';var at2=new Date(p.sr.getTime()-p.ar*60000);s+='<br>日出 '+p.sr.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})+' · 建议 '+at2.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})+'到达 · '+p.lo.toFixed(0)+'°C';if(U){s+='<br><span style="font-size:.5rem;color:#51cf66">🔓 已解锁全部</span>'}else{s+='<br><span style="font-size:.5rem;color:rgba(255,215,0,.2)">🔒 <b>解锁</b>完整版查看所有数据</span>'}el.innerHTML=s}
+function rSB(){var el=document.getElementById('sb'),m=new Date().getMonth()+1;if(m>=10||m<=4)el.innerHTML='旱季（10-4月）· 黄金窗口 · <b style="color:#F0D060">11月-1月最佳</b>，成功率70-85%';else if(m>=6&&m<=9)el.innerHTML='雨季（6-9月）· 概率最低 · 偶有云瀑金山奇景';else el.innerHTML='过渡期（5月）· 约40-60% · 清晨最稳定'}
+function setM(m){M=m;var btns=document.querySelectorAll('.mt button');for(var i=0;i<btns.length;i++)btns[i].classList.remove('on');btns[m==='sunrise'?0:1].classList.add('on');R()}
+function CD(){if(CT)clearInterval(CT);CT=setInterval(function(){if(D){var p=DP(CTI(M),M);if(p)rCD(p,CTI(M))}},1000)}
 
-function rCD(p,di){
-  var el=document.getElementById('cd'),lb=document.getElementById('cdl');
-  var t=mode==='sunrise'?p.sr:p.ss,n=new Date(),d=t-n;
-  lb.textContent=(mode==='sunrise'?'日出':'日落')+'倒计时 · '+fd(p.dateStr,di);
-  if(d<=0){el.innerHTML='<span style="color:rgba(255,255,255,.12);font-size:.6rem">已过今日 · 查看明日预测</span>';return}
-  var h=Math.floor(d/36e5),m=Math.floor((d%36e5)/6e4),s=Math.floor((d%6e4)/1e3);
-  el.innerHTML='<div class="cd-item"><div class="n">'+String(h).padStart(2,'0')+'</div><div class="l">时</div></div><div class="cd-item"><div class="n">'+String(m).padStart(2,'0')+'</div><div class="l">分</div></div><div class="cd-item"><div class="n">'+String(s).padStart(2,'0')+'</div><div class="l">秒</div></div>';
-}
-
-function rWX(){
-  var g=document.getElementById('wx');if(!cur){g.innerHTML='<span style="color:rgba(255,255,255,.1);font-size:.6rem">暂无</span>';return}
-  var w=WMO[cur.weather_code]||WMO[0];
-  g.innerHTML='<div class="wx-item"><div class="icon">'+w.i+'</div><div class="val">'+cur.temperature_2m.toFixed(0)+'°</div><div class="lbl">'+w.d+'</div></div><div class="wx-item"><div class="icon">🌡</div><div class="val">'+cur.apparent_temperature.toFixed(0)+'°</div><div class="lbl">体感</div></div><div class="wx-item"><div class="icon">💧</div><div class="val">'+cur.relative_humidity_2m.toFixed(0)+'%</div><div class="lbl">湿度</div></div><div class="wx-item"><div class="icon">☁</div><div class="val">'+cur.cloud_cover.toFixed(0)+'%</div><div class="lbl">云量</div></div><div class="wx-item"><div class="icon">💨</div><div class="val">'+cur.wind_speed_10m.toFixed(1)+'</div><div class="lbl">风速km/h</div></div><div class="wx-item"><div class="icon">🌊</div><div class="val">'+(cur.pressure_msl?cur.pressure_msl.toFixed(0):'--')+'</div><div class="lbl">气压hPa</div></div><div class="wx-item"><div class="icon">🌅</div><div class="val">'+dd.sunrise[0].substring(11,16)+'</div><div class="lbl">日出</div></div><div class="wx-item"><div class="icon">🌇</div><div class="val">'+dd.sunset[0].substring(11,16)+'</div><div class="lbl">日落</div></div>';
-}
-
-function rDays(){
-  var g=document.getElementById('days');g.innerHTML='';
-  var all=[];for(var i=0;i<dd.time.length;i++){var p=dp(i,mode);if(p)all.push(p);}
-  var bs=Math.max.apply(Math,all.map(function(p){return p.score}));
-  all.forEach(function(p){
-    var el=document.createElement('div');var c='day-card';if(p.score===bs&&p.score>0)c+=' best';el.className=c;
-    var at=new Date(p.sr.getTime()-p.arrivalMin*60000);
-    var crown=p.score===bs&&p.score>0?'<div class="crown">👑</div>':'';
-    el.innerHTML=crown+'<div class="d">'+p.dateStr.substring(5)+'</div><div class="n">'+fd(p.dateStr,p.di)+'</div><div class="w">'+p.wmo.i+'</div><div class="s" style="color:'+cs(p.score)+'">'+p.score+'%</div><div class="st" style="color:'+cs(p.score)+'">'+st(p.stars).substring(0,3)+'</div><div class="m">'+p.sr.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})+'<br>☁'+p.cc+'%</div><div class="cb" style="height:2px;background:'+(p.cc<=20?'#51cf66':p.cc<=50?'#ffd43b':'#ff6b6b')+';width:'+Math.min(40,p.cc*0.4+4)+'px"></div><div class="t">'+p.low.toFixed(0)+'°/'+p.high.toFixed(0)+'°</div>';
-    g.appendChild(el);
-  });
-}
-
-function rPremium(){}
-
-function rAB(p,di){
-  var el=document.getElementById('ab'),ml=mode==='sunrise'?'日照金山':'晚霞金山';
-  var s='<b>'+new Date().toLocaleString('zh-CN',{hour12:false,month:'long',day:'numeric'})+'</b> · '+ml+'<br>';
-  s+=p.score>=85?'🌟 极大概率 <b style="color:#F0D060">'+p.score+'%</b>，强烈建议前往！':p.score>=70?'👍 良好 <b style="color:#51cf66">'+p.score+'%</b>，值得出发。':p.score>=50?'🤞 有机会 <b style="color:#ffd43b">'+p.score+'%</b>，关注临近预报。':p.score>=30?'😕 较低 <b style="color:#ff922b">'+p.score+'%</b>，不建议专程。':'😢 很低 <b style="color:#ff6b6b">'+p.score+'%</b>，很难看到。';
-  var at2=new Date(p.sr.getTime()-p.arrivalMin*60000);
-  s+='<br>日出 '+p.sr.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})+' · 建议 '+at2.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})+'到达 · 气温 '+p.low.toFixed(0)+'°C';
-  if(!unlocked)s+='<br><span style="font-size:.55rem;color:rgba(255,215,0,.25)">🔒 <b>解锁</b>查看趋势图·逐时云量·参数表·因子诊断</span>';
-  else s+='<br><span style="font-size:.55rem;color:#51cf66">🔓 已解锁全部</span>';
-  el.innerHTML=s;
-}
-
-function rSB(){var el=document.getElementById('sb'),m=new Date().getMonth()+1;
-  if(m>=10||m<=4)el.innerHTML='旱季（10-4月）· 黄金窗口 · 成功率70-85% · <b style="color:#F0D060">11月-1月最佳</b>';
-  else if(m>=6&&m<=9)el.innerHTML='雨季（6-9月）· 概率最低 · 偶有云瀑金山奇景';
-  else el.innerHTML='过渡期（5月）· 约40-60% · 清晨最稳定';
-}
-
-function setMode(m){mode=m;
-  var tabs=document.querySelectorAll('.mode-tab');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');
-  var idx=m==='sunrise'?0:1;if(tabs[idx])tabs[idx].classList.add('active');
-  render();
-}
-
-function startCD(){if(ctimer)clearInterval(ctimer);ctimer=setInterval(function(){if(data){var p=dp(cti(mode),mode);if(p)rCD(p,cti(mode))}},1000)}
-
-(function(){
-  var sd=document.querySelector('body');
-  (async function(){
-    try{
-      var p=new URLSearchParams({latitude:LOC.lat,longitude:LOC.lng,current:'temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,cloud_cover,wind_speed_10m,pressure_msl',hourly:'temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,cloud_cover,wind_speed_10m',daily:'sunrise,sunset,weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max',timezone:'Asia/Shanghai',forecast_days:'7'});
-      var r=await fetch(API+'?'+p);if(!r.ok)throw Error();data=await r.json();cur=data.current;hr=data.hourly;dd=data.daily;
-      render();startCD();
-      setInterval(async function(){try{var r2=await fetch(API+'?'+p);data=await r2.json();cur=data.current;hr=data.hourly;dd=data.daily;render()}catch(e){}},15*60*1000);
-    }catch(e){document.getElementById('ut').textContent='⚠️ 数据加载失败，请刷新重试'}
-  })();
+// Init
+(async function(){
+  try{
+    var p=new URLSearchParams({latitude:L.lat,longitude:L.lng,current:'temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,cloud_cover,wind_speed_10m,pressure_msl',hourly:'temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,cloud_cover,wind_speed_10m',daily:'sunrise,sunset,weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max',timezone:'Asia/Shanghai',forecast_days:'7'});
+    var r=await fetch(A+'?'+p);if(!r.ok)throw Error();D=await r.json();C=D.current;H=D.hourly;DD=D.daily;
+    R();CD();
+    setInterval(async function(){try{var r2=await fetch(A+'?'+p);D=await r2.json();C=D.current;H=D.hourly;DD=D.daily;R()}catch(e){}},15*60*1000);
+  }catch(e){document.getElementById('ut').textContent='⚠️ 加载失败，请刷新'}
 })();
 </script>
 </body>
