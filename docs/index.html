@@ -15,10 +15,11 @@ body{
 }
 
 /* ===== Admin Mode ===== */
-body[data-admin]::before{content:'👑 管理模式 · 完整数据';position:fixed;top:0;left:0;right:0;z-index:999;background:linear-gradient(90deg,#1a3a1a,#0d260d);color:#51cf66;text-align:center;padding:3px 0;font-size:.6rem;font-weight:700;letter-spacing:2px;border-bottom:1px solid rgba(81,207,102,.2)}
-body[data-admin]{padding-top:20px}
-body[data-admin] #adminPanel{display:block!important}
-body[data-admin] .locked{display:none!important}
+/* Admin banner (added by JS) */
+#adminBanner{display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:linear-gradient(90deg,#1a3a1a,#0d260d);color:#51cf66;text-align:center;padding:3px 0;font-size:.6rem;font-weight:700;letter-spacing:2px;border-bottom:1px solid rgba(81,207,102,.2)}
+body.admin-mode{padding-top:20px}
+body.admin-mode #adminBanner{display:block}
+body.admin-mode #adminPanel{display:block!important}
 
 /* ===== Admin Panel (hidden by default) ===== */
 #adminPanel{display:none;margin-bottom:10px}
@@ -216,11 +217,14 @@ body[data-admin] .locked{display:none!important}
 </div>
 <div class="ut" id="ut"></div>
 
+<!-- Admin Banner -->
+<div id="adminBanner">👑 管理模式 · 完整数据可见 · <a href="javascript:toggleAdmin()" style="color:#51cf66;text-decoration:underline">退出</a></div>
+
 <!-- Creator + Admin link -->
 <div class="cb">
   <div class="av">🎙</div>
   <div class="ci"><div class="n">梅里天气学长</div><div class="d">每日更新 · 付费解锁完整数据</div></div>
-  <a class="btn" href="?admin=meili2025" style="background:rgba(81,207,102,.06);border-color:rgba(81,207,102,.1);color:#51cf66">👑 管理模式</a>
+  <button class="btn" onclick="toggleAdmin()" style="background:rgba(81,207,102,.06);border-color:rgba(81,207,102,.1);color:#51cf66;cursor:pointer">👑 管理模式</button>
   <a class="btn" onclick="openPay()">🔓 解锁</a>
 </div>
 
@@ -388,23 +392,28 @@ function CS(s){return s>=85?'#F0D060':s>=70?'#51cf66':s>=50?'#ffd43b':s>=30?'#ff
 function ST(n){return'★'.repeat(n)+'☆'.repeat(5-n)}
 function FD(ds,di){var t=new Date().toISOString().slice(0,10),tm=new Date(Date.now()+864e5).toISOString().slice(0,10);if(ds===t)return'今天';if(ds===tm)return'明天';return ds.slice(5)+' '+['周日','周一','周二','周三','周四','周五','周六'][new Date(ds).getDay()]}
 
-// Admin detection
+// Admin mode - toggle instantly
+function toggleAdmin(){
+  if(document.body.classList.contains('admin-mode')){
+    document.body.classList.remove('admin-mode');
+    return;
+  }
+  document.body.classList.add('admin-mode');
+  U=true;AU();
+  // Track visit & show panel
+  var v=0;try{v=parseInt(localStorage.getItem('_av')||'0')}catch(e){};v++;try{localStorage.setItem('_av',v+'')}catch(e){};
+  var aVis=document.getElementById('aVisits');if(aVis)aVis.textContent=v;
+  var rec=[];try{rec=JSON.parse(localStorage.getItem('_pr')||'[]')}catch(e){};
+  document.getElementById('aPayments').textContent=rec.length;
+  document.getElementById('aRevenue').textContent='¥'+(rec.length*9.9).toFixed(1);
+  var tb=document.getElementById('aRecords');
+  if(tb) tb.innerHTML=rec.length?rec.map(function(r){return'<div class="record"><span>'+r.n+'</span><span>'+new Date(r.t).toLocaleString('zh-CN').slice(5,16)+'</span></div>'}).join(''):'暂无付款记录';
+}
+
+// Check for auto-unlock
 (function(){try{if(localStorage.getItem('_u')==='1'){U=true;setTimeout(AU,300)}}catch(e){}
   var p=new URLSearchParams(location.search);
   if(p.get('unlock')||p.get('pay_success')){U=true;setTimeout(AU,500)}
-  if(p.get('admin')==='meili2025'||p.get('owner')==='true'){
-    U=true;document.body.setAttribute('data-admin','');
-    setTimeout(function(){AU();
-      var aVis=document.getElementById('aVisits');if(aVis){
-        var v=0;try{v=parseInt(localStorage.getItem('_av')||'0')}catch(e){};v++;try{localStorage.setItem('_av',v+'')}catch(e){};aVis.textContent=v;
-        var rec=[];try{rec=JSON.parse(localStorage.getItem('_pr')||'[]')}catch(e){}
-        document.getElementById('aPayments').textContent=rec.length;
-        document.getElementById('aRevenue').textContent='¥'+(rec.length*9.9).toFixed(1);
-        var tb=document.getElementById('aRecords');
-        if(rec.length)tb.innerHTML=rec.map(function(r){return'<div class="record"><span>'+r.n+'</span><span>'+new Date(r.t).toLocaleString('zh-CN').slice(5,16)+'</span></div>'}).join('');
-      }
-    },300);
-  }
 })();
 
 function openPay(){document.getElementById('pm').classList.add('show')}
