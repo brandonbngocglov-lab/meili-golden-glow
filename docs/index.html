@@ -432,39 +432,37 @@ body{
 <div class="mo" id="pm">
   <div class="mb">
     <h2>🔓 解锁完整版</h2>
-    <div class="sb">¥9.9 · 永久有效 · 微信/支付宝扫码支付</div>
+    <div class="sb">选择支付方式 · <b style="color:#FFD700">¥9.9</b> 永久有效</div>
 
-    <!-- QR Code -->
-    <div class="qr-area">
-      <img src="qr-pay.jpg" alt="收款码" id="qrImg">
+    <!-- Auto Pay: 爱发电 (Primary) -->
+    <div style="background:rgba(81,207,102,.03);border:1px solid rgba(81,207,102,.1);border-radius:10px;padding:12px;margin:6px 0">
+      <div style="font-size:.85rem;font-weight:600">💚 自动支付（推荐）</div>
+      <div style="font-size:.68rem;color:rgba(255,255,255,.4);margin:4px 0">通过爱发电支付 · 支付后<b style="color:#51cf66">自动跳回解锁</b>，无需手动操作</div>
+      <a href="https://afdian.com/a/meiliguide" target="_blank" onclick="startAfdianPay()" style="
+        display:inline-block;padding:8px 24px;border-radius:20px;font-size:.82rem;font-weight:700;
+        background:linear-gradient(135deg,#51cf66,#2b8a3e);color:#fff;text-decoration:none;
+        box-shadow:0 3px 12px rgba(81,207,102,.2);">去支付 · 自动解锁 →</a>
+      <div style="font-size:.58rem;color:rgba(255,255,255,.15);margin-top:4px">支付成功后页面自动解锁 · 如未跳转请手动验证</div>
     </div>
 
-    <!-- Payment Steps -->
-    <div class="pay-step">
-      <div><span class="step-num">1</span> 打开微信/支付宝扫上方二维码</div>
-      <div><span class="step-num">2</span> 输入金额 <b style="color:#FFD700">¥9.9</b> 完成支付</div>
-      <div><span class="step-num">3</span> 在微信账单中找到「<b style="color:#51cf66">交易单号</b>」，输入后4位验证</div>
-    </div>
-
-    <!-- Verify Input -->
-    <div class="verify-area">
-      <div class="vlabel">💬 输入你的 <b style="color:#51cf66">微信昵称</b> 验证（支付后你的昵称出现在我收款记录中）</div>
-      <div class="verify-row">
-        <input type="text" id="payName" placeholder="输入你的微信昵称">
-        <button onclick="verifyPay()">验证解锁</button>
+    <!-- QR Pay (Backup) -->
+    <details style="margin:4px 0">
+      <summary style="font-size:.7rem;color:rgba(255,255,255,.25);cursor:pointer;text-align:center">💳 或 扫码支付（手动验证）</summary>
+      <div style="padding:8px 0">
+        <div class="qr-area"><img src="qr-pay.jpg" alt="收款码"></div>
+        <div class="pay-step">
+          <div><span class="step-num">1</span> 扫上方二维码支付 <b style="color:#FFD700">¥9.9</b></div>
+          <div><span class="step-num">2</span> 输入你的微信昵称验证</div>
+        </div>
+        <div class="verify-row" style="margin:4px 0">
+          <input type="text" id="payName" placeholder="输入微信昵称">
+          <button onclick="verifyPay()">验证解锁</button>
+        </div>
+        <div class="pay-state" id="payState"></div>
       </div>
-      <div class="vhint">支付后你微信的名字会出现在我的收款记录里，输入即可通过验证</div>
-    </div>
+    </details>
 
-    <!-- Payment State -->
-    <div class="pay-state" id="payState"><!-- dynamic --></div>
-
-    <!-- Honesty Notice -->
-    <div style="font-size:.58rem;color:rgba(255,255,255,.1);margin:4px 0;line-height:1.4">
-      ⚠️ 每位用户仅需付费一次，系统自动记录设备。恶意绕过将永久拉黑。
-    </div>
-
-    <!-- Fallback voucher -->
+    <!-- Voucher fallback -->
     <div class="vf">
       <div class="vl">已有兑换码？直接输入：</div>
       <div class="verify-row">
@@ -531,8 +529,21 @@ function fd(ds,di){const t=new Date().toISOString().substring(0,10),tm=new Date(
 const VOUCHERS={MEILI2025:true,KAWAGEBO:true,JINSHAN:true,GOLDEN:true,'888888':true};
 
 // ===== PAYMENT =====
+// Check URL for auto-unlock from afdian callback
+(function(){
+  var p=new URLSearchParams(location.search);
+  if(p.get('unlock')||p.get('afdian')||p.get('pay_success')){
+    unlocked=true;
+    setTimeout(applyUnlock,500);
+  }
+})();
+
 function openPay(){document.getElementById('pm').classList.add('s');}
 function closePay(){document.getElementById('pm').classList.remove('s');}
+
+function startAfdianPay(){
+  setTimeout(function(){document.getElementById('pm').innerHTML='<div style="padding:20px;text-align:center"><span class="spin" style="width:24px;height:24px;border-width:3px"></span><br><div style="font-size:.85rem;color:rgba(255,255,255,.5);margin:8px 0">正在跳转爱发电支付…</div><div style="font-size:.7rem;color:rgba(255,255,255,.2)">支付成功后自动跳回解锁</div></div>';},100);
+}
 
 function verifyPay(){
   var name=document.getElementById('payName').value.trim();
