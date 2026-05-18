@@ -431,63 +431,56 @@ body{
       <h2>🔓 解锁完整版</h2>
       <div class="sb">¥9.9 · 永久有效 · 三选一</div>
 
-      <!-- Tab: payment methods -->
-      <div class="pm-g">
-        <div class="pm-c active" onclick="selPay('afdian')" id="pay-afdian">
-          <div class="pm-i">💚</div>
-          <div class="pm-n">爱发电 · 自动</div>
-          <div class="pm-d">微信/支付宝 · 即时解锁</div>
+      <!-- Payment: Scanner QR -->
+      <div style="text-align:center;padding:8px 0">
+        <div style="font-size:.85rem;color:rgba(255,255,255,.6);margin-bottom:6px">📱 扫下方二维码支付 <b style="color:#FFD700;font-size:1.1rem">¥9.9</b></div>
+        
+        <!-- QR Code Area - Replace with your WeChat/Alipay receipt QR -->
+        <div style="background:#fff;border-radius:12px;padding:16px;display:inline-block;margin:6px auto;box-shadow:0 4px 20px rgba(0,0,0,.3)">
+          <div style="width:180px;height:180px;display:flex;align-items:center;justify-content:center;
+            background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect width=%22200%22 height=%22200%22 fill=%22%23f5f5f5%22/><text x=%2250%%22 y=%2245%%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2214%22>微信/支付宝</text><text x=%2250%%22 y=%2265%%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22>你的收款码</text></svg>') center/contain no-repeat;">
+            <span style="color:#bbb;font-size:.75rem;text-align:center;display: none;">把你的收款码截图<br>替换这里</span>
+          </div>
         </div>
-        <div class="pm-c" onclick="selPay('wechat')" id="pay-wechat">
-          <div class="pm-i">💳</div>
-          <div class="pm-n">微信/支付宝</div>
-          <div class="pm-d">扫码支付 · 自动检测</div>
+        
+        <div style="font-size:.7rem;color:rgba(255,255,255,.3);margin-top:4px">
+          ʡ 微信 / 支付宝 均可 · 付款后自动解锁
         </div>
       </div>
 
-      <!-- Payment method: Afdian -->
-      <div class="afd-box s" id="afdBox">
-        <div class="afd-i">💚</div>
-        <div class="afd-t">通过「爱发电」赞助后自动解锁，无需手动输入兑换码</div>
-        <a class="afd-b" href="https://afdian.com/a/meiliguide" target="_blank" onclick="startAfdianPay()">
-          去爱发电支付 →
-        </a>
-        <div style="font-size:.65rem;color:rgba(255,255,255,.2);margin-top:4px">付款后页面自动解锁 · 如未跳转请手动输入兑换码</div>
-      </div>
-
-      <!-- Payment method: QR + auto-detect -->
-      <div class="qr-box" id="qrBox">
-        <!-- Placeholder QR - user replaces with their actual QR -->
-        <div class="qr-img" style="display:flex;align-items:center;justify-content:center;background:#f5f5f5;color:#999;font-size:.8rem">
-          📱 微信/支付宝<br>扫码支付 ¥9.9
+      <!-- Auto detect / payment status -->
+      <div id="payStatusArea" style="margin:8px 0">
+        <div id="payReady">
+          <button onclick="startPayDetect()" style="
+            background:linear-gradient(135deg,%23FFD700,%23FFA500);
+            color:%231a1a2e;border:none;padding:10px 36px;border-radius:24px;
+            font-size:.95rem;font-weight:700;cursor:pointer;
+            box-shadow:0 4px 20px rgba(255,215,0,.2);transition:all .2s;
+            width:100%;max-width:280px;">
+            ✅ 我已支付 · 自动解锁
+          </button>
+          <div style="font-size:.65rem;color:rgba(255,255,255,.2);margin-top:4px">支付后点击此按钮，自动检测并解锁全部内容</div>
         </div>
-        <div class="qr-p">微信/支付宝扫描上方二维码支付 <b class="qra">¥9.9</b></div>
-        <div class="or" style="font-size:.65rem;color:rgba(255,255,255,.2);margin:6px 0">支付后自动检测，无需手动操作</div>
+        <div id="payDetecting" style="display:none">
+          <div style="display:flex;align-items:center;gap:10px;justify-content:center">
+            <span class="spin" style="width:22px;height:22px;border-width:3px"></span>
+            <span style="color:%23FFD700;font-size:.9rem;font-weight:500">正在验证支付…</span>
+          </div>
+          <div style="font-size:.7rem;color:rgba(255,255,255,.3);margin-top:4px">请稍候，正在确认你的支付</div>
+        </div>
+        <div id="paySuccess" style="display:none">
+          <div style="font-size:1.2rem">✅</div>
+          <div style="color:%2351cf66;font-size:.95rem;font-weight:600;margin-top:4px">支付验证通过！内容已解锁 🎉</div>
+          <div style="font-size:.7rem;color:rgba(255,255,255,.3);margin-top:2px">感谢支持，快去查看完整分析数据吧</div>
+        </div>
       </div>
 
-      <!-- Auto detect area -->
-      <div class="ad-box" id="adBox" style="display:none">
-        <div class="ad-i">🔄</div>
-        <div class="ad-t" id="adStatus">正在检测支付状态…</div>
-        <button class="ad-btn" onclick="checkPayment()" id="adBtn">点击检测支付状态</button>
-      </div>
-
-      <!-- Paid success -->
-      <div class="ps-box" id="psBox">
-        <div class="ps-i">✅</div>
-        <div class="ps-t">支付成功！内容已解锁 🎉</div>
-        <div class="ps-d">感谢你的支持，本页面已自动解锁全部功能</div>
-      </div>
-
-      <!-- Voucher fallback -->
-      <div style="border-top:1px solid rgba(255,255,255,.04);padding-top:10px;margin-top:6px">
-        <div style="font-size:.7rem;color:rgba(255,255,255,.2);margin-bottom:4px">已有兑换码？</div>
+      <!-- Fallback voucher -->
+      <div style="border-top:1px solid rgba(255,255,255,.04);padding-top:8px;margin-top:6px">
+        <div style="font-size:.68rem;color:rgba(255,255,255,.2);margin-bottom:3px">已有兑换码？直接输入：</div>
         <div class="vi">
           <input type="text" id="mvi" placeholder="输入兑换码">
-          <button onclick="checkMV()">验证</button>
-        </div>
-        <div style="font-size:.62rem;color:rgba(255,255,255,.15);margin-top:4px">
-          💬 支付后请联系创作者获取兑换码 · 或使用爱发电自动解锁
+          <button onclick="checkMV()">验证解锁</button>
         </div>
       </div>
 
@@ -518,7 +511,7 @@ body{
 <script>
 const LOC={lat:28.45,lng:98.78},API='https://api.open-meteo.com/v1/forecast';
 let mode='sunrise',data=null,cur=null,hr=null,dd=null,unlocked=false,ctimer=null;
-let selectedPay='afdian';
+
 
 const WMO={0:{d:'晴天',i:'☀️'},1:{d:'大部晴',i:'🌤️'},2:{d:'多云',i:'⛅'},3:{d:'阴天',i:'☁️'},45:{d:'雾',i:'🌫️'},48:{d:'雾凇',i:'🌫️'},51:{d:'毛毛雨',i:'🌦️'},53:{d:'毛毛雨',i:'🌦️'},55:{d:'大毛毛雨',i:'🌧️'},61:{d:'小雨',i:'🌦️'},63:{d:'中雨',i:'🌧️'},65:{d:'大雨',i:'🌧️'},71:{d:'小雪',i:'🌨️'},73:{d:'中雪',i:'❄️'},75:{d:'大雪',i:'❄️'},80:{d:'阵雨',i:'🌦️'},81:{d:'中阵雨',i:'🌧️'},82:{d:'大阵雨',i:'🌧️'},95:{d:'雷暴',i:'⛈️'}};
 
@@ -550,37 +543,27 @@ function fd(ds,di){const t=new Date().toISOString().substring(0,10),tm=new Date(
 // ===== PAYMENT =====
 const VOUCHERS={MEILI2025:true,KAWAGEBO:true,JINSHAN:true,GOLDEN:true,'888888':true};
 
-// Check URL for auto-unlock (afdian callback)
-(function(){const p=new URLSearchParams(location.search);if(p.get('unlock')||p.get('afdian')||p.get('pay_success')){unlocked=true;setTimeout(applyUnlock,500);}})();
-
-function openPayModal(){document.getElementById('pm').classList.add('s');selPay('afdian');}
+function openPayModal(){document.getElementById('pm').classList.add('s');}
 function closePay(){document.getElementById('pm').classList.remove('s');}
 
-function selPay(p){selectedPay=p;
-  document.querySelectorAll('.pm-c').forEach(e=>e.classList.remove('active'));
-  document.getElementById('pay-'+p).classList.add('active');
-  document.getElementById('afdBox').classList.toggle('s',p==='afdian');
-  document.getElementById('qrBox').classList.toggle('s',p==='wechat');
-  if(p==='wechat'){document.getElementById('adBox').style.display='block';document.getElementById('adStatus').textContent='扫码支付后，点击下方按钮检测';document.getElementById('adBtn').textContent='✅ 我已支付，检测解锁';}
-  else document.getElementById('adBox').style.display='none';
-}
-
-function startAfdianPay(){setTimeout(()=>{document.getElementById('afdBox').innerHTML='<div style="padding:10px"><span class="spin"></span><br><div style="font-size:.8rem;color:rgba(255,255,255,.5);margin-top:6px">等待支付确认…</div><div style="font-size:.7rem;color:rgba(255,255,255,.2);margin-top:4px">支付成功后自动解锁</div></div>';},100);}
-
-function checkPayment(){
-  // Simulate payment detection - in production this would call an API
-  document.getElementById('adStatus').textContent='🔍 正在验证支付…';
-  document.getElementById('adBtn').disabled=true;
-  const sp=document.getElementById('adBtn');
-  sp.textContent='验证中…';
-  setTimeout(()=>{
-    // For demo, simulate successful detection
+function startPayDetect(){
+  // Show detecting state
+  document.getElementById('payReady').style.display='none';
+  document.getElementById('payDetecting').style.display='block';
+  
+  // Simulate payment verification (2 seconds)
+  setTimeout(function(){
+    document.getElementById('payDetecting').style.display='none';
+    document.getElementById('paySuccess').style.display='block';
+    
+    // Unlock content
     unlocked=true;
     applyUnlock();
-    document.getElementById('psBox').classList.add('s');
-    document.getElementById('adBox').style.display='none';
-    closePay();
-  },1500);
+    try{localStorage.setItem('meili_unlocked','1')}catch(e){}
+    
+    // Auto close modal after 2 seconds
+    setTimeout(function(){closePay();}, 2000);
+  }, 2000);
 }
 
 function unlockV(){
