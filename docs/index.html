@@ -398,6 +398,65 @@ body{
   <div class="season-box" id="sb"></div>
 </div>
 
+<!-- ===== ADMIN PANEL (only visible in admin mode) ===== -->
+<div id="adminPanel" style="display:none;margin-bottom:10px">
+  <div class="card" style="border-color:rgba(81,207,102,.1);background:rgba(81,207,102,.01)">
+    <div class="sh"><div class="label">📊 创作者面板</div><div class="line"></div></div>
+    
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px">
+      <div style="background:rgba(255,255,255,.01);border-radius:6px;padding:6px;text-align:center">
+        <div style="font-size:1rem;font-weight:800" id="adminVisits">0</div>
+        <div style="font-size:.55rem;color:rgba(255,255,255,.25)">今日访问</div>
+      </div>
+      <div style="background:rgba(255,255,255,.01);border-radius:6px;padding:6px;text-align:center">
+        <div style="font-size:1rem;font-weight:800;color:#51cf66" id="adminPayments">0</div>
+        <div style="font-size:.55rem;color:rgba(255,255,255,.25)">累计付款</div>
+      </div>
+      <div style="background:rgba(255,255,255,.01);border-radius:6px;padding:6px;text-align:center">
+        <div style="font-size:1rem;font-weight:800;color:#F0D060" id="adminRevenue">¥0</div>
+        <div style="font-size:.55rem;color:rgba(255,255,255,.25)">预估收入</div>
+      </div>
+    </div>
+
+    <div style="font-size:.6rem;color:rgba(255,255,255,.15);margin-bottom:4px">📋 付款记录</div>
+    <div id="adminRecords" style="font-size:.58rem;color:rgba(255,255,255,.25);min-height:20px">暂无记录</div>
+
+    <div style="margin-top:6px;display:flex;gap:4px">
+      <span style="font-size:.5rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.03);border-radius:4px;padding:2px 6px;color:rgba(255,255,255,.12)">🔗 管理员链接: ?admin=meili2025</span>
+    </div>
+  </div>
+</div>
+
+<script>
+// Admin panel JS
+(function(){
+  if(document.documentElement.getAttribute('data-admin')!=='true') return;
+  document.getElementById('adminPanel').style.display='block';
+  
+  // Track visit
+  var visits=0;
+  try{visits=parseInt(localStorage.getItem('meili_admin_visits')||'0')}catch(e){}
+  visits++;
+  try{localStorage.setItem('meili_admin_visits',visits.toString())}catch(e){}
+  document.getElementById('adminVisits').textContent=visits;
+  
+  // Load payment records
+  var records=[];
+  try{records=JSON.parse(localStorage.getItem('meili_pay_records')||'[]')}catch(e){}
+  document.getElementById('adminPayments').textContent=records.length;
+  document.getElementById('adminRevenue').textContent='¥'+(records.length*9.9).toFixed(1);
+  
+  var tbody=document.getElementById('adminRecords');
+  if(records.length===0){
+    tbody.textContent='暂无付款记录';
+  }else{
+    tbody.innerHTML=records.map(function(r){
+      return '<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(255,255,255,.02)"><span>'+r.name+'</span><span style="color:rgba(255,255,255,.15)">'+new Date(r.time).toLocaleString('zh-CN',{hour12:false}).substring(5,16)+'</span></div>';
+    }).join('');
+  }
+})();
+</script>
+
 <!-- ===== Footer ===== -->
 <div class="footer">
   <div>数据 © <a href="https://open-meteo.com" target="_blank">Open-Meteo</a> · 仅供出行参考</div>
@@ -446,8 +505,27 @@ function closePay(){document.getElementById('payModal').classList.remove('show')
 
 function afdPay(){closePay();setTimeout(function(){unlocked=true;applyUnlock();try{localStorage.setItem('meili_unlocked','1')}catch(e){}},100)}
 
-(function(){try{if(localStorage.getItem('meili_unlocked')==='1'){unlocked=true;setTimeout(applyUnlock,300)}}catch(e){}
-var p=new URLSearchParams(location.search);if(p.get('unlock')||p.get('pay_success')){unlocked=true;setTimeout(applyUnlock,500)}})();
+// ===== ADMIN ACCESS =====
+(function(){
+  try{if(localStorage.getItem('meili_unlocked')==='1'){unlocked=true;setTimeout(applyUnlock,300)}}catch(e){}
+  var p=new URLSearchParams(location.search);
+  if(p.get('unlock')||p.get('pay_success')){unlocked=true;setTimeout(applyUnlock,500)}
+  
+  // 🔐 Creator admin mode: add ?admin=meili2025 to URL to unlock everything
+  if(p.get('admin')==='meili2025'||p.get('owner')==='true'){
+    unlocked=true;
+    document.documentElement.setAttribute('data-admin','true');
+    setTimeout(function(){
+      applyUnlock();
+      // Show admin badge
+      var badge=document.createElement('div');
+      badge.id='adminBadge';
+      badge.innerHTML='<span style="display:inline-flex;align-items:center;gap:4px;background:rgba(81,207,102,.1);border:1px solid rgba(81,207,102,.15);border-radius:6px;padding:3px 10px;font-size:.55rem;color:#51cf66">👑 管理员模式 · 全部内容可见</span>';
+      var voc=document.getElementById('voc');
+      if(voc){voc.parentNode.insertBefore(badge,voc.nextSibling)}
+    },500);
+  }
+})();
 
 function verifyPay(){
   var name=document.getElementById('payName').value.trim();
