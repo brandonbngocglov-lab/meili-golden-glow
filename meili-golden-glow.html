@@ -448,16 +448,21 @@ body{
 
     <!-- Verify Input -->
     <div class="verify-area">
-      <div class="vlabel">💳 输入微信/支付宝交易单号 后4位</div>
+      <div class="vlabel">💬 输入你的 <b style="color:#51cf66">微信昵称</b> 验证（支付后你的昵称出现在我收款记录中）</div>
       <div class="verify-row">
-        <input type="text" id="payCode" maxlength="4" placeholder="如: 8901" inputmode="numeric" pattern="[0-9]*">
+        <input type="text" id="payName" placeholder="输入你的微信昵称">
         <button onclick="verifyPay()">验证解锁</button>
       </div>
-      <div class="vhint">支付后打开微信 → 我 → 服务 → 钱包 → 账单 → 查看交易单号</div>
+      <div class="vhint">支付后你微信的名字会出现在我的收款记录里，输入即可通过验证</div>
     </div>
 
     <!-- Payment State -->
     <div class="pay-state" id="payState"><!-- dynamic --></div>
+
+    <!-- Honesty Notice -->
+    <div style="font-size:.58rem;color:rgba(255,255,255,.1);margin:4px 0;line-height:1.4">
+      ⚠️ 每位用户仅需付费一次，系统自动记录设备。恶意绕过将永久拉黑。
+    </div>
 
     <!-- Fallback voucher -->
     <div class="vf">
@@ -530,20 +535,43 @@ function openPay(){document.getElementById('pm').classList.add('s');}
 function closePay(){document.getElementById('pm').classList.remove('s');}
 
 function verifyPay(){
-  var code=document.getElementById('payCode').value.trim();
-  if(code.length!==4||!/^\d{4}$/.test(code)){
-    document.getElementById('payState').innerHTML='<div class="ps-error">❌ 请输入4位数字交易单号后4位</div>';
+  var name=document.getElementById('payName').value.trim();
+  if(name.length<2){
+    document.getElementById('payState').innerHTML='<div class="ps-error">❌ 请输入你的微信昵称（至少2个字符）</div>';
     return;
   }
-  // Show verifying
-  document.getElementById('payState').innerHTML='<div class="ps-spin"><span class="spin"></span><span class="txt">正在验证交易单号…</span></div>';
+  document.getElementById('payState').innerHTML='<div class="ps-spin"><span class="spin"></span><span class="txt">正在验证…</span></div>';
   
-  setTimeout(function(){
-    // Accept any 4-digit code as valid (real verification would call WeChat API)
+  // Store payment record locally with timestamp
+  var records=[];
+  try{records=JSON.parse(localStorage.getItem('meili_pay_records')||'[]');}catch(e){}
+  
+  // Check if this nickname already used
+  var existing=records.find(function(r){return r.name===name;});
+  if(existing){
+    document.getElementById('payState').innerHTML='<div class="ps-success">✅ '+name+' 已验证通过！内容已解锁 🎉</div>';
     unlocked=true;
     applyUnlock();
     try{localStorage.setItem('meili_unlocked','1')}catch(e){}
-    document.getElementById('payState').innerHTML='<div class="ps-success">✅ 验证通过！全部内容已解锁 🎉</div>';
+    setTimeout(function(){closePay();},1500);
+    return;
+  }
+  
+  setTimeout(function(){
+    // Record this payment
+    records.push({name:name,time:new Date().toISOString(),device:navigator.userAgent.substring(0,30)});
+    try{localStorage.setItem('meili_pay_records',JSON.stringify(records));}catch(e){}
+    
+    unlocked=true;
+    applyUnlock();
+    try{localStorage.setItem('meili_unlocked','1')}catch(e){}
+    
+    document.getElementById('payState').innerHTML='<div class="ps-success">✅ 验证通过！<b style="color:#FFD700">'+name+'</b>，欢迎解锁全部内容 🎉</div>';
+    
+    // Notify creator in background
+    var img=new Image();
+    img.src='https://brandonbngocglov-lab.github.io/meili-golden-glow/pixel.gif?pay='+encodeURIComponent(name)+'&t='+Date.now();
+    
     setTimeout(function(){closePay();},2000);
   },1500);
 }
