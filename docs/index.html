@@ -27,8 +27,7 @@ body{
 .ht .s{font-size:.6rem;color:rgba(255,255,255,.12);letter-spacing:6px}
 .ht .l{font-size:.52rem;color:rgba(255,215,0,.12)}
 .ut{text-align:center;font-size:.5rem;color:rgba(255,255,255,.06);margin:1px 0 4px}
-.ut a{color:rgba(255,215,0,.12);cursor:pointer;text-decoration:none}
-.ut a:hover{color:rgba(255,215,0,.25)}
+
 
 /* ===== Creator Bar ===== */
 .cb{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.008);border:1px solid rgba(255,255,255,.015);border-radius:8px;padding:5px 8px;margin:4px 0}
@@ -240,7 +239,7 @@ body{
   <div class="s">卡瓦格博峰 · 海拔3,400m</div>
   <div class="l">📍 飞来寺观景台</div>
 </div>
-<div class="ut" id="ut"><a onclick="showLogin()">⚙️</a></div>
+<div class="ut" id="ut"></div>
 
 <!-- Creator -->
 <div class="cb">
@@ -356,7 +355,7 @@ body{
 <!-- Footer -->
 <div class="ft">
   <div>数据 © Open-Meteo · @梅里天气学长</div>
-  <span class="alm" onclick="showLogin()" title="管理员登录"></span>
+  <div style="margin-top:2px"><a onclick="showLogin()" style="color:rgba(255,255,255,.06);cursor:pointer;font-size:.42rem;text-decoration:none">🔐 管理员登录</a></div>
 </div>
 </div><!-- /.w -->
 
@@ -431,20 +430,21 @@ function closeLogin(){document.getElementById('loginMo').classList.remove('s')}
 function login(){
   var u=document.getElementById('loginUser').value.trim(),p=document.getElementById('loginPass').value.trim();
   if(u===ADM.user&&p===ADM.pass){
-    closeLogin();document.getElementById('adminDash').classList.add('s');
-    try{sessionStorage.setItem('_adm','1')}catch(e){}
+    closeLogin();
+    document.getElementById('adminDash').style.display='block';
     U=true;AU();renderAdminDash();
+    try{sessionStorage.setItem('_adm','1')}catch(e){}
   }else{
     document.getElementById('loginErr').style.display='block';
     setTimeout(function(){document.getElementById('loginErr').style.display='none'},2000);
   }
 }
 function logout(){
-  document.getElementById('adminDash').classList.remove('s');
+  document.getElementById('adminDash').style.display='none';
   try{sessionStorage.removeItem('_adm')}catch(e){}
 }
 // Auto-login if session persists
-(function(){try{if(sessionStorage.getItem('_adm')==='1'){document.getElementById('adminDash').classList.add('s');U=true;setTimeout(function(){AU();renderAdminDash()},500)}}catch(e){}})();
+(function(){try{if(sessionStorage.getItem('_adm')==='1'){document.getElementById('adminDash').style.display='block';U=true;setTimeout(function(){AU();renderAdminDash()},500)}}catch(e){}})();
 
 function renderAdminDash(){
   var v=0;try{v=parseInt(localStorage.getItem('_av')||'0')}catch(e){};v++;try{localStorage.setItem('_av',v+'')}catch(e){}
@@ -514,7 +514,7 @@ function R(){if(!D)return;
   tg.push({t:p.cc<=20?'☀️晴':p.cc<=40?'⛅少云':'☁️多云',c:p.cc<=20?'#51cf66':p.cc<=40?'#ffd43b':'#ff6b6b',b:p.cc<=20?'rgba(81,207,102,.04)':p.cc<=40?'rgba(255,212,59,.03)':'rgba(255,107,107,.04)'});
   document.getElementById('pt').innerHTML=tg.map(function(t){return'<span class="t" style="color:'+t.c+';background:'+t.b+'">'+t.t+'</span>'}).join('');
   rCD(p,di);rWX();rDY();rAB(p,di);rSB();
-  document.getElementById('ut').innerHTML='⏱ '+new Date().toLocaleString('zh-CN',{hour12:false})+' <a onclick="showLogin()">⚙️</a>';
+  document.getElementById('ut').innerHTML='⏱ '+new Date().toLocaleString('zh-CN',{hour12:false});
 }
 function rCD(p,di){var el=document.getElementById('cd'),lb=document.getElementById('cdl');var t=M==='sunrise'?p.sr:p.ss,n=new Date(),d=t-n;lb.textContent=(M==='sunrise'?'日出':'日落')+'倒计时 · '+FD(p.ds,di);if(d<=0){el.innerHTML='<span style="color:rgba(255,255,255,.08);font-size:.5rem">已过今日</span>';return}var h=Math.floor(d/36e5),m=Math.floor((d%36e5)/6e4),s=Math.floor((d%6e4)/1e3);el.innerHTML='<div class="cdi"><div class="n">'+String(h).padStart(2,'0')+'</div><div class="l">时</div></div><div class="cdi"><div class="n">'+String(m).padStart(2,'0')+'</div><div class="l">分</div></div><div class="cdi"><div class="n">'+String(s).padStart(2,'0')+'</div><div class="l">秒</div></div>'}
 function rWX(){var g=document.getElementById('wx');if(!C){g.innerHTML='';return}var w=W[C.weather_code]||W[0];g.innerHTML='<div class="wxi"><div class="ic">'+w.i+'</div><div class="v">'+C.temperature_2m.toFixed(0)+'°</div><div class="lb">'+w.d+'</div></div><div class="wxi"><div class="ic">🌡</div><div class="v">'+C.apparent_temperature.toFixed(0)+'°</div><div class="lb">体感</div></div><div class="wxi"><div class="ic">💧</div><div class="v">'+C.relative_humidity_2m.toFixed(0)+'%</div><div class="lb">湿度</div></div><div class="wxi"><div class="ic">☁</div><div class="v">'+C.cloud_cover.toFixed(0)+'%</div><div class="lb">云量</div></div><div class="wxi"><div class="ic">💨</div><div class="v">'+C.wind_speed_10m.toFixed(1)+'</div><div class="lb">风速</div></div><div class="wxi"><div class="ic">🌊</div><div class="v">'+(C.pressure_msl?C.pressure_msl.toFixed(0):'--')+'</div><div class="lb">气压</div></div><div class="wxi"><div class="ic">🌅</div><div class="v">'+DD.sunrise[0].slice(11,16)+'</div><div class="lb">日出</div></div><div class="wxi"><div class="ic">🌇</div><div class="v">'+DD.sunset[0].slice(11,16)+'</div><div class="lb">日落</div></div>'}
