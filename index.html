@@ -3,125 +3,119 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>梅里雪山 · 日照金山预测系统</title>
+<title>日照金山 · 梅里雪山</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
-  background:#060a18;color:#d0d6e3;min-height:100vh;line-height:1.6;
-  background-image:radial-gradient(ellipse at 20% 20%,rgba(212,160,23,.03),transparent 50%),
-                   radial-gradient(ellipse at 80% 80%,rgba(212,120,42,.02),transparent 50%)
+  background:#080c1a;color:#ccd2dd;min-height:100vh;
+  background-image:linear-gradient(180deg,#080c1a 0%,#0c1530 40%,#101a3a 70%,#080c1a 100%);
 }
-.w{max-width:960px;margin:0 auto;padding:6px 10px 20px}
+.w{max-width:800px;margin:0 auto;padding:12px}
 
-/* Header */
-.hd{text-align:center;padding:12px 0 2px}
-.hd .brand{font-size:.55rem;color:rgba(255,215,0,.2);letter-spacing:6px}
-.hd h1{font-size:1.25rem;font-weight:800;margin-top:1px;
-  background:linear-gradient(135deg,#F0D060,#E8A830,#D4782A,#F0D060);
+/* ===== Top Bar ===== */
+.top{display:flex;justify-content:space-between;align-items:center;padding:4px 0;margin-bottom:10px}
+.top .nm{font-size:.55rem;color:rgba(255,255,255,.12);letter-spacing:2px}
+.top .lnk{font-size:.48rem;color:rgba(255,255,255,.08);cursor:pointer;text-decoration:none;transition:color .15s}
+.top .lnk:hover{color:rgba(255,255,255,.2)}
+
+/* ===== Hero ===== */
+.hero{text-align:center;padding:30px 0 16px}
+.hero .icon{font-size:2rem;margin-bottom:6px;opacity:.6}
+.hero h1{font-size:1.5rem;font-weight:700;letter-spacing:2px;
+  background:linear-gradient(135deg,#e8d080,#d4a040);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hd .sub{font-size:.58rem;color:rgba(255,255,255,.1);margin-top:1px;letter-spacing:4px}
-.ut{text-align:center;font-size:.48rem;color:rgba(255,255,255,.05);margin:2px 0}
+.hero p{font-size:.7rem;color:rgba(255,255,255,.15);margin-top:4px;letter-spacing:4px}
 
-/* Hero */
-.hero{background:linear-gradient(135deg,rgba(255,215,0,.03),rgba(212,120,42,.01));
-  border:1px solid rgba(255,215,0,.04);border-radius:10px;padding:14px;text-align:center;margin-bottom:6px}
-.hero .score{font-size:2.8rem;font-weight:800;
-  background:linear-gradient(135deg,#F0D060,#D4782A);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero .sl{font-size:.55rem;color:rgba(255,255,255,.18);margin-top:-4px}
-.hero .lv{display:inline-block;padding:2px 14px;border-radius:12px;font-size:.62rem;font-weight:700;margin:3px 0 8px}
-.hero .lv.gd{background:rgba(255,215,0,.1);color:#F0D060}
-.hero .lv.gr{background:rgba(81,207,102,.08);color:#51cf66}
-.hero .lv.fa{background:rgba(255,212,59,.06);color:#ffd43b}
-.hero .lv.lw{background:rgba(255,107,107,.06);color:#ff6b6b}
+/* ===== Prediction Card ===== */
+.pc{background:rgba(255,255,255,.015);border:1px solid rgba(255,255,255,.04);border-radius:12px;padding:20px;text-align:center;margin-bottom:10px}
+.pc .num{font-size:3.5rem;font-weight:800;line-height:1}
+.pc .num.gold{background:linear-gradient(135deg,#e8d080,#d4a040);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.pc .num.green{color:#51cf66}
+.pc .num.yellow{color:#ffd43b}
+.pc .num.gray{color:#868e96}
+.pc .lbl{font-size:.65rem;color:rgba(255,255,255,.2);margin-top:2px}
+.pc .badge{display:inline-block;padding:2px 12px;border-radius:10px;font-size:.6rem;font-weight:600;margin-top:6px}
+.pc .badge.gold{background:rgba(212,160,64,.1);color:#d4a040}
+.pc .badge.green{background:rgba(81,207,102,.08);color:#51cf66}
+.pc .badge.yellow{background:rgba(255,212,59,.06);color:#ffd43b}
+.pc .badge.gray{background:rgba(134,142,150,.06);color:#868e96}
 
-/* Weather Grid */
-.wg{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin:4px 0}
-.wi{background:rgba(255,255,255,.006);border:1px solid rgba(255,255,255,.012);border-radius:5px;padding:4px;text-align:center}
-.wi .v{font-size:.75rem;font-weight:700;color:#F0D060}
-.wi .l{font-size:.45rem;color:rgba(255,255,255,.15);margin-top:1px}
+/* ===== Stats Strip ===== */
+.ss{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:10px}
+.si{background:rgba(255,255,255,.006);border:1px solid rgba(255,255,255,.01);border-radius:6px;padding:6px;text-align:center}
+.si .v{font-size:.65rem;font-weight:600}
+.si .l{font-size:.45rem;color:rgba(255,255,255,.15);margin-top:1px}
 
-/* 7-Day */
-.sh{display:flex;align-items:center;gap:5px;margin:8px 0 5px}
-.sh .ln{flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.025),transparent)}
-.sh .lb{font-size:.52rem;font-weight:600;color:rgba(255,255,255,.1);letter-spacing:3px;white-space:nowrap}
-.dy{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.dc{background:rgba(255,255,255,.004);border-radius:5px;padding:3px 2px;text-align:center;border:1px solid transparent}
-.dc.bt{border-color:rgba(255,215,0,.06);background:rgba(255,215,0,.008)}
-.dc .cr{font-size:.32rem}
-.dc .d{font-size:.42rem;color:rgba(255,255,255,.12)}
-.dc .w{font-size:.65rem}
-.dc .s{font-size:.75rem;font-weight:700}
-.dc .m{font-size:.4rem;color:rgba(255,255,255,.12);margin-top:1px}
-.dc .t{font-size:.4rem;color:rgba(255,255,255,.06)}
+/* ===== Section Title ===== */
+.st{font-size:.65rem;font-weight:600;color:rgba(255,255,255,.08);letter-spacing:3px;margin:12px 0 6px;display:flex;align-items:center;gap:6px}
+.st::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.02),transparent)}
 
-/* Form */
-.fm{background:rgba(255,255,255,.008);border:1px solid rgba(255,255,255,.02);border-radius:8px;padding:12px;margin:6px 0}
-.fm h3{font-size:.75rem;margin-bottom:1px;color:#F0D060}
-.fm .fs{font-size:.55rem;color:rgba(255,255,255,.18);margin-bottom:6px}
-.fm .r{margin-bottom:4px}
-.fm input,.fm select,.fm textarea{width:100%;padding:5px 9px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.035);border-radius:4px;color:#fff;font-size:.68rem;outline:none}
-.fm input:focus,.fm select:focus,.fm textarea:focus{border-color:rgba(255,215,0,.12)}
-.fm select option{background:#0e1538;color:#fff}
-.fm textarea{resize:vertical;min-height:44px}
-.fm .btn{width:100%;padding:7px;border-radius:5px;border:none;background:linear-gradient(135deg,#F0D060,#D4782A);color:#060a18;font-size:.72rem;font-weight:700;cursor:pointer}
-.fm .msg{font-size:.65rem;text-align:center;display:none;margin-top:3px}
+/* ===== 7-Day ===== */
+.d7{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px}
+.di{background:rgba(255,255,255,.005);border:1px solid rgba(255,255,255,.01);border-radius:5px;padding:4px 2px;text-align:center}
+.di .dt{font-size:.45rem;color:rgba(255,255,255,.1);text-transform:uppercase}
+.di .dc{font-size:.6rem;font-weight:700}
+.di .ds{font-size:.65rem;font-weight:700}
+.di .dd{font-size:.4rem;color:rgba(255,255,255,.1);margin-top:1px}
+
+/* ===== Form ===== */
+.fm{background:rgba(255,255,255,.008);border:1px solid rgba(255,255,255,.02);border-radius:10px;padding:14px;margin-bottom:8px}
+.fm h3{font-size:.75rem;margin-bottom:1px}
+.fm .fs{font-size:.55rem;color:rgba(255,255,255,.15);margin-bottom:8px}
+.fm .gr{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px}
+.fm input,.fm select,.fm textarea{width:100%;padding:6px 10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:5px;color:#fff;font-size:.7rem;outline:none}
+.fm input:focus,.fm select:focus,.fm textarea:focus{border-color:rgba(212,160,64,.15)}
+.fm select option{background:#0c1530;color:#fff}
+.fm textarea{resize:vertical;min-height:40px;margin-bottom:4px}
+.fm .btn{width:100%;padding:7px;border-radius:5px;border:none;background:linear-gradient(135deg,#e8d080,#d4a040);color:#080c1a;font-size:.7rem;font-weight:700;cursor:pointer;transition:all .1s}
+.fm .btn:hover{transform:translateY(-1px)}
+.fm .msg{font-size:.65rem;text-align:center;display:none;margin-top:4px}
 .fm .msg.ok{display:block;color:#51cf66}
 .fm .msg.er{display:block;color:#ff6b6b}
 
-/* Feature Cards */
-.fc{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:6px 0}
-.fci{background:rgba(255,255,255,.004);border:1px solid rgba(255,255,255,.012);border-radius:7px;padding:8px;text-align:center}
-.fci .fi{font-size:1.1rem;margin-bottom:1px}
-.fci .fn{font-size:.62rem;font-weight:600}
-.fci .fd{font-size:.5rem;color:rgba(255,255,255:.2);margin-top:1px;line-height:1.2}
+/* ===== Footer ===== */
+.ft{text-align:center;font-size:.48rem;color:rgba(255,255,255,.03);padding:16px 0 4px;line-height:1.2}
+.ft a{color:rgba(255,255,255,.04);cursor:pointer;text-decoration:none}
+.ft a:hover{color:rgba(255,255,255,.1)}
 
-/* Social */
-.sc{display:flex;justify-content:center;gap:8px;font-size:.5rem;color:rgba(255,255,255:.08);margin:3px 0}
-
-/* Footer */
-.ft{text-align:center;font-size:.45rem;color:rgba(255,255,255:.035);padding:10px 0 2px;line-height:1.3}
-.ft a{color:rgba(255,215,0,.08);cursor:pointer;text-decoration:none}
-.ft a:hover{color:rgba(255,215,0,.15)}
-
-/* ===== ADMIN LOGIN MODAL ===== */
-#loginMo{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);z-index:100;justify-content:center;align-items:center}
-#loginMo.s{display:flex}
-#loginBox{background:linear-gradient(180deg,#0e1328,#060a18);border:1px solid rgba(255,255,255,.04);border-radius:10px;padding:20px;width:280px;text-align:center}
-#loginBox h2{font-size:.85rem;margin-bottom:2px}
-#loginBox .sub{font-size:.55rem;color:rgba(255,255,255,.18);margin-bottom:10px}
-#loginBox input{width:100%;padding:6px 10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:5px;color:#fff;font-size:.7rem;outline:none;margin-bottom:5px}
-#loginBox input:focus{border-color:rgba(255,215,0,.1)}
-#loginBox button{width:100%;padding:6px;border-radius:5px;border:none;background:linear-gradient(135deg,#F0D060,#D4782A);color:#060a18;font-size:.7rem;font-weight:700;cursor:pointer}
-#loginBox .er{color:#ff6b6b;font-size:.55rem;margin-top:4px;display:none}
-#loginBox .cl{font-size:.5rem;color:rgba(255,255,255,.08);margin-top:6px;cursor:pointer}
+/* ===== ADMIN MODAL ===== */
+#am{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);z-index:100;justify-content:center;align-items:center}
+#am.s{display:flex}
+#ab{background:linear-gradient(180deg,#0c1530,#080c1a);border:1px solid rgba(255,255,255,.04);border-radius:10px;padding:20px;width:260px;text-align:center}
+#ab h2{font-size:.8rem;margin-bottom:2px}
+#ab .sub{font-size:.5rem;color:rgba(255,255,255,.12);margin-bottom:10px}
+#ab input{width:100%;padding:6px 10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255:.04);border-radius:4px;color:#fff;font-size:.68rem;outline:none;margin-bottom:5px}
+#ab input:focus{border-color:rgba(212,160,64,.1)}
+#ab button{width:100%;padding:6px;border-radius:4px;border:none;background:linear-gradient(135deg,#e8d080,#d4a040);color:#080c1a;font-size:.65rem;font-weight:700;cursor:pointer}
+#ab .er{color:#ff6b6b;font-size:.5rem;margin-top:3px;display:none}
+#ab .cl{font-size:.48rem;color:rgba(255,255,255,.06);margin-top:5px;cursor:pointer}
 
 /* ===== ADMIN DASHBOARD ===== */
-#adDash{display:none}
-.ad-hd{display:flex;justify-content:space-between;align-items:center;padding:4px 0;margin-bottom:6px}
-.ad-hd h2{font-size:.8rem;font-weight:700}
-.ad-hd .ad-ex{font-size:.5rem;color:rgba(255,255,255,.1);cursor:pointer;text-decoration:underline}
-.ad-cg{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:6px}
-.ad-ci{background:rgba(255,255,255,.005);border:1px solid rgba(255,255,255,.01);border-radius:5px;padding:6px;text-align:center}
-.ad-ci .n{font-size:.95rem;font-weight:800;color:#F0D060}
+#ad{display:none}
+.ad-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.ad-h h2{font-size:.75rem;font-weight:700}
+.ad-h .ex{font-size:.48rem;color:rgba(255,255,255,.08);cursor:pointer}
+.ad-c{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:6px}
+.ad-ci{background:rgba(255,255,255,.004);border:1px solid rgba(255,255,255:.01);border-radius:5px;padding:5px;text-align:center}
+.ad-ci .n{font-size:.85rem;font-weight:800;color:#d4a040}
 .ad-ci .n.gr{color:#51cf66}
-.ad-ci .l{font-size:.42rem;color:rgba(255,255,255:.1);margin-top:1px}
-.ad-sx{background:rgba(255,255,255:.004);border:1px solid rgba(255,255,255:.01);border-radius:5px;padding:6px;margin-bottom:4px}
-.ad-sx .ad-st{font-size:.55rem;font-weight:600;margin-bottom:3px;display:flex;justify-content:space-between;align-items:center}
-.ad-sx .ad-st .ad-csv{font-size:.45rem;background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.05);color:#E8A830;padding:1px 7px;border-radius:3px;cursor:pointer}
-.ad-tb{width:100%;border-collapse:collapse;font-size:.52rem}
-.ad-tb th{padding:3px 4px;text-align:left;color:rgba(255,255,255,.12);font-weight:500;border-bottom:1px solid rgba(255,255,255:.015)}
-.ad-tb td{padding:3px 4px;border-bottom:1px solid rgba(255,255,255:.004)}
-.ad-em{text-align:center;padding:12px;color:rgba(255,255,255:.04);font-size:.55rem}
+.ad-ci .l{font-size:.4rem;color:rgba(255,255,255:.08);margin-top:1px}
+.ad-t{background:rgba(255,255,255:.004);border:1px solid rgba(255,255,255:.01);border-radius:5px;padding:6px}
+.ad-t .h{font-size:.5rem;font-weight:600;margin-bottom:3px;display:flex;justify-content:space-between}
+.ad-t .h .csv{font-size:.42rem;background:rgba(212,160,64,.04);border:1px solid rgba(212,160,64,.05);color:#d4a040;padding:1px 6px;border-radius:3px;cursor:pointer}
+.tb{width:100%;border-collapse:collapse;font-size:.5rem}
+.tb th{padding:3px 4px;text-align:left;color:rgba(255,255,255,.1);font-weight:400;border-bottom:1px solid rgba(255,255,255:.01)}
+.tb td{padding:3px 4px;border-bottom:1px solid rgba(255,255,255:.004)}
+.empty{text-align:center;padding:12px;color:rgba(255,255,255:.04);font-size:.5rem}
 
 @media(max-width:640px){
-  .wg{grid-template-columns:repeat(2,1fr)}
-  .dy{grid-template-columns:repeat(4,1fr)}
-  .dy .dc:nth-child(n+5){display:none}
-  .fc{grid-template-columns:1fr}
-  .ad-cg{grid-template-columns:repeat(2,1fr)}
-  .hero .score{font-size:2rem}
+  .ss{grid-template-columns:repeat(2,1fr)}
+  .d7{grid-template-columns:repeat(4,1fr)}
+  .d7 .di:nth-child(n+5){display:none}
+  .fm .gr{grid-template-columns:1fr}
+  .ad-c{grid-template-columns:repeat(2,1fr)}
+  .pc .num{font-size:2.5rem}
 }
 </style>
 </head>
@@ -129,249 +123,208 @@ body{
 
 <div class="w">
 
-<!-- ===== HEADER ===== -->
-<div class="hd">
-  <div class="brand">✦ MEILI SNOW MOUNTAIN ✦</div>
-  <h1>日照金山 · 预测</h1>
-  <div class="sub">卡瓦格博峰 · 海拔3,400m</div>
+<!-- Top -->
+<div class="top">
+  <span class="nm">✦ 梅里雪山</span>
+  <a class="lnk" onclick="showLogin()">⚙️</a>
 </div>
-<div class="ut" id="ut"></div>
 
-<!-- ===== HERO ===== -->
-<div class="hero" id="hero">
-  <div class="sl" style="color:rgba(255,255,255,.08);font-size:.55rem" id="ld">加载预测数据…</div>
-  <div id="hc" style="display:none">
-    <div class="score" id="sc">--</div>
-    <div class="sl">今日日照金山概率</div>
-    <div class="lv" id="lv">--</div>
-    <div class="wg" id="wx"></div>
+<!-- Hero -->
+<div class="hero">
+  <div class="icon">🏔️</div>
+  <h1>日照金山预测</h1>
+  <p>卡瓦格博峰 · 飞来寺</p>
+</div>
+
+<!-- Prediction -->
+<div class="pc" id="predBox">
+  <div id="predLoading" style="font-size:.6rem;color:rgba(255,255,255,.08);padding:10px">加载中…</div>
+  <div id="predContent" style="display:none">
+    <div class="num" id="predNum">--</div>
+    <div class="lbl">今日日照金山概率</div>
+    <div class="badge" id="predBadge">--</div>
   </div>
 </div>
 
-<!-- ===== 7-DAY ===== -->
-<div class="sh"><div class="lb">7日预测</div><div class="ln"></div></div>
-<div class="dy" id="dy"></div>
+<!-- Stats -->
+<div class="ss" id="statsBox"></div>
 
-<!-- ===== INQUIRY FORM ===== -->
+<!-- 7-Day -->
+<div class="st">未来7天</div>
+<div class="d7" id="d7Box"></div>
+
+<!-- Form -->
 <div class="fm">
-  <h3>📋 免费获取 · 最佳观赏提醒</h3>
-  <div class="fs">提交后提前一天通知你最佳时间</div>
-  <div class="r"><input id="inpName" placeholder="你的称呼 *"></div>
-  <div class="r"><input id="inpContact" placeholder="手机 / 微信 *"></div>
-  <div class="r"><select id="inpDate">
-    <option value="">计划日期</option>
-    <option value="明天">明天</option><option value="后天">后天</option>
-    <option value="这周末">这周末</option><option value="下周">下周</option>
-  </select></div>
-  <div class="r"><textarea id="inpNote" placeholder="备注（选填）"></textarea></div>
-  <button class="btn" onclick="subInquiry()">提交预约 · 获取提醒</button>
+  <h3>📋 预约观赏提醒</h3>
+  <div class="fs">提前一天通知最佳观赏时间</div>
+  <div class="gr">
+    <input id="inpName" placeholder="你的称呼 *">
+    <input id="inpContact" placeholder="手机 / 微信 *">
+  </div>
+  <div class="gr">
+    <select id="inpDate">
+      <option value="">计划日期</option>
+      <option value="明天">明天</option><option value="后天">后天</option>
+      <option value="这周末">这周末</option><option value="下周">下周</option>
+    </select>
+    <textarea id="inpNote" placeholder="备注（选填）" style="margin:0"></textarea>
+  </div>
+  <button class="btn" onclick="subForm()">提交预约</button>
   <div class="msg" id="fMsg"></div>
 </div>
 
-<!-- ===== FEATURES ===== -->
-<div class="fc">
-  <div class="fci"><div class="fi">🏔️</div><div class="fn">日照金山预测</div><div class="fd">专业多因子模型分析</div></div>
-  <div class="fci"><div class="fi">🔔</div><div class="fn">最佳时机通知</div><div class="fd">提前一天提醒出发</div></div>
-  <div class="fci"><div class="fi">📸</div><div class="fn">摄影向导</div><div class="fd">机位·参数·装备指南</div></div>
-</div>
-
-<div class="sc">
-  <span>👥 已服务 1,200+ 游客</span>
-  <span>⭐ 准确率 85%</span>
-</div>
-
+<!-- Footer -->
 <div class="ft">
-  <div>数据 © Open-Meteo · <a onclick="showLogin()">⚙️</a></div>
-  <div>📱 抖音/小红书 @梅里天气学长</div>
+  <div>数据 © Open-Meteo · 抖音/小红书 @梅里天气学长</div>
 </div>
 
 </div><!-- /.w -->
 
-<!-- ===== ADMIN LOGIN MODAL ===== -->
-<div id="loginMo">
-  <div id="loginBox">
+<!-- ADMIN LOGIN -->
+<div id="am">
+  <div id="ab">
     <h2>🔐 管理后台</h2>
     <div class="sub">梅里雪山 · 日照金山预测</div>
-    <input type="password" id="pwd" placeholder="管理密码">
-    <button onclick="adminLogin()">验证登录</button>
+    <input type="password" id="pwd" placeholder="密码">
+    <button onclick="login()">登录</button>
     <div class="er" id="loginEr">密码错误</div>
-    <div class="cl" onclick="closeLogin()">✕ 关闭</div>
+    <div class="cl" onclick="closeLogin()">✕</div>
   </div>
 </div>
 
-<!-- ===== ADMIN DASHBOARD ===== -->
-<div id="adDash">
+<!-- ADMIN DASHBOARD -->
+<div id="ad">
   <div class="w">
-    <div class="ad-hd">
+    <div class="ad-h">
       <h2>📊 管理后台</h2>
-      <span class="ad-ex" onclick="adminLogout()">退出登录</span>
+      <span class="ex" onclick="logout()">退出</span>
     </div>
-    <div class="ad-cg">
-      <div class="ad-ci"><div class="n" id="a1">-</div><div class="l">总访问量</div></div>
-      <div class="ad-ci"><div class="n gr" id="a2">-</div><div class="l">今日访客</div></div>
-      <div class="ad-ci"><div class="n" id="a3">-</div><div class="l">客户咨询</div></div>
-      <div class="ad-ci"><div class="n gr" id="a4">-</div><div class="l">留资客户</div></div>
+    <div class="ad-c">
+      <div class="ad-ci"><div class="n" id="s1">-</div><div class="l">总访问</div></div>
+      <div class="ad-ci"><div class="n gr" id="s2">-</div><div class="l">今日</div></div>
+      <div class="ad-ci"><div class="n" id="s3">-</div><div class="l">咨询</div></div>
+      <div class="ad-ci"><div class="n gr" id="s4">-</div><div class="l">留资</div></div>
     </div>
-    <div class="ad-sx">
-      <div class="ad-st"><span>📋 客户咨询列表</span><span class="ad-csv" onclick="exportCSV()">📥 导出CSV</span></div>
-      <div id="adTb"></div>
+    <div class="ad-t">
+      <div class="h"><span>📋 客户咨询</span><span class="csv" onclick="expCSV()">导出CSV</span></div>
+      <div id="adT"></div>
     </div>
   </div>
 </div>
 
 <script>
-// ===== CONFIG =====
-const API = 'https://api.open-meteo.com/v1/forecast';
-const LOC = {lat:28.45,lng:98.78};
-const ADMIN_PWD = 'meili2024';
+var ADMIN_PWD = 'meili2024';
 
-// ===== DATA (localStorage) =====
-function getData(){
-  try{ return JSON.parse(localStorage.getItem('_md')||'{"visits":0,"daily":{},"inquiries":[]}'); }catch(e){}
-  return {visits:0,daily:{},inquiries:[]};
+// Data
+function gd(){
+  try{return JSON.parse(localStorage.getItem('_md')||'{"v":0,"d":{},"q":[]}')}catch(e){}
+  return {v:0,d:{},q:[]}
 }
-function setData(d){
-  try{ localStorage.setItem('_md',JSON.stringify(d)); }catch(e){}
+function sd(d){
+  try{localStorage.setItem('_md',JSON.stringify(d))}catch(e){}
 }
 
 // Track visit
-(function(){
-  var d=getData(); d.visits++;
-  var t=new Date().toISOString().slice(0,10);
-  d.daily[t]=(d.daily[t]||0)+1;
-  setData(d);
-})();
+(function(){var d=gd();d.v++;var t=new Date().toISOString().slice(0,10);d.d[t]=(d.d[t]||0)+1;sd(d)})();
 
-// ===== ADMIN =====
-function showLogin(){document.getElementById('loginMo').classList.add('s')}
-function closeLogin(){document.getElementById('loginMo').classList.remove('s')}
-function adminLogin(){
-  var p=document.getElementById('pwd').value;
-  if(p===ADMIN_PWD){
-    closeLogin();
-    document.getElementById('adDash').style.display='block';
-    sessionStorage.setItem('_aa','1');
-    renderAdmin();
+// Admin
+function showLogin(){document.getElementById('am').classList.add('s')}
+function closeLogin(){document.getElementById('am').classList.remove('s')}
+function login(){
+  if(document.getElementById('pwd').value===ADMIN_PWD){
+    closeLogin();document.getElementById('ad').style.display='block';
+    sessionStorage.setItem('_aa','1');renderAd();
   }else{
     document.getElementById('loginEr').style.display='block';
-    setTimeout(function(){document.getElementById('loginEr').style.display='none'},1500);
+    setTimeout(function(){document.getElementById('loginEr').style.display='none'},1200);
   }
 }
-(function(){
-  if(sessionStorage.getItem('_aa')==='1'){
-    document.getElementById('adDash').style.display='block';
-    renderAdmin();
-  }
-})();
-function adminLogout(){
-  sessionStorage.removeItem('_aa');
-  document.getElementById('adDash').style.display='none';
-}
-
-function renderAdmin(){
-  var d=getData();
-  document.getElementById('a1').textContent=d.visits;
-  var t=new Date().toISOString().slice(0,10);
-  document.getElementById('a2').textContent=d.daily[t]||0;
-  document.getElementById('a3').textContent=d.inquiries.length;
-  document.getElementById('a4').textContent=d.inquiries.length;
-  var tb=document.getElementById('adTb');
-  if(d.inquiries.length===0){
-    tb.innerHTML='<div class="ad-em">暂无客户咨询</div>';return;
-  }
-  var h='<table class="ad-tb"><thead><tr><th>时间</th><th>称呼</th><th>联系方式</th><th>计划</th><th>备注</th></tr></thead><tbody>';
-  for(var i=d.inquiries.length-1;i>=0;i--){
-    var q=d.inquiries[i];
-    h+='<tr><td>'+q.t+'</td><td>'+q.n+'</td><td>'+q.c+'</td><td>'+q.p+'</td><td>'+q.o+'</td></tr>';
-  }
+(function(){if(sessionStorage.getItem('_aa')==='1'){document.getElementById('ad').style.display='block';renderAd()}})();
+function logout(){sessionStorage.removeItem('_aa');document.getElementById('ad').style.display='none'}
+function renderAd(){
+  var d=gd();document.getElementById('s1').textContent=d.v;
+  var t=new Date().toISOString().slice(0,10);document.getElementById('s2').textContent=d.d[t]||0;
+  document.getElementById('s3').textContent=d.q.length;document.getElementById('s4').textContent=d.q.length;
+  var tb=document.getElementById('adT');
+  if(!d.q.length){tb.innerHTML='<div class="empty">暂无咨询</div>';return}
+  var h='<table class="tb"><thead><tr><th>时间</th><th>称呼</th><th>联系方式</th><th>计划</th><th>备注</th></tr></thead><tbody>';
+  for(var i=d.q.length-1;i>=0;i--){var q=d.q[i];h+='<tr><td>'+q.t+'</td><td>'+q.n+'</td><td>'+q.c+'</td><td>'+(q.p||'-')+'</td><td>'+(q.o||'-')+'</td></tr>'}
   h+='</tbody></table>';tb.innerHTML=h;
 }
-
-function exportCSV(){
-  var d=getData();var rows=[["时间","称呼","联系方式","计划日期","备注"]];
-  for(var i=0;i<d.inquiries.length;i++){
-    var q=d.inquiries[i];
-    rows.push([q.t,q.n,q.c,q.p,q.o]);
-  }
-  var csv=rows.map(function(r){return r.map(function(c){return '"'+(c||'').replace(/"/g,'""')+'"'}).join(',')}).join('\n');
-  var b=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
-  var a=document.createElement('a');a.href=URL.createObjectURL(b);
-  a.download='客户咨询_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+function expCSV(){
+  var d=gd(),rows=[["时间","称呼","联系方式","计划","备注"]];
+  for(var i=0;i<d.q.length;i++){var q=d.q[i];rows.push([q.t,q.n,q.c,q.p||'',q.o||''])}
+  var csv=rows.map(function(r){return r.map(function(c){return'"'+(c||'').replace(/"/g,'""')+'"'}).join(',')}).join('\n');
+  var b=new Blob(['\ufeff'+csv],{type:'text/csv;charset:utf-8;'});var a=document.createElement('a');
+  a.href=URL.createObjectURL(b);a.download='客户_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
 }
 
-// ===== INQUIRY =====
-function subInquiry(){
-  var n=document.getElementById('inpName').value.trim();
-  var c=document.getElementById('inpContact').value.trim();
-  var m=document.getElementById('fMsg');
-  if(!n||!c){m.innerHTML='请填写称呼和联系方式';m.className='msg er';return;}
-  var d=getData();
-  d.inquiries.push({t:new Date().toLocaleString('zh-CN').slice(5,16),n:n,c:c,
-    p:document.getElementById('inpDate').value,o:document.getElementById('inpNote').value.trim()});
-  setData(d);
+// Form
+function subForm(){
+  var n=document.getElementById('inpName').value.trim(),c=document.getElementById('inpContact').value.trim(),m=document.getElementById('fMsg');
+  if(!n||!c){m.innerHTML='请填写称呼和联系方式';m.className='msg er';return}
+  var d=gd();d.q.push({t:new Date().toLocaleString('zh-CN').slice(5,16),n:n,c:c,
+    p:document.getElementById('inpDate').value,o:document.getElementById('inpNote').value.trim()});sd(d);
   m.innerHTML='✅ 已收到，我们会提前通知你';m.className='msg ok';
   document.getElementById('inpName').value='';document.getElementById('inpContact').value='';
   document.getElementById('inpDate').value='';document.getElementById('inpNote').value='';
-  if(document.getElementById('adDash').style.display==='block')renderAdmin();
+  if(document.getElementById('ad').style.display==='block')renderAd();
 }
 
-// ===== WEATHER =====
-var WMO={0:"晴",1:"大部晴",2:"多云",3:"阴",45:"雾",48:"雾凇",51:"小雨",53:"毛毛雨",55:"中雨",61:"小雨",63:"中雨",65:"大雨",71:"小雪",73:"中雪",75:"大雪",80:"阵雨",81:"中阵雨",82:"大阵雨",95:"雷暴"};
-var WMOI={0:"☀️",1:"🌤️",2:"⛅",3:"☁️",45:"🌫️",48:"🌫️",51:"🌦️",53:"🌦️",55:"🌧️",61:"🌦️",63:"🌧️",65:"🌧️",71:"🌨️",73:"❄️",75:"❄️",80:"🌦️",81:"🌧️",82:"🌧️",95:"⛈️"};
+// Weather
+var WM = {0:'晴',1:'大部晴',2:'多云',3:'阴',45:'雾',51:'小雨',53:'毛毛雨',55:'中雨',61:'小雨',63:'中雨',65:'大雨',71:'小雪',73:'中雪',75:'大雪',80:'阵雨',81:'中阵雨',82:'大阵雨',95:'雷暴'};
+var WI = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌦️',63:'🌧️',65:'🌧️',71:'🌨️',73:'❄️',75:'❄️',80:'🌦️',81:'🌧️',82:'🌧️',95:'⛈️'};
 
-function seasonScore(m){m=m||new Date().getMonth()+1;return m>=10||m<=4?100:m===5?70:m===6||m===9?40:20}
-
-async function loadWeather(){
+(async function(){
   try{
-    var p=new URLSearchParams({latitude:LOC.lat,longitude:LOC.lng,
-      current:'temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,cloud_cover,wind_speed_10m',
+    var p=new URLSearchParams({latitude:28.45,longitude:98.78,
+      current:'temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,cloud_cover,wind_speed_10m,pressure_msl',
       daily:'sunrise,sunset,weather_code,temperature_2m_max,temperature_2m_min',
       timezone:'Asia/Shanghai',forecast_days:'7'});
-    var r=await fetch(API+'?'+p);
-    if(!r.ok)throw Error();
-    var w=await r.json();
-    var c=w.current;
-    var cc=c.cloud_cover,wc=c.weather_code,hu=c.relative_humidity_2m,sf=seasonScore();
-    var cs=cc<=10?100:cc<=20?90:cc<=30?70:cc<=50?40:cc<=70?15:5;
+    var r=await fetch('https://api.open-meteo.com/v1/forecast?'+p);
+    if(!r.ok)throw Error();var w=await r.json();var c=w.current;
+    var cc=c.cloud_cover,wc=c.weather_code,hu=c.relative_humidity_2m;
+    var cs=cc<=10?100:cc<=20?90:cc<=30?70:cc<=50?40:20;
     var ws=wc===0?100:wc===1?90:wc===2?55:30;
     var hs=hu<=30?100:hu<=50?85:hu<=65?65:40;
-    var sc=Math.round(cs*.35+ws*.25+hs*.2+sf*.2);
-    var lv=sc>=85?'gd':sc>=70?'gr':sc>=50?'fa':'lw';
-    var lvt=sc>=85?'🌟 极佳':sc>=70?'👍 良好':sc>=50?'🤞 一般':'😢 较低';
-
-    document.getElementById('ld').style.display='none';
-    document.getElementById('hc').style.display='block';
-    document.getElementById('sc').textContent=sc+'%';
-    var lvEl=document.getElementById('lv');lvEl.textContent=lvt;lvEl.className='lv '+lv;
-    document.getElementById('wx').innerHTML=
-      '<div class="wi"><div class="v">'+c.temperature_2m.toFixed(0)+'°</div><div class="l">气温</div></div>'+
-      '<div class="wi"><div class="v">'+(WMOI[wc]||'❓')+' '+(WMO[wc]||'未知')+'</div><div class="l">天气</div></div>'+
-      '<div class="wi"><div class="v">'+cc.toFixed(0)+'%</div><div class="l">云量</div></div>'+
-      '<div class="wi"><div class="v">'+c.relative_humidity_2m.toFixed(0)+'%</div><div class="l">湿度</div></div>'+
-      '<div class="wi"><div class="v">'+c.wind_speed_10m.toFixed(1)+'km/h</div><div class="l">风速</div></div>'+
-      '<div class="wi"><div class="v">'+c.precipitation.toFixed(1)+'mm</div><div class="l">降水</div></div>'+
-      '<div class="wi"><div class="v">'+w.daily.sunrise[0].slice(11,16)+'</div><div class="l">日出</div></div>'+
-      '<div class="wi"><div class="v">'+w.daily.sunset[0].slice(11,16)+'</div><div class="l">日落</div></div>';
-
-    // 7-day
-    var dg=document.getElementById('dy');dg.innerHTML='';
+    var sc=Math.round(cs*.35+ws*.25+hs*.2+20);
+    
+    document.getElementById('predLoading').style.display='none';
+    document.getElementById('predContent').style.display='block';
+    var num=document.getElementById('predNum');
+    num.textContent=sc+'%';
+    num.className='num '+(sc>=80?'gold':sc>=60?'green':sc>=40?'yellow':'gray');
+    var bg=document.getElementById('predBadge');
+    var bt=sc>=80?'🌟 极佳':sc>=60?'👍 良好':sc>=40?'🤞 一般':'😢 较低';
+    bg.textContent=bt;
+    bg.className='badge '+(sc>=80?'gold':sc>=60?'green':sc>=40?'yellow':'gray');
+    
+    document.getElementById('statsBox').innerHTML=
+      '<div class="si"><div class="v">'+c.temperature_2m.toFixed(0)+'°</div><div class="l">气温</div></div>'+
+      '<div class="si"><div class="v">'+cc.toFixed(0)+'%</div><div class="l">云量</div></div>'+
+      '<div class="si"><div class="v">'+c.wind_speed_10m.toFixed(1)+'</div><div class="l">风速</div></div>'+
+      '<div class="si"><div class="v">'+(WM[wc]||'晴')+'</div><div class="l">天气</div></div>'+
+      '<div class="si"><div class="v">'+c.relative_humidity_2m.toFixed(0)+'%</div><div class="l">湿度</div></div>'+
+      '<div class="si"><div class="v">'+c.precipitation.toFixed(1)+'mm</div><div class="l">降水</div></div>'+
+      '<div class="si"><div class="v">'+w.daily.sunrise[0].slice(11,16)+'</div><div class="l">日出</div></div>'+
+      '<div class="si"><div class="v">'+w.daily.sunset[0].slice(11,16)+'</div><div class="l">日落</div></div>';
+    
+    var d7=document.getElementById('d7Box');d7.innerHTML='';
+    var wd=['日','一','二','三','四','五','六'];
     for(var i=0;i<Math.min(7,w.daily.time.length);i++){
-      var sc_i=Math.round(cs*.35+ws*.25+40); // approx
-      var el=document.createElement('div');el.className='dc'+(i===0?' bt':'');
-      el.innerHTML='<div class="d">'+w.daily.time[i].slice(5)+'</div>'+
-        '<div class="w">'+(WMOI[w.daily.weather_code[i]]||'☀️')+'</div>'+
-        '<div class="s" style="color:'+(sc_i>=85?'#F0D060':sc_i>=70?'#51cf66':'#ffd43b')+'">'+
-        (sc_i>=85?sc_i:sc_i>=70?sc_i:sc_i)+'%</div>'+
-        '<div class="m">'+w.daily.sunrise[i].slice(11,16)+'</div>'+
-        '<div class="t">'+w.daily.temperature_2m_min[i].toFixed(0)+'°/'+w.daily.temperature_2m_max[i].toFixed(0)+'°</div>';
-      dg.appendChild(el);
+      var d=new Date(w.daily.time[i]);var dd=document.createElement('div');dd.className='di';
+      cs2=w.daily.weather_code[i]<=1?100:w.daily.weather_code[i]===2?55:30;
+      sc2=Math.round(cs2*.35+25+20);
+      dd.innerHTML='<div class="dt">'+(i===0?'今天':i===1?'明天':w.daily.time[i].slice(5))+'</div>'+
+        '<div class="dc">'+(WI[w.daily.weather_code[i]]||'☀️')+'</div>'+
+        '<div class="ds" style="color:'+(sc2>=80?'#d4a040':sc2>=60?'#51cf66':'#ffd43b')+'">'+sc2+'%</div>'+
+        '<div class="dd">'+w.daily.temperature_2m_min[i].toFixed(0)+'°/'+w.daily.temperature_2m_max[i].toFixed(0)+'°</div>';
+      d7.appendChild(dd);
     }
-    document.getElementById('ut').textContent=new Date().toLocaleString('zh-CN',{hour12:false});
   }catch(e){
-    document.getElementById('ld').textContent='⚠️ 数据加载失败，请刷新页面';
+    document.getElementById('predLoading').textContent='⚠️ 数据加载失败';
   }
-}
-loadWeather();
+})();
 </script>
 </body>
 </html>
