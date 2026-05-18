@@ -3,119 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>日照金山 · 梅里雪山</title>
+<title>梅里 · 日照金山</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
-  background:#080c1a;color:#ccd2dd;min-height:100vh;
-  background-image:linear-gradient(180deg,#080c1a 0%,#0c1530 40%,#101a3a 70%,#080c1a 100%);
+  font-family:'Noto Sans SC',-apple-system,sans-serif;
+  background:#0a0a0f;color:#c8ccd4;min-height:100vh;
+  font-weight:300;letter-spacing:.02em;
 }
-.w{max-width:800px;margin:0 auto;padding:12px}
+.w{max-width:720px;margin:0 auto;padding:20px}
 
-/* ===== Top Bar ===== */
-.top{display:flex;justify-content:space-between;align-items:center;padding:4px 0;margin-bottom:10px}
-.top .nm{font-size:.55rem;color:rgba(255,255,255,.12);letter-spacing:2px}
-.top .lnk{font-size:.48rem;color:rgba(255,255,255,.08);cursor:pointer;text-decoration:none;transition:color .15s}
-.top .lnk:hover{color:rgba(255,255,255,.2)}
+/* Header */
+.hd{margin-bottom:32px;position:relative}
+.hd::after{content:'';position:absolute;bottom:-12px;left:0;width:40px;height:2px;background:rgba(210,180,100,.2)}
+.hd .tag{font-size:11px;color:rgba(210,180,100,.4);letter-spacing:4px;text-transform:uppercase}
+.hd .admin{float:right;font-size:11px;color:rgba(255,255,255,.06);cursor:pointer;text-decoration:none;letter-spacing:1px}
+.hd .admin:hover{color:rgba(255,255,255,.15)}
+.hd h1{font-size:26px;font-weight:300;color:#e8e4dc;margin-top:4px;letter-spacing:6px}
+.hd .sub{font-size:12px;color:rgba(255,255,255,.08);margin-top:2px;letter-spacing:3px}
 
-/* ===== Hero ===== */
-.hero{text-align:center;padding:30px 0 16px}
-.hero .icon{font-size:2rem;margin-bottom:6px;opacity:.6}
-.hero h1{font-size:1.5rem;font-weight:700;letter-spacing:2px;
-  background:linear-gradient(135deg,#e8d080,#d4a040);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero p{font-size:.7rem;color:rgba(255,255,255,.15);margin-top:4px;letter-spacing:4px}
+/* Hero */
+.hero{text-align:center;padding:24px 0 20px}
+.hero .pct{font-size:64px;font-weight:100;color:#e8e4dc;line-height:1;letter-spacing:-2px}
+.hero .pct span{font-size:28px;font-weight:300;color:rgba(255,255,255,.15)}
+.hero .lbl{font-size:12px;color:rgba(255,255,255,.12);margin-top:4px;letter-spacing:4px}
+.hero .status{display:inline-block;margin-top:10px;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:500;letter-spacing:1px}
+.hero .status.gold{background:rgba(210,180,100,.08);color:#d2b464;border:1px solid rgba(210,180,100,.06)}
+.hero .status.green{background:rgba(81,207,102,.06);color:#51cf66;border:1px solid rgba(81,207,102:.04)}
+.hero .status.gray{background:rgba(134,142,150,.04);color:#868e96;border:1px solid rgba(134,142,150:.03)}
 
-/* ===== Prediction Card ===== */
-.pc{background:rgba(255,255,255,.015);border:1px solid rgba(255,255,255,.04);border-radius:12px;padding:20px;text-align:center;margin-bottom:10px}
-.pc .num{font-size:3.5rem;font-weight:800;line-height:1}
-.pc .num.gold{background:linear-gradient(135deg,#e8d080,#d4a040);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.pc .num.green{color:#51cf66}
-.pc .num.yellow{color:#ffd43b}
-.pc .num.gray{color:#868e96}
-.pc .lbl{font-size:.65rem;color:rgba(255,255,255,.2);margin-top:2px}
-.pc .badge{display:inline-block;padding:2px 12px;border-radius:10px;font-size:.6rem;font-weight:600;margin-top:6px}
-.pc .badge.gold{background:rgba(212,160,64,.1);color:#d4a040}
-.pc .badge.green{background:rgba(81,207,102,.08);color:#51cf66}
-.pc .badge.yellow{background:rgba(255,212,59,.06);color:#ffd43b}
-.pc .badge.gray{background:rgba(134,142,150,.06);color:#868e96}
+/* Data Grid */
+.dg{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.02);border-radius:8px;overflow:hidden;margin-bottom:24px}
+.di{padding:10px 8px;text-align:center;background:#0a0a0f}
+.di .v{font-size:15px;font-weight:400;color:#e8e4dc}
+.di .l{font-size:10px;color:rgba(255,255,255,.12);margin-top:2px;letter-spacing:1px;text-transform:uppercase}
 
-/* ===== Stats Strip ===== */
-.ss{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:10px}
-.si{background:rgba(255,255,255,.006);border:1px solid rgba(255,255,255,.01);border-radius:6px;padding:6px;text-align:center}
-.si .v{font-size:.65rem;font-weight:600}
-.si .l{font-size:.45rem;color:rgba(255,255,255,.15);margin-top:1px}
+/* Section Title */
+.st{font-size:11px;color:rgba(255,255,255,.08);letter-spacing:4px;margin-bottom:10px;font-weight:400;text-transform:uppercase}
 
-/* ===== Section Title ===== */
-.st{font-size:.65rem;font-weight:600;color:rgba(255,255,255,.08);letter-spacing:3px;margin:12px 0 6px;display:flex;align-items:center;gap:6px}
-.st::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.02),transparent)}
+/* Weekly */
+.wk{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:28px}
+.wi{background:rgba(255,255,255,.01);border-radius:6px;padding:8px 4px;text-align:center;border:1px solid rgba(255,255,255,.02)}
+.wi .d{font-size:10px;color:rgba(255,255,255:.08);letter-spacing:1px;margin-bottom:4px}
+.wi .ic{font-size:16px;margin-bottom:2px}
+.wi .n{font-size:14px;font-weight:500;line-height:1}
+.wi .t{font-size:9px;color:rgba(255,255,255:.06);margin-top:3px}
 
-/* ===== 7-Day ===== */
-.d7{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px}
-.di{background:rgba(255,255,255,.005);border:1px solid rgba(255,255,255,.01);border-radius:5px;padding:4px 2px;text-align:center}
-.di .dt{font-size:.45rem;color:rgba(255,255,255,.1);text-transform:uppercase}
-.di .dc{font-size:.6rem;font-weight:700}
-.di .ds{font-size:.65rem;font-weight:700}
-.di .dd{font-size:.4rem;color:rgba(255,255,255,.1);margin-top:1px}
-
-/* ===== Form ===== */
-.fm{background:rgba(255,255,255,.008);border:1px solid rgba(255,255,255,.02);border-radius:10px;padding:14px;margin-bottom:8px}
-.fm h3{font-size:.75rem;margin-bottom:1px}
-.fm .fs{font-size:.55rem;color:rgba(255,255,255,.15);margin-bottom:8px}
-.fm .gr{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px}
-.fm input,.fm select,.fm textarea{width:100%;padding:6px 10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:5px;color:#fff;font-size:.7rem;outline:none}
-.fm input:focus,.fm select:focus,.fm textarea:focus{border-color:rgba(212,160,64,.15)}
-.fm select option{background:#0c1530;color:#fff}
-.fm textarea{resize:vertical;min-height:40px;margin-bottom:4px}
-.fm .btn{width:100%;padding:7px;border-radius:5px;border:none;background:linear-gradient(135deg,#e8d080,#d4a040);color:#080c1a;font-size:.7rem;font-weight:700;cursor:pointer;transition:all .1s}
-.fm .btn:hover{transform:translateY(-1px)}
-.fm .msg{font-size:.65rem;text-align:center;display:none;margin-top:4px}
+/* Form */
+.fm{border-top:1px solid rgba(255,255,255,.02);padding-top:16px;margin-bottom:16px}
+.fm h2{font-size:15px;font-weight:400;color:#e8e4dc;letter-spacing:2px;margin-bottom:2px}
+.fm .fs{font-size:11px;color:rgba(255,255,255,.08);margin-bottom:12px}
+.fm .row{margin-bottom:6px}
+.fm input,.fm select,.fm textarea{width:100%;padding:8px 12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:6px;color:#e8e4dc;font-size:13px;font-weight:300;outline:none;font-family:inherit}
+.fm input:focus,.fm select:focus,.fm textarea:focus{border-color:rgba(210,180,100,.12)}
+.fm select option{background:#0a0a0f;color:#e8e4dc}
+.fm textarea{resize:vertical;min-height:50px}
+.fm .gr2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px}
+.fm .btn{width:100%;padding:8px;border-radius:6px;border:none;background:#d2b464;color:#0a0a0f;font-size:13px;font-weight:500;cursor:pointer;letter-spacing:2px;transition:all .1s;font-family:inherit}
+.fm .btn:hover{background:#c8a84c}
+.fm .msg{font-size:12px;text-align:center;display:none;margin-top:6px}
 .fm .msg.ok{display:block;color:#51cf66}
 .fm .msg.er{display:block;color:#ff6b6b}
 
-/* ===== Footer ===== */
-.ft{text-align:center;font-size:.48rem;color:rgba(255,255,255,.03);padding:16px 0 4px;line-height:1.2}
-.ft a{color:rgba(255,255,255,.04);cursor:pointer;text-decoration:none}
-.ft a:hover{color:rgba(255,255,255,.1)}
+/* Footer */
+.ft{text-align:center;font-size:10px;color:rgba(255,255,255,.03);padding:20px 0;letter-spacing:1px}
 
 /* ===== ADMIN MODAL ===== */
-#am{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);z-index:100;justify-content:center;align-items:center}
+#am{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:100;justify-content:center;align-items:center}
 #am.s{display:flex}
-#ab{background:linear-gradient(180deg,#0c1530,#080c1a);border:1px solid rgba(255,255,255,.04);border-radius:10px;padding:20px;width:260px;text-align:center}
-#ab h2{font-size:.8rem;margin-bottom:2px}
-#ab .sub{font-size:.5rem;color:rgba(255,255,255,.12);margin-bottom:10px}
-#ab input{width:100%;padding:6px 10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255:.04);border-radius:4px;color:#fff;font-size:.68rem;outline:none;margin-bottom:5px}
-#ab input:focus{border-color:rgba(212,160,64,.1)}
-#ab button{width:100%;padding:6px;border-radius:4px;border:none;background:linear-gradient(135deg,#e8d080,#d4a040);color:#080c1a;font-size:.65rem;font-weight:700;cursor:pointer}
-#ab .er{color:#ff6b6b;font-size:.5rem;margin-top:3px;display:none}
-#ab .cl{font-size:.48rem;color:rgba(255,255,255,.06);margin-top:5px;cursor:pointer}
+#ab{background:#0a0a0f;border:1px solid rgba(255,255,255,.04);border-radius:8px;padding:24px;width:280px;text-align:center}
+#ab h2{font-size:16px;font-weight:300;color:#e8e4dc;letter-spacing:4px;margin-bottom:2px}
+#ab .sub{font-size:11px;color:rgba(255,255,255,.08);margin-bottom:14px}
+#ab input{width:100%;padding:7px 10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:4px;color:#e8e4dc;font-size:13px;font-weight:300;outline:none;margin-bottom:6px;font-family:inherit}
+#ab input:focus{border-color:rgba(210,180,100,.1)}
+#ab button{width:100%;padding:7px;border-radius:4px;border:none;background:#d2b464;color:#0a0a0f;font-size:12px;font-weight:500;cursor:pointer;letter-spacing:2px}
+#ab .er{color:#ff6b6b;font-size:11px;margin-top:3px;display:none}
+#ab .cl{font-size:10px;color:rgba(255,255,255,.04);margin-top:6px;cursor:pointer}
 
 /* ===== ADMIN DASHBOARD ===== */
 #ad{display:none}
-.ad-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.ad-h h2{font-size:.75rem;font-weight:700}
-.ad-h .ex{font-size:.48rem;color:rgba(255,255,255,.08);cursor:pointer}
-.ad-c{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:6px}
-.ad-ci{background:rgba(255,255,255,.004);border:1px solid rgba(255,255,255:.01);border-radius:5px;padding:5px;text-align:center}
-.ad-ci .n{font-size:.85rem;font-weight:800;color:#d4a040}
+.ad-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.ad-h h2{font-size:16px;font-weight:300;color:#e8e4dc;letter-spacing:3px}
+.ad-h .ex{font-size:10px;color:rgba(255,255,255,.06);cursor:pointer;letter-spacing:1px}
+.ad-h .ex:hover{color:#ff6b6b}
+.ad-c{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:8px}
+.ad-ci{background:rgba(255,255,255,.005);border:1px solid rgba(255,255,255,.01);border-radius:6px;padding:8px;text-align:center}
+.ad-ci .n{font-size:18px;font-weight:300;color:#d2b464}
 .ad-ci .n.gr{color:#51cf66}
-.ad-ci .l{font-size:.4rem;color:rgba(255,255,255:.08);margin-top:1px}
-.ad-t{background:rgba(255,255,255:.004);border:1px solid rgba(255,255,255:.01);border-radius:5px;padding:6px}
-.ad-t .h{font-size:.5rem;font-weight:600;margin-bottom:3px;display:flex;justify-content:space-between}
-.ad-t .h .csv{font-size:.42rem;background:rgba(212,160,64,.04);border:1px solid rgba(212,160,64,.05);color:#d4a040;padding:1px 6px;border-radius:3px;cursor:pointer}
-.tb{width:100%;border-collapse:collapse;font-size:.5rem}
-.tb th{padding:3px 4px;text-align:left;color:rgba(255,255,255,.1);font-weight:400;border-bottom:1px solid rgba(255,255,255:.01)}
-.tb td{padding:3px 4px;border-bottom:1px solid rgba(255,255,255:.004)}
-.empty{text-align:center;padding:12px;color:rgba(255,255,255:.04);font-size:.5rem}
+.ad-ci .l{font-size:9px;color:rgba(255,255,255,.06);margin-top:2px;letter-spacing:1px}
+.ad-t{background:rgba(255,255,255,.005);border:1px solid rgba(255,255,255,.01);border-radius:6px;padding:8px}
+.ad-t .h{font-size:11px;font-weight:400;color:rgba(255,255,255,.1);margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
+.ad-t .h .csv{font-size:9px;color:rgba(210,180,100,.3);cursor:pointer;letter-spacing:1px}
+.ad-t .h .csv:hover{color:rgba(210,180,100,.5)}
+.tb{width:100%;border-collapse:collapse;font-size:11px;font-weight:300}
+.tb th{padding:4px 6px;text-align:left;color:rgba(255,255,255,.06);font-weight:400;border-bottom:1px solid rgba(255,255,255,.01);letter-spacing:1px}
+.tb td{padding:4px 6px;border-bottom:1px solid rgba(255,255,255,.005)}
+.ad-em{text-align:center;padding:16px;color:rgba(255,255,255:.03);font-size:11px}
 
 @media(max-width:640px){
-  .ss{grid-template-columns:repeat(2,1fr)}
-  .d7{grid-template-columns:repeat(4,1fr)}
-  .d7 .di:nth-child(n+5){display:none}
-  .fm .gr{grid-template-columns:1fr}
+  .w{padding:14px}
+  .hero .pct{font-size:48px}
+  .dg{grid-template-columns:repeat(2,1fr)}
+  .wk{grid-template-columns:repeat(4,1fr)}
+  .wk .wi:nth-child(n+5){display:none}
+  .fm .gr2{grid-template-columns:1fr}
   .ad-c{grid-template-columns:repeat(2,1fr)}
-  .pc .num{font-size:2.5rem}
 }
 </style>
 </head>
@@ -123,69 +116,60 @@ body{
 
 <div class="w">
 
-<!-- Top -->
-<div class="top">
-  <span class="nm">✦ 梅里雪山</span>
-  <a class="lnk" onclick="showLogin()">⚙️</a>
-</div>
-
-<!-- Hero -->
-<div class="hero">
-  <div class="icon">🏔️</div>
-  <h1>日照金山预测</h1>
-  <p>卡瓦格博峰 · 飞来寺</p>
+<!-- Header -->
+<div class="hd">
+  <span class="tag">✦ Meili</span>
+  <a class="admin" onclick="showLogin()">⚙︎ 管理</a>
+  <h1>日照金山</h1>
+  <div class="sub">M E I L I · S N O W · M O U N T A I N</div>
 </div>
 
 <!-- Prediction -->
-<div class="pc" id="predBox">
-  <div id="predLoading" style="font-size:.6rem;color:rgba(255,255,255,.08);padding:10px">加载中…</div>
-  <div id="predContent" style="display:none">
-    <div class="num" id="predNum">--</div>
+<div class="hero" id="heroBox">
+  <div style="font-size:11px;color:rgba(255,255,255,.06);letter-spacing:2px" id="loadText">装载中</div>
+  <div id="heroContent" style="display:none">
+    <div class="pct"><span id="pctNum">--</span><span>%</span></div>
     <div class="lbl">今日日照金山概率</div>
-    <div class="badge" id="predBadge">--</div>
+    <div class="status" id="statusBadge">--</div>
   </div>
 </div>
 
-<!-- Stats -->
-<div class="ss" id="statsBox"></div>
+<!-- Data Grid -->
+<div class="dg" id="dataGrid"></div>
 
-<!-- 7-Day -->
-<div class="st">未来7天</div>
-<div class="d7" id="d7Box"></div>
+<!-- Weekly -->
+<div class="st">未来七日</div>
+<div class="wk" id="weekGrid"></div>
 
 <!-- Form -->
 <div class="fm">
-  <h3>📋 预约观赏提醒</h3>
+  <h2>预约提醒</h2>
   <div class="fs">提前一天通知最佳观赏时间</div>
-  <div class="gr">
-    <input id="inpName" placeholder="你的称呼 *">
-    <input id="inpContact" placeholder="手机 / 微信 *">
+  <div class="gr2">
+    <input id="inpName" placeholder="称呼">
+    <input id="inpContact" placeholder="手机 / 微信">
   </div>
-  <div class="gr">
+  <div class="gr2">
     <select id="inpDate">
       <option value="">计划日期</option>
-      <option value="明天">明天</option><option value="后天">后天</option>
-      <option value="这周末">这周末</option><option value="下周">下周</option>
+      <option>明天</option><option>后天</option><option>这周末</option><option>下周</option>
     </select>
-    <textarea id="inpNote" placeholder="备注（选填）" style="margin:0"></textarea>
+    <textarea id="inpNote" placeholder="备注（选填）" style="margin:0;height:50px"></textarea>
   </div>
-  <button class="btn" onclick="subForm()">提交预约</button>
+  <button class="btn" onclick="subForm()">预约</button>
   <div class="msg" id="fMsg"></div>
 </div>
 
 <!-- Footer -->
-<div class="ft">
-  <div>数据 © Open-Meteo · 抖音/小红书 @梅里天气学长</div>
+<div class="ft">梅里雪山 · 卡瓦格博</div>
 </div>
-
-</div><!-- /.w -->
 
 <!-- ADMIN LOGIN -->
 <div id="am">
   <div id="ab">
-    <h2>🔐 管理后台</h2>
-    <div class="sub">梅里雪山 · 日照金山预测</div>
-    <input type="password" id="pwd" placeholder="密码">
+    <h2>管理后台</h2>
+    <div class="sub">梅里雪山 · 日照金山</div>
+    <input type="password" id="pwd" placeholder="密码" onkeydown="if(event.key==='Enter')login()">
     <button onclick="login()">登录</button>
     <div class="er" id="loginEr">密码错误</div>
     <div class="cl" onclick="closeLogin()">✕</div>
@@ -195,10 +179,7 @@ body{
 <!-- ADMIN DASHBOARD -->
 <div id="ad">
   <div class="w">
-    <div class="ad-h">
-      <h2>📊 管理后台</h2>
-      <span class="ex" onclick="logout()">退出</span>
-    </div>
+    <div class="ad-h"><h2>管理后台</h2><span class="ex" onclick="logout()">退出</span></div>
     <div class="ad-c">
       <div class="ad-ci"><div class="n" id="s1">-</div><div class="l">总访问</div></div>
       <div class="ad-ci"><div class="n gr" id="s2">-</div><div class="l">今日</div></div>
@@ -206,23 +187,16 @@ body{
       <div class="ad-ci"><div class="n gr" id="s4">-</div><div class="l">留资</div></div>
     </div>
     <div class="ad-t">
-      <div class="h"><span>📋 客户咨询</span><span class="csv" onclick="expCSV()">导出CSV</span></div>
+      <div class="h"><span>客户咨询</span><span class="csv" onclick="expCSV()">导出 CSV</span></div>
       <div id="adT"></div>
     </div>
   </div>
 </div>
 
 <script>
-var ADMIN_PWD = 'meili2024';
-
-// Data
-function gd(){
-  try{return JSON.parse(localStorage.getItem('_md')||'{"v":0,"d":{},"q":[]}')}catch(e){}
-  return {v:0,d:{},q:[]}
-}
-function sd(d){
-  try{localStorage.setItem('_md',JSON.stringify(d))}catch(e){}
-}
+const PWD = 'meili2024';
+function gd(){try{return JSON.parse(localStorage.getItem('_md')||'{"v":0,"d":{},"q":[]}')}catch(e){}return{v:0,d:{},q:[]}}
+function sd(v){try{localStorage.setItem('_md',JSON.stringify(v))}catch(e){}}
 
 // Track visit
 (function(){var d=gd();d.v++;var t=new Date().toISOString().slice(0,10);d.d[t]=(d.d[t]||0)+1;sd(d)})();
@@ -231,99 +205,83 @@ function sd(d){
 function showLogin(){document.getElementById('am').classList.add('s')}
 function closeLogin(){document.getElementById('am').classList.remove('s')}
 function login(){
-  if(document.getElementById('pwd').value===ADMIN_PWD){
-    closeLogin();document.getElementById('ad').style.display='block';
-    sessionStorage.setItem('_aa','1');renderAd();
+  if(document.getElementById('pwd').value===PWD){
+    closeLogin();document.getElementById('ad').style.display='block';sessionStorage.setItem('_aa','1');rAd()
   }else{
-    document.getElementById('loginEr').style.display='block';
-    setTimeout(function(){document.getElementById('loginEr').style.display='none'},1200);
+    document.getElementById('loginEr').style.display='block';setTimeout(function(){document.getElementById('loginEr').style.display='none'},1200)
   }
 }
-(function(){if(sessionStorage.getItem('_aa')==='1'){document.getElementById('ad').style.display='block';renderAd()}})();
+(function(){if(sessionStorage.getItem('_aa')==='1'){document.getElementById('ad').style.display='block';rAd()}})();
 function logout(){sessionStorage.removeItem('_aa');document.getElementById('ad').style.display='none'}
-function renderAd(){
+
+function rAd(){
   var d=gd();document.getElementById('s1').textContent=d.v;
-  var t=new Date().toISOString().slice(0,10);document.getElementById('s2').textContent=d.d[t]||0;
+  document.getElementById('s2').textContent=d.d[new Date().toISOString().slice(0,10)]||0;
   document.getElementById('s3').textContent=d.q.length;document.getElementById('s4').textContent=d.q.length;
   var tb=document.getElementById('adT');
-  if(!d.q.length){tb.innerHTML='<div class="empty">暂无咨询</div>';return}
-  var h='<table class="tb"><thead><tr><th>时间</th><th>称呼</th><th>联系方式</th><th>计划</th><th>备注</th></tr></thead><tbody>';
+  if(!d.q.length){tb.innerHTML='<div class="ad-em">暂无客户咨询</div>';return}
+  var h='<table class="tb"><thead><tr><th>时间</th><th>称呼</th><th>联系</th><th>日期</th><th>备注</th></tr></thead><tbody>';
   for(var i=d.q.length-1;i>=0;i--){var q=d.q[i];h+='<tr><td>'+q.t+'</td><td>'+q.n+'</td><td>'+q.c+'</td><td>'+(q.p||'-')+'</td><td>'+(q.o||'-')+'</td></tr>'}
   h+='</tbody></table>';tb.innerHTML=h;
 }
+
 function expCSV(){
-  var d=gd(),rows=[["时间","称呼","联系方式","计划","备注"]];
+  var d=gd(),rows=[["时间","称呼","联系","日期","备注"]];
   for(var i=0;i<d.q.length;i++){var q=d.q[i];rows.push([q.t,q.n,q.c,q.p||'',q.o||''])}
   var csv=rows.map(function(r){return r.map(function(c){return'"'+(c||'').replace(/"/g,'""')+'"'}).join(',')}).join('\n');
-  var b=new Blob(['\ufeff'+csv],{type:'text/csv;charset:utf-8;'});var a=document.createElement('a');
+  var b=new Blob(['\ufeff'+csv],{type:'text/csv'});var a=document.createElement('a');
   a.href=URL.createObjectURL(b);a.download='客户_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
 }
 
-// Form
 function subForm(){
   var n=document.getElementById('inpName').value.trim(),c=document.getElementById('inpContact').value.trim(),m=document.getElementById('fMsg');
   if(!n||!c){m.innerHTML='请填写称呼和联系方式';m.className='msg er';return}
-  var d=gd();d.q.push({t:new Date().toLocaleString('zh-CN').slice(5,16),n:n,c:c,
-    p:document.getElementById('inpDate').value,o:document.getElementById('inpNote').value.trim()});sd(d);
-  m.innerHTML='✅ 已收到，我们会提前通知你';m.className='msg ok';
+  var d=gd();d.q.push({t:new Date().toLocaleString('zh-CN').slice(5,16),n:n,c:c,p:document.getElementById('inpDate').value,o:document.getElementById('inpNote').value.trim()});sd(d);
+  m.innerHTML='已收到，我们会提前通知您';m.className='msg ok';
   document.getElementById('inpName').value='';document.getElementById('inpContact').value='';
   document.getElementById('inpDate').value='';document.getElementById('inpNote').value='';
-  if(document.getElementById('ad').style.display==='block')renderAd();
+  if(document.getElementById('ad').style.display==='block')rAd();
 }
 
 // Weather
-var WM = {0:'晴',1:'大部晴',2:'多云',3:'阴',45:'雾',51:'小雨',53:'毛毛雨',55:'中雨',61:'小雨',63:'中雨',65:'大雨',71:'小雪',73:'中雪',75:'大雪',80:'阵雨',81:'中阵雨',82:'大阵雨',95:'雷暴'};
-var WI = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌦️',63:'🌧️',65:'🌧️',71:'🌨️',73:'❄️',75:'❄️',80:'🌦️',81:'🌧️',82:'🌧️',95:'⛈️'};
-
+var WM={0:'晴',1:'大部晴',2:'多云',3:'阴',45:'雾',61:'小雨',63:'中雨',65:'大雨',71:'小雪',73:'中雪',75:'大雪',80:'阵雨',95:'雷暴'};
+var WI={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',61:'🌦️',63:'🌧️',65:'🌧️',71:'🌨️',73:'❄️',75:'❄️',80:'🌦️',95:'⛈️'};
 (async function(){
   try{
-    var p=new URLSearchParams({latitude:28.45,longitude:98.78,
-      current:'temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,cloud_cover,wind_speed_10m,pressure_msl',
-      daily:'sunrise,sunset,weather_code,temperature_2m_max,temperature_2m_min',
-      timezone:'Asia/Shanghai',forecast_days:'7'});
-    var r=await fetch('https://api.open-meteo.com/v1/forecast?'+p);
-    if(!r.ok)throw Error();var w=await r.json();var c=w.current;
+    var p=new URLSearchParams({latitude:28.45,longitude:98.78,current:'temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,cloud_cover,wind_speed_10m',daily:'sunrise,sunset,weather_code,temperature_2m_max,temperature_2m_min',timezone:'Asia/Shanghai',forecast_days:'7'});
+    var r=await fetch('https://api.open-meteo.com/v1/forecast?'+p);if(!r.ok)throw Error();
+    var w=await r.json();var c=w.current;
     var cc=c.cloud_cover,wc=c.weather_code,hu=c.relative_humidity_2m;
-    var cs=cc<=10?100:cc<=20?90:cc<=30?70:cc<=50?40:20;
-    var ws=wc===0?100:wc===1?90:wc===2?55:30;
-    var hs=hu<=30?100:hu<=50?85:hu<=65?65:40;
-    var sc=Math.round(cs*.35+ws*.25+hs*.2+20);
+    var sc=Math.round((cc<=10?100:cc<=20?90:cc<=30?70:cc<=50?40:20)*.35+(wc===0?100:wc===1?90:wc===2?55:30)*.25+(hu<=30?100:hu<=50?85:hu<=65?65:40)*.2+20);
     
-    document.getElementById('predLoading').style.display='none';
-    document.getElementById('predContent').style.display='block';
-    var num=document.getElementById('predNum');
-    num.textContent=sc+'%';
-    num.className='num '+(sc>=80?'gold':sc>=60?'green':sc>=40?'yellow':'gray');
-    var bg=document.getElementById('predBadge');
-    var bt=sc>=80?'🌟 极佳':sc>=60?'👍 良好':sc>=40?'🤞 一般':'😢 较低';
-    bg.textContent=bt;
-    bg.className='badge '+(sc>=80?'gold':sc>=60?'green':sc>=40?'yellow':'gray');
+    document.getElementById('loadText').style.display='none';
+    document.getElementById('heroContent').style.display='block';
+    document.getElementById('pctNum').textContent=sc;
+    var sb=document.getElementById('statusBadge');
+    sb.textContent=sc>=80?'🌟极佳':sc>=60?'👍良好':sc>=40?'🤞一般':'😢较低';
+    sb.className='status '+(sc>=80?'gold':sc>=60?'green':'gray');
     
-    document.getElementById('statsBox').innerHTML=
-      '<div class="si"><div class="v">'+c.temperature_2m.toFixed(0)+'°</div><div class="l">气温</div></div>'+
-      '<div class="si"><div class="v">'+cc.toFixed(0)+'%</div><div class="l">云量</div></div>'+
-      '<div class="si"><div class="v">'+c.wind_speed_10m.toFixed(1)+'</div><div class="l">风速</div></div>'+
-      '<div class="si"><div class="v">'+(WM[wc]||'晴')+'</div><div class="l">天气</div></div>'+
-      '<div class="si"><div class="v">'+c.relative_humidity_2m.toFixed(0)+'%</div><div class="l">湿度</div></div>'+
-      '<div class="si"><div class="v">'+c.precipitation.toFixed(1)+'mm</div><div class="l">降水</div></div>'+
-      '<div class="si"><div class="v">'+w.daily.sunrise[0].slice(11,16)+'</div><div class="l">日出</div></div>'+
-      '<div class="si"><div class="v">'+w.daily.sunset[0].slice(11,16)+'</div><div class="l">日落</div></div>';
+    document.getElementById('dataGrid').innerHTML=
+      '<div class="di"><div class="v">'+c.temperature_2m.toFixed(0)+'°</div><div class="l">气温</div></div>'+
+      '<div class="di"><div class="v">'+(WM[wc]||'晴')+'</div><div class="l">天气</div></div>'+
+      '<div class="di"><div class="v">'+cc.toFixed(0)+'%</div><div class="l">云量</div></div>'+
+      '<div class="di"><div class="v">'+c.relative_humidity_2m.toFixed(0)+'%</div><div class="l">湿度</div></div>'+
+      '<div class="di"><div class="v">'+c.wind_speed_10m.toFixed(1)+'</div><div class="l">风速</div></div>'+
+      '<div class="di"><div class="v">'+c.precipitation.toFixed(1)+'mm</div><div class="l">降水</div></div>'+
+      '<div class="di"><div class="v">'+w.daily.sunrise[0].slice(11,16)+'</div><div class="l">日出</div></div>'+
+      '<div class="di"><div class="v">'+w.daily.sunset[0].slice(11,16)+'</div><div class="l">日落</div></div>';
     
-    var d7=document.getElementById('d7Box');d7.innerHTML='';
-    var wd=['日','一','二','三','四','五','六'];
+    var wk=document.getElementById('weekGrid');wk.innerHTML='';
     for(var i=0;i<Math.min(7,w.daily.time.length);i++){
-      var d=new Date(w.daily.time[i]);var dd=document.createElement('div');dd.className='di';
-      cs2=w.daily.weather_code[i]<=1?100:w.daily.weather_code[i]===2?55:30;
-      sc2=Math.round(cs2*.35+25+20);
-      dd.innerHTML='<div class="dt">'+(i===0?'今天':i===1?'明天':w.daily.time[i].slice(5))+'</div>'+
-        '<div class="dc">'+(WI[w.daily.weather_code[i]]||'☀️')+'</div>'+
-        '<div class="ds" style="color:'+(sc2>=80?'#d4a040':sc2>=60?'#51cf66':'#ffd43b')+'">'+sc2+'%</div>'+
-        '<div class="dd">'+w.daily.temperature_2m_min[i].toFixed(0)+'°/'+w.daily.temperature_2m_max[i].toFixed(0)+'°</div>';
-      d7.appendChild(dd);
+      var s2=Math.round((w.daily.weather_code[i]<=1?100:w.daily.weather_code[i]===2?55:30)*.35+25+20);
+      var el=document.createElement('div');el.className='wi';
+      el.innerHTML='<div class="d">'+(i===0?'今天':i===1?'明天':w.daily.time[i].slice(5))+'</div>'+
+        '<div class="ic">'+(WI[w.daily.weather_code[i]]||'☀️')+'</div>'+
+        '<div class="n" style="color:'+(s2>=80?'#d2b464':s2>=60?'#51cf66':'#868e96')+'">'+s2+'%</div>'+
+        '<div class="t">'+w.daily.temperature_2m_min[i].toFixed(0)+'°/'+w.daily.temperature_2m_max[i].toFixed(0)+'°</div>';
+      wk.appendChild(el);
     }
-  }catch(e){
-    document.getElementById('predLoading').textContent='⚠️ 数据加载失败';
-  }
+  }catch(e){document.getElementById('loadText').textContent='数据加载失败，请刷新'}
 })();
 </script>
 </body>
