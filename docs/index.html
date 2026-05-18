@@ -3,1044 +3,864 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>梅里雪山·日照金山预测系统</title>
+<title>梅里雪山·日照金山 | 智能预测系统 Pro</title>
 <style>
 /* ===== Reset & Base ===== */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px;scroll-behavior:smooth}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  background:linear-gradient(180deg,#0a0e27 0%,#141b3d 30%,#1a2350 60%,#2a1f3d 100%);
-  color:#e0e6f0;min-height:100vh;line-height:1.6;
-  background-attachment:fixed;
+  background:linear-gradient(180deg,#060a1f 0%,#0e1538 25%,#151f4a 50%,#1c1840 75%,#120e28 100%);
+  color:#dce3f0;min-height:100vh;line-height:1.6;background-attachment:fixed;
+  position:relative;
 }
-
-/* ===== Scrollbar ===== */
-::-webkit-scrollbar{width:6px}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 50% 0%, rgba(212,160,23,.04) 0%, transparent 60%);pointer-events:none;z-index:0}
+/* subtle star twinkle */
+@keyframes twinkle{0%,100%{opacity:.3}50%{opacity:.6}}
+.stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:twinkle 3s infinite}
+::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:rgba(212,160,23,.3);border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:rgba(212,160,23,.5)}
+::-webkit-scrollbar-thumb{background:rgba(212,160,23,.25);border-radius:3px}
 
 /* ===== Layout ===== */
-.container{max-width:1200px;margin:0 auto;padding:16px 20px 40px}
+.container{max-width:1240px;margin:0 auto;padding:14px 16px 40px;position:relative;z-index:1}
 
 /* ===== Header ===== */
-.header{text-align:center;padding:30px 0 10px;position:relative}
-.header::after{content:'🏔️';position:absolute;top:-5px;right:20px;font-size:2rem;opacity:.3}
+.header{text-align:center;padding:24px 0 6px}
 .header h1{
   font-size:2rem;font-weight:800;
-  background:linear-gradient(135deg,#FFD700 0%,#FFA500 40%,#FF6347 70%,#FFD700 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;letter-spacing:2px;text-shadow:none;
+  background:linear-gradient(135deg,#FFD700 0%,#FFA500 35%,#FF6B35 65%,#FFD700 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  letter-spacing:3px;
 }
-.header .subtitle{font-size:.9rem;color:rgba(255,255,255,.5);margin-top:4px;letter-spacing:4px}
-.header .location{font-size:.85rem;color:rgba(255,215,0,.6);margin-top:2px}
-.header .update-time{font-size:.75rem;color:rgba(255,255,255,.3);margin-top:6px}
+.header .subtitle{font-size:.85rem;color:rgba(255,255,255,.35);margin-top:2px;letter-spacing:5px}
+.header .location-info{font-size:.75rem;color:rgba(255,215,0,.4);margin-top:2px;letter-spacing:1px}
+.header .update-time{font-size:.7rem;color:rgba(255,255,255,.2);margin-top:6px}
 
-/* ===== Mountain Decoration ===== */
-.mountain-divider{
-  text-align:center;font-size:1.2rem;letter-spacing:8px;
-  color:rgba(255,215,0,.08);margin:4px 0 20px;
-  user-select:none;
-}
+/* ===== Badge ===== */
+.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.68rem;font-weight:600}
 
-/* ===== Main Card ===== */
+/* ===== Card ===== */
 .card{
-  background:rgba(255,255,255,.04);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:16px;padding:24px;
-  margin-bottom:16px;transition:all .3s;
+  background:rgba(255,255,255,.03);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:20px;
+  margin-bottom:14px;transition:all .25s;
 }
-.card:hover{border-color:rgba(255,215,0,.15);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.card:hover{border-color:rgba(255,215,0,.12)}
 
-/* ===== Prediction Hero ===== */
+/* ===== Hero: Best Day Recommendation ===== */
+.best-day-hero{
+  background:linear-gradient(135deg,rgba(212,160,23,.08) 0%,rgba(255,107,53,.04) 100%);
+  border:1px solid rgba(255,215,0,.15);
+  border-radius:16px;padding:20px 24px;margin-bottom:14px;
+  display:flex;flex-wrap:wrap;align-items:center;gap:16px;
+}
+.best-day-hero .rank-badge{
+  background:linear-gradient(135deg,#FFD700,#FFA500);color:#1a1a2e;
+  font-weight:800;font-size:.75rem;padding:4px 14px;border-radius:20px;
+  display:inline-block;letter-spacing:1px;
+}
+.best-day-hero .label{font-size:.8rem;color:rgba(255,255,255,.4)}
+.best-day-hero .day-text{font-size:1.3rem;font-weight:700;color:#FFD700}
+.best-day-hero .detail{font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.6;flex:1;min-width:200px}
+.best-day-hero .score-big{font-size:2.6rem;font-weight:800}
+.best-day-hero .stars{font-size:1.1rem;letter-spacing:2px;margin-top:2px}
+
+/* ===== Prediction Ring (smaller) ===== */
 .prediction-hero{
-  display:flex;flex-wrap:wrap;gap:20px;align-items:center;
-  justify-content:center;padding:10px 0;
+  display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:4px 0;
 }
-.prediction-ring{position:relative;width:140px;height:140px;flex-shrink:0}
-.prediction-ring svg{transform:rotate(-90deg);width:140px;height:140px}
-.prediction-ring .bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:6}
-.prediction-ring .fg{
-  fill:none;stroke-width:6;stroke-linecap:round;
-  transition:stroke-dashoffset 1s ease,stroke .5s;
-}
-.prediction-ring .center-text{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  text-align:center;
-}
-.prediction-ring .center-text .value{font-size:2.4rem;font-weight:800;line-height:1}
-.prediction-ring .center-text .label{font-size:.7rem;color:rgba(255,255,255,.5);margin-top:2px}
-.prediction-info{flex:1;min-width:200px}
-.prediction-info .level{
-  font-size:1.5rem;font-weight:700;margin-bottom:4px;
-}
-.prediction-info .desc{font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.7}
-.prediction-info .badge{
-  display:inline-block;padding:4px 12px;border-radius:20px;
-  font-size:.75rem;font-weight:600;margin-top:8px;
-}
+.prediction-ring{position:relative;width:120px;height:120px;flex-shrink:0}
+.prediction-ring svg{transform:rotate(-90deg);width:120px;height:120px}
+.prediction-ring .bg{fill:none;stroke:rgba(255,255,255,.05);stroke-width:5}
+.prediction-ring .fg{fill:none;stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset 1s ease,stroke .5s}
+.prediction-ring .center-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.prediction-ring .center-text .value{font-size:2rem;font-weight:800;line-height:1}
+.prediction-ring .center-text .label{font-size:.65rem;color:rgba(255,255,255,.4);margin-top:1px}
+.prediction-info{flex:1;min-width:180px}
+.prediction-info .level{font-size:1.3rem;font-weight:700}
+.prediction-info .time-info{font-size:.82rem;color:rgba(255,255,255,.55);margin-top:2px;line-height:1.6}
+.prediction-info .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.prediction-info .tag{padding:2px 10px;border-radius:12px;font-size:.7rem;font-weight:500}
 
 /* ===== Countdown ===== */
-.countdown-bar{
-  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
-  margin:10px 0 6px;
-}
-.countdown-item{text-align:center;min-width:56px}
+.countdown-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:6px 0}
+.countdown-item{text-align:center;min-width:48px}
 .countdown-item .num{
-  font-size:1.6rem;font-weight:700;
-  background:rgba(255,215,0,.1);border-radius:8px;
-  padding:4px 10px;min-width:44px;display:inline-block;
+  font-size:1.3rem;font-weight:700;background:rgba(255,215,0,.08);
+  border-radius:6px;padding:3px 8px;min-width:38px;display:inline-block;
+  font-variant-numeric:tabular-nums;
 }
-.countdown-item .lbl{font-size:.65rem;color:rgba(255,255,255,.4);margin-top:2px}
+.countdown-item .lbl{font-size:.6rem;color:rgba(255,255,255,.35);margin-top:2px}
 
-/* ===== Status Grid ===== */
-.status-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:14px}
-.status-item{
-  background:rgba(255,255,255,.03);border-radius:10px;padding:10px 12px;text-align:center;
+/* ===== Mode toggle ===== */
+.mode-toggle{display:flex;gap:6px;justify-content:center;margin:8px 0 14px}
+.mode-btn{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  color:rgba(255,255,255,.4);padding:5px 16px;border-radius:18px;
+  cursor:pointer;font-size:.8rem;transition:all .2s;
 }
-.status-item .icon{font-size:1.3rem}
-.status-item .val{font-size:1rem;font-weight:600;margin-top:4px}
-.status-item .lbl{font-size:.7rem;color:rgba(255,255,255,.4);margin-top:2px}
+.mode-btn.active{background:rgba(255,215,0,.1);border-color:#FFD700;color:#FFD700;font-weight:600}
+.mode-btn:hover{background:rgba(255,255,255,.06)}
 
 /* ===== Section Title ===== */
-.section-title{
-  font-size:1.1rem;font-weight:700;margin:18px 0 10px;
+.sec-title{
+  font-size:1rem;font-weight:700;margin:16px 0 10px;
   display:flex;align-items:center;gap:8px;
 }
-.section-title .dot{
-  width:6px;height:6px;border-radius:50%;background:#FFD700;
-  display:inline-block;
-}
+.sec-title .deco{width:4px;height:16px;border-radius:2px;background:linear-gradient(180deg,#FFD700,#FF6B35);display:inline-block}
 
-/* ===== 7-Day Forecast ===== */
-.forecast-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:8px}
-.forecast-day{
+/* ===== 7-Day Forecast Cards ===== */
+.days-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.day-card{
   background:rgba(255,255,255,.03);border-radius:12px;padding:12px;
-  text-align:center;transition:all .2s;
+  text-align:center;transition:all .2s;position:relative;
+  border:1px solid transparent;
 }
-.forecast-day:hover{background:rgba(255,255,255,.07);transform:translateY(-2px)}
-.forecast-day .date{font-size:.75rem;color:rgba(255,255,255,.5)}
-.forecast-day .name{font-size:.85rem;font-weight:600;margin-top:2px}
-.forecast-day .weather-icon{font-size:1.6rem;margin:6px 0}
-.forecast-day .predict-val{font-size:1.3rem;font-weight:800}
-.forecast-day .predict-lbl{font-size:.65rem;margin-top:1px}
-.forecast-day .temps{font-size:.75rem;color:rgba(255,255,255,.4);margin-top:4px}
-
-/* ===== Factor Breakdown ===== */
-.factor-list{display:grid;grid-template-columns:1fr;gap:8px}
-.factor-row{
-  display:flex;align-items:center;gap:12px;
-  background:rgba(255,255,255,.02);border-radius:8px;padding:8px 14px;
+.day-card:hover{background:rgba(255,255,255,.06);transform:translateY(-2px)}
+.day-card.best{border-color:rgba(255,215,0,.25);background:rgba(255,215,0,.05)}
+.day-card.best::before{content:'🏆 推荐';position:absolute;top:-8px;right:-6px;
+  background:linear-gradient(135deg,#FFD700,#FFA500);color:#1a1a2e;
+  font-size:.6rem;font-weight:800;padding:2px 8px;border-radius:6px;
+  letter-spacing:.5px;box-shadow:0 2px 8px rgba(255,215,0,.3);
 }
-.factor-icon{font-size:1.2rem;width:32px}
-.factor-info{flex:1}
-.factor-info .name{font-size:.85rem;font-weight:500}
-.factor-info .detail{font-size:.72rem;color:rgba(255,255,255,.45)}
-.factor-bar-wrap{width:120px;flex-shrink:0}
-.factor-bar-bg{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
-.factor-bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
-.factor-score{font-size:.85rem;font-weight:600;width:36px;text-align:right;flex-shrink:0}
+.day-card.second-best::before{content:'👍 次选';position:absolute;top:-8px;right:-6px;
+  background:rgba(81,207,102,.2);color:#51cf66;
+  font-size:.6rem;font-weight:600;padding:2px 7px;border-radius:6px;
+}
+.day-card .date{font-size:.7rem;color:rgba(255,255,255,.45)}
+.day-card .dayname{font-size:.82rem;font-weight:600;margin-top:1px}
+.day-card .wicon{font-size:1.4rem;margin:4px 0}
+.day-card .score-big{font-size:1.5rem;font-weight:800}
+.day-card .stars{font-size:.8rem;margin:2px 0}
+.day-card .meta{font-size:.7rem;color:rgba(255,255,255,.4);margin-top:2px;line-height:1.6}
+.day-card .arrival{font-size:.65rem;color:rgba(255,215,0,.5);margin-top:1px}
+.day-card .cloud-bar{height:3px;border-radius:2px;margin:4px auto 0;max-width:80px;transition:width .3s}
+.day-card .temps{font-size:.7rem;color:rgba(255,255,255,.3);margin-top:3px}
 
-/* ===== AI Analysis ===== */
+/* ===== Trend Chart (CSS-based) ===== */
+.trend-wrap{overflow-x:auto;padding:6px 0 4px}
+.trend-chart{display:flex;gap:4px;min-width:max-content;align-items:flex-end;padding:0 4px;height:100px}
+.trend-bar{width:48px;border-radius:4px 4px 0 0;position:relative;transition:height .8s;min-height:4px;flex-shrink:0}
+.trend-bar .val{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:.72rem;font-weight:600;white-space:nowrap}
+.trend-bar .lbl{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:.62rem;color:rgba(255,255,255,.35);white-space:nowrap}
+.trend-bar.recommend::after{content:'⭐';position:absolute;top:-32px;left:50%;transform:translateX(-50%);font-size:.8rem}
+
+/* ===== Factors ===== */
+.factors-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:6px}
+.factor-item{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.02);border-radius:8px;padding:8px 12px;
+}
+.factor-item .fi{font-size:1.1rem;width:28px;text-align:center}
+.factor-item .fb{flex:1}
+.factor-item .fn{font-size:.78rem;font-weight:500}
+.factor-item .fd{font-size:.68rem;color:rgba(255,255,255,.4)}
+.factor-item .fbar{border-radius:3px;overflow:hidden;height:5px;background:rgba(255,255,255,.05);margin-top:3px}
+.factor-item .ffill{height:100%;border-radius:3px;transition:width 1s}
+.factor-item .fs{font-size:.8rem;font-weight:600;width:30px;text-align:right}
+
+/* ===== Analysis ===== */
 .analysis-box{
-  background:rgba(255,215,0,.02);border:1px solid rgba(255,215,0,.08);
-  border-radius:12px;padding:16px;line-height:1.8;font-size:.88rem;
-  min-height:100px;
+  background:rgba(255,215,0,.015);border:1px solid rgba(255,215,0,.06);
+  border-radius:10px;padding:14px;font-size:.85rem;line-height:1.8;
 }
-.analysis-box p{margin-bottom:8px}
-.analysis-box .highlight{color:#FFD700;font-weight:500}
-.analysis-box .bad-warn{color:#ff6b6b}
-.analysis-box .good{color:#51cf66}
-.analysis-box .mid{color:#ffd43b}
-.analysis-box .tag{
-  display:inline-block;padding:0 8px;border-radius:4px;
-  font-size:.75rem;font-weight:600;
-}
+.analysis-box p{margin-bottom:6px}
+.analysis-box .hl{color:#FFD700;font-weight:500}
+.analysis-box .warn{color:#ff6b6b}
+.analysis-box .ok{color:#51cf66}
 
-/* ===== Hourly Timeline ===== */
-.timeline-wrap{overflow-x:auto;padding-bottom:8px}
-.timeline{display:flex;gap:6px;min-width:max-content}
-.timeline-item{
-  text-align:center;padding:8px;border-radius:8px;
-  background:rgba(255,255,255,.02);min-width:60px;transition:all .2s;
+/* ===== Hourly cloud ===== */
+.timeline-wrap{overflow-x:auto;padding-bottom:4px}
+.timeline{display:flex;gap:4px;min-width:max-content}
+.tl-item{
+  text-align:center;padding:6px 4px;border-radius:6px;
+  background:rgba(255,255,255,.015);min-width:52px;
 }
-.timeline-item.sunrise-block{
-  background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.2);
-}
-.timeline-item .h{font-size:.72rem;color:rgba(255,255,255,.5)}
-.timeline-item .ic{font-size:1.1rem;margin:4px 0}
-.timeline-item .cc{font-size:.7rem;color:rgba(255,255,255,.4)}
-.timeline-item .bar{
-  width:24px;height:3px;margin:3px auto 0;border-radius:2px;
-}
+.tl-item.sr{border:1px solid rgba(255,215,0,.2);background:rgba(255,215,0,.06)}
+.tl-item .th{font-size:.65rem;color:rgba(255,255,255,.4)}
+.tl-item .tic{font-size:1rem}
+.tl-item .tcc{font-size:.65rem;color:rgba(255,255,255,.35)}
+.tl-dot{width:6px;height:6px;border-radius:50%;margin:2px auto 0}
 
-/* ===== Loading / Error ===== */
-.loading-spinner{display:inline-block;width:24px;height:24px;border:3px solid rgba(255,215,0,.1);border-top-color:#FFD700;border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{color:rgba(255,255,255,.4);font-size:.85rem;margin-left:8px}
-.error-msg{color:#ff6b6b;font-size:.85rem;padding:16px;text-align:center}
+/* ===== Summary table ===== */
+.summary-table{width:100%;border-collapse:collapse;font-size:.78rem}
+.summary-table th{padding:6px 8px;text-align:left;color:rgba(255,255,255,.4);font-weight:500;border-bottom:1px solid rgba(255,255,255,.06)}
+.summary-table td{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,.03)}
+.summary-table tr:hover{background:rgba(255,255,255,.02)}
+.summary-table .rec-badge{font-size:.6rem;padding:1px 6px;border-radius:4px;font-weight:700}
 
-/* ===== Time Picker Toggle ===== */
-.time-toggle{display:flex;gap:8px;justify-content:center;margin:10px 0 16px}
-.time-btn{
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
-  color:rgba(255,255,255,.5);padding:6px 18px;border-radius:20px;
-  cursor:pointer;font-size:.82rem;transition:all .2s;
+/* ===== Weather status ===== */
+.wx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+.wx-item{background:rgba(255,255,255,.02);border-radius:8px;padding:8px;text-align:center}
+.wx-item .wi{font-size:1.2rem}
+.wx-item .wv{font-size:.92rem;font-weight:600;margin-top:2px}
+.wx-item .wl{font-size:.65rem;color:rgba(255,255,255,.35);margin-top:1px}
+
+/* ===== Season ===== */
+.season-box{
+  background:rgba(255,215,0,.015);border:1px solid rgba(255,215,0,.05);
+  border-radius:10px;padding:12px 16px;font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.7
 }
-.time-btn.active{background:rgba(255,215,0,.12);border-color:#FFD700;color:#FFD700;font-weight:600}
-.time-btn:hover{background:rgba(255,255,255,.08)}
 
 /* ===== Footer ===== */
-.footer{text-align:center;font-size:.72rem;color:rgba(255,255,255,.2);padding:30px 0 10px;line-height:1.8}
-.footer a{color:rgba(255,215,0,.3);text-decoration:none}
-.footer a:hover{color:rgba(255,215,0,.6)}
+.footer{text-align:center;font-size:.68rem;color:rgba(255,255,255,.15);padding:24px 0 6px;line-height:1.8}
+.footer a{color:rgba(255,215,0,.25);text-decoration:none}
 
-/* Responsive */
+/* ===== Loading ===== */
+.spin{display:inline-block;width:20px;height:20px;border:2.5px solid rgba(212,160,23,.1);border-top-color:#FFD700;border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.loading{color:rgba(255,255,255,.35);font-size:.8rem;margin:10px auto;text-align:center}
+
+/* ===== Status badges ===== */
+.st-excellent{background:rgba(255,215,0,.15);color:#FFD700}
+.st-good{background:rgba(81,207,102,.15);color:#51cf66}
+.st-fair{background:rgba(255,212,59,.12);color:#ffd43b}
+.st-low{background:rgba(255,107,107,.12);color:#ff6b6b}
+
+/* ===== Responsive ===== */
 @media(max-width:640px){
-  .container{padding:12px 12px 30px}
-  .header h1{font-size:1.5rem}
-  .prediction-ring{width:110px;height:110px}
-  .prediction-ring svg{width:110px;height:110px}
-  .prediction-ring .center-text .value{font-size:2rem}
-  .prediction-info .level{font-size:1.2rem}
-  .status-grid{grid-template-columns:repeat(3,1fr)}
-  .forecast-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
-  .factor-bar-wrap{width:70px}
-  .countdown-item .num{font-size:1.2rem;padding:3px 8px}
-  .card{padding:16px}
-}
-@media(max-width:400px){
-  .status-grid{grid-template-columns:repeat(2,1fr)}
+  .container{padding:10px 10px 30px}
+  .header h1{font-size:1.4rem}
+  .best-day-hero{padding:14px 16px}
+  .best-day-hero .score-big{font-size:2rem}
+  .day-card{min-width:130px}
+  .days-grid{grid-template-columns:repeat(auto-fill,minmax(135px,1fr))}
+  .prediction-ring{width:100px;height:100px}
+  .prediction-ring svg{width:100px;height:100px}
+  .prediction-ring .center-text .value{font-size:1.6rem}
+  .factors-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
+<div class="stars"></div>
 
 <div class="container" id="app">
-  <!-- Header -->
+  <!-- ===== Header ===== -->
   <div class="header">
-    <h1>🏔️ 日照金山预测</h1>
+    <h1>🏔️ 日照金山 · 智能预测</h1>
     <div class="subtitle">梅里雪山 · 卡瓦格博峰</div>
-    <div class="location">📍 飞来寺观景台 · 海拔 3,400m</div>
-    <div class="update-time" id="updateTime">加载中…</div>
+    <div class="location-info">📍 飞来寺观景台 · 海拔 3,400m · 28.45°N 98.78°E</div>
+    <div class="update-time" id="updateTime">⏳ 加载中…</div>
   </div>
 
-  <div class="mountain-divider">△ △ △ △ △</div>
-
-  <!-- Time Toggle -->
-  <div class="time-toggle">
-    <button class="time-btn active" data-mode="sunrise" onclick="switchMode('sunrise')">🌅 日出 · 日照金山</button>
-    <button class="time-btn" data-mode="sunset" onclick="switchMode('sunset')">🌇 日落 · 晚霞金山</button>
+  <!-- ===== Mode Toggle ===== -->
+  <div class="mode-toggle">
+    <button class="mode-btn active" data-mode="sunrise" onclick="switchMode('sunrise')">🌅 日照金山（日出）</button>
+    <button class="mode-btn" data-mode="sunset" onclick="switchMode('sunset')">🌇 晚霞金山（日落）</button>
   </div>
 
-  <!-- Prediction Card -->
-  <div class="card" id="predictionCard">
+  <!-- ===== Best Day Recommendation ===== -->
+  <div class="best-day-hero" id="bestDayHero">
+    <div style="flex-shrink:0">
+      <div class="rank-badge">✦ 专家推荐</div>
+      <div class="label" style="margin-top:4px">最佳观赏日</div>
+    </div>
+    <div style="flex:1;min-width:180px">
+      <div class="day-text" id="bestDayText">加载中…</div>
+      <div class="detail" id="bestDayDetail"></div>
+    </div>
+    <div style="text-align:center">
+      <div class="score-big" id="bestDayScore" style="color:#FFD700">--%</div>
+      <div class="stars" id="bestDayStars"></div>
+    </div>
+  </div>
+
+  <!-- ===== Main Prediction Card ===== -->
+  <div class="card">
     <div class="prediction-hero">
       <div class="prediction-ring">
-        <svg viewBox="0 0 140 140">
-          <circle class="bg" cx="70" cy="70" r="60"/>
-          <circle class="fg" id="predictionCircle" cx="70" cy="70" r="60"
-            stroke-dasharray="377" stroke-dashoffset="377" stroke="#666"/>
+        <svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="50"/>
+          <circle class="fg" id="mainCircle" cx="60" cy="60" r="50" stroke-dasharray="314" stroke-dashoffset="314" stroke="#888"/>
         </svg>
         <div class="center-text">
-          <div class="value" id="predictionValue">--</div>
+          <div class="value" id="mainPredVal">--</div>
           <div class="label">概率 %</div>
         </div>
       </div>
       <div class="prediction-info">
-        <div class="level" id="predictionLevel">数据加载中…</div>
-        <div class="desc" id="predictionDesc"></div>
-        <div class="badge" id="predictionBadge" style="display:none"></div>
+        <div class="level" id="mainPredLevel">数据加载中…</div>
+        <div class="time-info" id="mainPredTime"></div>
+        <div class="tags" id="mainPredTags"></div>
       </div>
     </div>
   </div>
 
-  <!-- Countdown -->
-  <div class="card" style="padding:14px 20px">
-    <div id="countdownDisplay" style="text-align:center;font-size:.88rem;color:rgba(255,255,255,.5)">
-      计算下一次日出时间…
-    </div>
-    <div class="countdown-bar" id="countdownBar"></div>
+  <!-- ===== Countdown ===== -->
+  <div class="card" style="padding:12px 16px">
+    <div style="text-align:center;font-size:.82rem;color:rgba(255,255,255,.45)" id="countdownLabel">距离下次日出</div>
+    <div class="countdown-bar" id="countdownBar">--</div>
   </div>
 
-  <!-- Current Weather -->
+  <!-- ===== Current Weather ===== -->
   <div class="card">
-    <div class="section-title"><span class="dot"></span> 当前天气实况</div>
-    <div id="currentWeatherGrid" class="status-grid">
-      <div class="loading-spinner" style="margin:10px auto"></div>
+    <div class="sec-title"><span class="deco"></span>当前天气实况</div>
+    <div class="wx-grid" id="wxGrid">
+      <div class="loading">加载中…</div>
     </div>
   </div>
 
-  <!-- Hourly Timeline -->
+  <!-- ===== 7-Day Forecast ===== -->
   <div class="card">
-    <div class="section-title"><span class="dot"></span> 未来24小时 · 云量变化</div>
+    <div class="sec-title">
+      <span class="deco"></span>7日逐日预测 &amp; 推荐
+      <span style="font-size:.7rem;color:rgba(255,255,255,.3);margin-left:6px;font-weight:400">按推荐排序</span>
+    </div>
+    <div class="days-grid" id="daysGrid"></div>
+  </div>
+
+  <!-- ===== Probability Trend ===== -->
+  <div class="card">
+    <div class="sec-title"><span class="deco"></span>📈 概率趋势</div>
+    <div class="trend-wrap">
+      <div class="trend-chart" id="trendChart"></div>
+    </div>
+  </div>
+
+  <!-- ===== Detailed Summary Table ===== -->
+  <div class="card">
+    <div class="sec-title"><span class="deco"></span>📋 每日详细参数</div>
+    <div style="overflow-x:auto">
+      <table class="summary-table" id="summaryTable">
+        <thead><tr>
+          <th>日期</th><th>推荐</th><th>概率</th><th>日出</th><th>建议到达</th><th>云量</th><th>天气</th><th>湿度</th><th>降水</th><th>星级</th>
+        </tr></thead>
+        <tbody id="summaryBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== Core Factors ===== -->
+  <div class="card">
+    <div class="sec-title"><span class="deco"></span>🔬 核心因子诊断</div>
+    <div class="factors-grid" id="factorsGrid"></div>
+  </div>
+
+  <!-- ===== Hourly Cloud Cover ===== -->
+  <div class="card">
+    <div class="sec-title"><span class="deco"></span>⏳ 日出前后 · 逐时云量</div>
     <div class="timeline-wrap">
       <div class="timeline" id="hourlyTimeline"></div>
     </div>
-    <div style="margin-top:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:.75rem;color:rgba(255,255,255,.35)">
-      <span>🟢 低云量 &lt;20%</span>
-      <span>🟡 20-50%</span>
-      <span>🔴 &gt;50%</span>
-      <span style="margin-left:auto">☀️ 日出/日落时刻高亮</span>
+    <div style="margin-top:8px;display:flex;gap:10px;font-size:.68rem;color:rgba(255,255,255,.3);flex-wrap:wrap">
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#51cf66;margin-right:3px"></span> 低云 &lt;20%</span>
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#ffd43b;margin-right:3px"></span> 中云 20-50%</span>
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#ff6b6b;margin-right:3px"></span> 高云 &gt;50%</span>
+      <span style="margin-left:auto">🌅 日出时刻标亮</span>
     </div>
   </div>
 
-  <!-- 7-Day Forecast -->
+  <!-- ===== AI Analysis ===== -->
   <div class="card">
-    <div class="section-title"><span class="dot"></span> 7日逐日预测</div>
-    <div class="forecast-grid" id="forecastGrid">
-      <div class="loading-spinner" style="margin:10px auto"></div>
+    <div class="sec-title"><span class="deco"></span>🤖 AI 分析报告</div>
+    <div class="analysis-box" id="analysisBox">
+      <div class="loading"><span class="spin"></span> 正在分析多维气象数据…</div>
     </div>
   </div>
 
-  <!-- Factor Analysis -->
+  <!-- ===== Season Context ===== -->
   <div class="card">
-    <div class="section-title"><span class="dot"></span> 核心因子分析</div>
-    <div class="factor-list" id="factorList">
-      <div style="text-align:center;padding:12px;color:rgba(255,255,255,.3)">分析中…</div>
-    </div>
+    <div class="sec-title"><span class="deco"></span>📅 季节背景</div>
+    <div class="season-box" id="seasonBox"></div>
   </div>
 
-  <!-- AI Analysis Report -->
-  <div class="card">
-    <div class="section-title"><span class="dot"></span> 🤖 AI 分析报告</div>
-    <div class="analysis-box" id="analysisReport">
-      <div style="display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.4)">
-        <span class="loading-spinner"></span> 正在分析气象数据…
-      </div>
-    </div>
-  </div>
-
-  <!-- Season / Context -->
-  <div class="card" style="background:rgba(255,215,0,.02);border-color:rgba(255,215,0,.06)">
-    <div class="section-title"><span class="dot"></span> 📅 季节背景</div>
-    <div id="seasonContext" style="font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.8"></div>
-  </div>
-
-  <!-- Footer -->
+  <!-- ===== Footer ===== -->
   <div class="footer">
-    <div>数据来源: Open-Meteo 气象模型 (ECMWF / GFS)</div>
-    <div>⚠️ 高海拔山区天气变化剧烈，预测仅供参考</div>
-    <div style="margin-top:4px">
-      最佳观赏季节：10月 - 次年4月 · 飞来寺 / 雾浓顶
-    </div>
-    <div style="margin-top:6px;opacity:.4">梅里日照·金山预测系统 v1.0</div>
+    <div>气象数据 © <a href="https://open-meteo.com" target="_blank">Open-Meteo</a> (ECMWF/GFS)</div>
+    <div>⚠️ 高海拔山区天气变化极快，仅供参考 · 建议出发前关注实时云图</div>
+    <div style="margin-top:3px">🎯 最佳观赏期 10月-次年4月 · 飞来寺 / 雾浓顶</div>
   </div>
 </div>
 
 <script>
-/* ===================================================================
-   🌄 梅里雪山 · 日照金山预测系统
-   核心引擎 — 基于多因子加权模型 + 天气实况分析
-   =================================================================== */
-
-// ---- 坐标 ----
-const LOCATION = { lat: 28.45, lng: 98.78, name: '梅里雪山·飞来寺' };
-const API_BASE = 'https://api.open-meteo.com/v1/forecast';
-
-// ---- 当前模式: 'sunrise' | 'sunset' ----
-let currentMode = 'sunrise';
-let weatherData = null;
-let horlyData = null;
-let dailyData = null;
-let currentData = null;
-
 // ===================================================================
-//  WMO 天气码映射
+//  🏔️ 梅里雪山 · 日照金山 Pro Prediction Engine
+//  多因子加权模型 · 动态推荐 · 专家分析
 // ===================================================================
+
+const LOC = { lat:28.45, lng:98.78 };
+const API = 'https://api.open-meteo.com/v1/forecast';
+let mode = 'sunrise', data = null, cur = null, hr = null, dd = null;
+let countdownTimer = null;
+
 const WMO = {
-  0:  { desc:'晴天', icon:'☀️', grade:'excellent' },
-  1:  { desc:'大部晴', icon:'🌤️', grade:'great' },
-  2:  { desc:'多云', icon:'⛅', grade:'fair' },
-  3:  { desc:'阴天', icon:'☁️', grade:'poor' },
-  45: { desc:'雾', icon:'🌫️', grade:'bad' },
-  48: { desc:'雾凇', icon:'🌫️', grade:'bad' },
-  51: { desc:'小毛毛雨', icon:'🌦️', grade:'bad' },
-  53: { desc:'毛毛雨', icon:'🌦️', grade:'bad' },
-  55: { desc:'大毛毛雨', icon:'🌧️', grade:'bad' },
-  61: { desc:'小雨', icon:'🌦️', grade:'bad' },
-  63: { desc:'中雨', icon:'🌧️', grade:'bad' },
-  65: { desc:'大雨', icon:'🌧️', grade:'bad' },
-  71: { desc:'小雪', icon:'🌨️', grade:'bad' },
-  73: { desc:'中雪', icon:'❄️', grade:'bad' },
-  75: { desc:'大雪', icon:'❄️', grade:'bad' },
-  80: { desc:'阵雨', icon:'🌦️', grade:'bad' },
-  81: { desc:'中阵雨', icon:'🌧️', grade:'bad' },
-  82: { desc:'大阵雨', icon:'🌧️', grade:'bad' },
-  95: { desc:'雷暴', icon:'⛈️', grade:'bad' },
+  0:{d:'晴天',i:'☀️'},1:{d:'大部晴',i:'🌤️'},2:{d:'多云',i:'⛅'},3:{d:'阴天',i:'☁️'},
+  45:{d:'雾',i:'🌫️'},48:{d:'雾凇',i:'🌫️'},51:{d:'毛毛雨',i:'🌦️'},53:{d:'中毛毛雨',i:'🌦️'},
+  55:{d:'大毛毛雨',i:'🌧️'},61:{d:'小雨',i:'🌦️'},63:{d:'中雨',i:'🌧️'},65:{d:'大雨',i:'🌧️'},
+  71:{d:'小雪',i:'🌨️'},73:{d:'中雪',i:'❄️'},75:{d:'大雪',i:'❄️'},
+  80:{d:'阵雨',i:'🌦️'},81:{d:'中阵雨',i:'🌧️'},82:{d:'大阵雨',i:'🌧️'},95:{d:'雷暴',i:'⛈️'},
 };
 
-// ===================================================================
-//  权重配置（日出模式）
-// ===================================================================
-const WEIGHTS_SUNRISE = {
-  cloudCover:    0.35,   // 日出前后云量
-  weatherCode:   0.25,   // 天气状况
-  precipitation: 0.20,   // 降水概率
-  humidity:      0.10,   // 相对湿度
-  seasonFactor:  0.10,   // 季节因素
-};
-const WEIGHTS_SUNSET = {
-  cloudCover:    0.30,
-  weatherCode:   0.25,
-  precipitation: 0.20,
-  humidity:      0.10,
-  seasonFactor:  0.15,
-};
+// Weather code grouping for visibility
+function wcGrade(c){
+  if(c===0||c===1) return 3;
+  if(c===2) return 2;
+  if(c===3||c===45||c===48) return 1;
+  return 0;
+}
 
 // ===================================================================
-//  主要函数
+//  Fetch
 // ===================================================================
-
-/* ---- 1. 获取气象数据 ---- */
-async function fetchWeather() {
-  const params = new URLSearchParams({
-    latitude:  LOCATION.lat.toString(),
-    longitude: LOCATION.lng.toString(),
-    current:   'temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,cloud_cover,wind_speed_10m,pressure_msl',
-    hourly:    'temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,cloud_cover,visibility,wind_speed_10m,wind_direction_10m',
-    daily:     'sunrise,sunset,weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max,wind_direction_10m_dominant',
-    timezone:  'Asia/Shanghai',
-    forecast_days: '7',
+async function fetchData(){
+  const p=new URLSearchParams({
+    latitude:LOC.lat,longitude:LOC.lng,
+    current:'temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,cloud_cover,wind_speed_10m,pressure_msl',
+    hourly:'temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,cloud_cover,visibility,wind_speed_10m,wind_direction_10m',
+    daily:'sunrise,sunset,weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max,wind_direction_10m_dominant',
+    timezone:'Asia/Shanghai',forecast_days:'7',
   });
-  const url = `${API_BASE}?${params}`;
-  const resp = await fetch(url);
-  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-  const d = await resp.json();
-  weatherData = d;
-  currentData = d.current;
-  horlyData   = d.hourly;
-  dailyData   = d.daily;
+  const r=await fetch(API+'?'+p);
+  if(!r.ok) throw new Error('HTTP '+r.status);
+  data=await r.json(); cur=data.current; hr=data.hourly; dd=data.daily;
 }
 
-/* ---- 2. 计算季节因子 (0-100) ---- */
-function seasonFactor() {
-  const now = new Date();
-  const m = now.getMonth() + 1; // 1-12
-  // 旱季: 10-4月(最好) ; 5月(过渡) ; 6-9月(雨季)
-  if (m >= 10 || m <= 4) return 100;  // 黄金季节
-  if (m === 5) return 70;  // 过渡期
-  if (m === 6 || m === 9) return 40; // 雨季头尾
-  return 20; // 7-8月 雨季最盛
+// ===================================================================
+//  Prediction Engine
+// ===================================================================
+function seasonScore(){
+  const m=new Date().getMonth()+1;
+  if(m>=10||m<=4) return 100; if(m===5) return 70; if(m===6||m===9) return 40; return 20;
 }
 
-/* ---- 3. 计算单日预测 ---- */
-function calcDayPrediction(dayIndex, mode) {
-  if (!weatherData) return { score: 0, level: '--' };
-  const weights = mode === 'sunrise' ? WEIGHTS_SUNRISE : WEIGHTS_SUNSET;
+function dayPred(dayIdx,m){
+  if(!data) return null;
+  const sr=new Date(dd.sunrise[dayIdx]), ss=new Date(dd.sunset[dayIdx]);
+  const targetH = m==='sunrise' ? sr.getHours()+sr.getMinutes()/60 : ss.getHours()+ss.getMinutes()/60;
+  const ti = findHrIdx(dayIdx,targetH);
+  if(ti<0) return null;
+  const cc=hr.cloud_cover[ti], wc=hr.weather_code[ti], pp=hr.precipitation_probability[ti],
+        hu=hr.relative_humidity_2m[ti], ws=hr.wind_speed_10m[ti];
+  const sf=seasonScore();
 
-  // 获取日出/日落时间
-  const sunriseStr = dailyData.sunrise[dayIndex];
-  const sunsetStr  = dailyData.sunset[dayIndex];
-  if (!sunriseStr || !sunsetStr) return { score: 0, level: '--' };
-  const sunriseDate = new Date(sunriseStr);
-  const sunsetDate  = new Date(sunsetStr);
+  const ccS = cc<=10?100:cc<=20?90:cc<=30?70:cc<=50?40:cc<=70?15:5;
+  const wcS = wc===0?100:wc===1?90:wc===2?55:[3].includes(wc)?30:[45,48].includes(wc)?10:0;
+  const ppS = pp<=5?100:pp<=10?85:pp<=20?65:pp<=40?30:pp<=60?12:0;
+  const huS = hu<=30?100:hu<=50?85:hu<=65?65:hu<=80?35:12;
 
-  // 目标时刻: 日出前后30分钟 OR 日落前后30分钟
-  let targetHour;
-  if (mode === 'sunrise') {
-    targetHour = sunriseDate.getHours() + sunriseDate.getMinutes() / 60;
-  } else {
-    targetHour = sunsetDate.getHours() + sunsetDate.getMinutes() / 60;
-  }
+  const weights={cloudCover:.35,weatherCode:.25,precip:.2,humidity:.1,season:.1};
+  const raw = ccS*weights.cloudCover + wcS*weights.weatherCode + ppS*weights.precip + huS*weights.humidity + sf*weights.season;
+  const score = Math.max(0,Math.min(100,Math.round(raw)));
 
-  // 找到该小时索引
-  const targetIdx = findHourlyIndex(dayIndex, targetHour);
-  if (targetIdx < 0) return { score: 0, level: '--' };
+  let level, lc;
+  if(score>=85){level='🌟 极佳';lc='excellent';}
+  else if(score>=70){level='👍 良好';lc='good';}
+  else if(score>=50){level='🤞 一般';lc='fair';}
+  else if(score>=30){level='😕 较低';lc='low';}
+  else{level='😢 很低';lc='verylow';}
 
-  // 提取数据
-  const cc    = horlyData.cloud_cover[targetIdx];                // 云量 0-100
-  const wcode = horlyData.weather_code[targetIdx];              // 天气码
-  const pp    = horlyData.precipitation_probability[targetIdx]; // 降水概率 0-100
-  const hum   = horlyData.relative_humidity_2m[targetIdx];      // 湿度 0-100
-  const sf    = seasonFactor();
-
-  // --- 云量评分 ---
-  const ccScore = cc <= 10 ? 100 : cc <= 20 ? 90 : cc <= 30 ? 70 : cc <= 50 ? 40 : cc <= 70 ? 20 : 5;
-
-  // --- 天气码评分 ---
-  const wm = WMO[wcode] || WMO[0];
-  let wcScore;
-  if (wcode === 0) wcScore = 100;
-  else if (wcode === 1) wcScore = 90;
-  else if (wcode === 2) wcScore = 55;
-  else if ([45,48].includes(wcode)) wcScore = 10;
-  else if ([3].includes(wcode)) wcScore = 30;
-  else wcScore = 0;
-
-  // --- 降水评分 ---
-  const ppScore = pp <= 5 ? 100 : pp <= 10 ? 85 : pp <= 20 ? 65 : pp <= 40 ? 35 : pp <= 60 ? 15 : 0;
-
-  // --- 湿度评分 ---
-  const humScore = hum <= 30 ? 100 : hum <= 50 ? 85 : hum <= 65 ? 65 : hum <= 80 ? 40 : 15;
-
-  // --- 加权计算 ---
-  const score = Math.round(
-    ccScore  * weights.cloudCover +
-    wcScore  * weights.weatherCode +
-    ppScore  * weights.precipitation +
-    humScore * weights.humidity +
-    sf       * weights.seasonFactor
-  );
-
-  // 硬约束: 如果强降水或恶劣天气，分数直接压低
-  const finalScore = Math.max(0, Math.min(100, score));
-
-  // 等级
-  let level, levelClass;
-  if (finalScore >= 85)       { level = '🌟 极佳'; levelClass = 'excellent'; }
-  else if (finalScore >= 70)  { level = '👍 良好'; levelClass = 'good'; }
-  else if (finalScore >= 50)  { level = '🤞 一般'; levelClass = 'fair'; }
-  else if (finalScore >= 30)  { level = '😕 较低'; levelClass = 'low'; }
-  else                        { level = '😢 很低'; levelClass = 'verylow'; }
-
+  const stars = score>=90?5:score>=80?4:score>=65?3:score>=45?2:1;
+  const wmo=WMO[wc]||WMO[0];
   return {
-    score: finalScore,
-    level, levelClass,
-    cc, wcode, pp, hum, sf,
-    wm, wcScore, ccScore, ppScore, humScore,
-    sunriseTime: sunriseStr, sunsetTime: sunsetStr,
-    targetHour,
-    targetIdx,
-    dateStr: sunriseStr.substring(0,10),
+    score,level,lc,stars,cc,wc,pp,hu,ws,sf,
+    ccS,wcS,ppS,huS,sfS:sf,
+    sr,ss,targetH,ti,dayIdx,
+    wmo,dateStr:dd.time[dayIdx],
+    arrivalMin: m==='sunrise' ? 40 : 30,
+    high: dd.temperature_2m_max[dayIdx], low: dd.temperature_2m_min[dayIdx],
+    windMax: dd.wind_speed_10m_max[dayIdx],
+    precSum: dd.precipitation_sum[dayIdx],
   };
 }
 
-function findHourlyIndex(dayIndex, hour) {
-  // hourly.time 格式: "2026-05-18T00:00"
-  const datePrefix = dailyData.time[dayIndex];
-  const targetH = Math.floor(hour);
-  let bestIdx = -1, bestDiff = Infinity;
-  for (let i = 0; i < horlyData.time.length; i++) {
-    const t = horlyData.time[i];
-    if (t.startsWith(datePrefix)) {
-      const h = parseInt(t.substring(11,13), 10);
-      const diff = Math.abs(h - targetH);
-      if (diff < bestDiff) { bestDiff = diff; bestIdx = i; }
-    }
+function findHrIdx(dayIdx,hour){
+  const p=dd.time[dayIdx]; let bi=-1,bd=Infinity;
+  for(let i=0;i<hr.time.length;i++){
+    const t=hr.time[i];
+    if(t.startsWith(p)){const d=Math.abs(parseInt(t.substring(11,13))-Math.floor(hour));if(d<bd){bd=d;bi=i;}}
   }
-  return bestIdx;
+  return bi;
 }
 
-/* ---- 4. 获取当前目标时刻的索引 ---- */
-function getCurrentTargetIdx(mode) {
-  if (!dailyData || dailyData.sunrise.length === 0) return -1;
-  const now = new Date();
-  const todayStr = now.toISOString().substring(0,10);
-  let dayIdx = 0;
-  for (let i = 0; i < dailyData.time.length; i++) {
-    if (dailyData.time[i] === todayStr) { dayIdx = i; break; }
-  }
-  // 如果当前时间已过目标时刻，看下一天
-  const sunriseDate = new Date(dailyData.sunrise[dayIdx]);
-  const sunsetDate  = new Date(dailyData.sunset[dayIdx]);
-  const target = mode === 'sunrise' ? sunriseDate : sunsetDate;
-
-  if (now > target && dayIdx < dailyData.time.length - 1) dayIdx++;
-  return dayIdx;
+function curTargetIdx(m){
+  if(!dd) return 0;
+  const now=new Date(), ts=now.toISOString().substring(0,10);
+  let di=0;
+  for(let i=0;i<dd.time.length;i++) if(dd.time[i]===ts){di=i;break;}
+  const t=m==='sunrise'?new Date(dd.sunrise[di]):new Date(dd.sunset[di]);
+  if(now>t&&di<dd.time.length-1) di++;
+  return di;
 }
 
-/* ---- 5. 渲染 UI ---- */
-function renderAll() {
-  if (!weatherData) return;
-  const dayIdx = getCurrentTargetIdx(currentMode);
-  const pred = calcDayPrediction(dayIdx, currentMode);
-  if (!pred) return;
+function colorScore(s){
+  if(s>=85)return'#FFD700';if(s>=70)return'#51cf66';if(s>=50)return'#ffd43b';if(s>=30)return'#ff922b';
+  return'#ff6b6b';
+}
+function starsStr(n){return '★'.repeat(n)+'☆'.repeat(5-n);}
+function fmtDate(ds,di){
+  const t=new Date().toISOString().substring(0,10);
+  const tm=new Date(Date.now()+864e5).toISOString().substring(0,10);
+  if(ds===t)return'今天';if(ds===tm)return'明天';
+  const wd=['周日','周一','周二','周三','周四','周五','周六'];
+  return (ds.substring(5))+' '+wd[new Date(ds).getDay()];
+}
 
-  // --- 主预测环 ---
-  renderPredictionRing(pred);
-  renderPredictionText(pred, dayIdx);
-
-  // --- 天气实况 ---
-  renderCurrentWeather();
-
-  // --- 逐时云量 ---
-  renderHourlyTimeline(dayIdx);
-
-  // --- 7日预测 ---
-  render7DayForecast();
-
-  // --- 因子分解 ---
+// ===================================================================
+//  Render
+// ===================================================================
+function render(){
+  if(!data) return;
+  const di=curTargetIdx(mode);
+  const pred=dayPred(di,mode);
+  if(!pred) return;
+  renderBestDay(pred);
+  renderMainPred(pred,di);
+  renderCountdown(pred,di);
+  renderWeather();
+  renderDays();
+  renderTrend();
+  renderSummary();
   renderFactors(pred);
-
-  // --- AI分析 ---
-  renderAnalysis(pred, dayIdx);
-
-  // --- 季节背景 ---
-  renderSeasonContext();
-
-  // --- 倒计时 ---
-  renderCountdown(pred, dayIdx);
-
-  // --- 更新时间 ---
-  document.getElementById('updateTime').textContent =
-    '⏱ 更新于 ' + new Date().toLocaleString('zh-CN', { hour12: false });
+  renderHourly(di);
+  renderAnalysis(pred,di);
+  renderSeason();
+  document.getElementById('updateTime').textContent='⏱ 更新于 '+new Date().toLocaleString('zh-CN',{hour12:false});
 }
 
-/* ---- 预测环 ---- */
-function renderPredictionRing(pred) {
-  const circle = document.getElementById('predictionCircle');
-  const valEl  = document.getElementById('predictionValue');
-  const circumference = 377;
-  const offset = circumference - (pred.score / 100) * circumference;
-  const color = getScoreColor(pred.score);
-  circle.setAttribute('stroke', color);
-  circle.style.strokeDashoffset = offset;
-  valEl.textContent = pred.score;
-}
-
-function getScoreColor(s) {
-  if (s >= 85) return '#FFD700';
-  if (s >= 70) return '#51cf66';
-  if (s >= 50) return '#ffd43b';
-  if (s >= 30) return '#ff922b';
-  return '#ff6b6b';
-}
-
-function getScoreEmoji(s) {
-  if (s >= 85) return '🌟'; if (s >= 70) return '👍';
-  if (s >= 50) return '🤞'; if (s >= 30) return '😕';
-  return '😢';
-}
-
-function renderPredictionText(pred, dayIdx) {
-  const levelEl = document.getElementById('predictionLevel');
-  const descEl  = document.getElementById('predictionDesc');
-  const badgeEl = document.getElementById('predictionBadge');
-
-  const modeLabel = currentMode === 'sunrise' ? '日出' : '日落';
-  const dateStr = formatDateDisplay(pred.dateStr, dayIdx);
-  levelEl.textContent = `${pred.level} · ${pred.score}%`;
-  levelEl.style.color = getScoreColor(pred.score);
-
-  // 详细描述
-  const ccLabel = pred.cc <= 20 ? '晴朗/少云' : pred.cc <= 40 ? '疏云' : pred.cc <= 60 ? '多云' : '阴云密布';
-  const wmIcon = pred.wm ? pred.wm.icon : '☀️';
-  descEl.innerHTML =
-    `${dateStr} ${modeLabel}前后 &nbsp;·&nbsp; 云量 ${pred.cc}% (${ccLabel}) &nbsp;·&nbsp; ${wmIcon} ${pred.wm ? pred.wm.desc : ''}`;
-
-  // 标签
-  let badgeText = '', badgeColor = '';
-  if (pred.score >= 85) { badgeText = '🎯 极大概率，建议冲！'; badgeColor = 'rgba(255,215,0,.2)'; }
-  else if (pred.score >= 70) { badgeText = '✅ 概率较高，值得期待'; badgeColor = 'rgba(81,207,102,.2)'; }
-  else if (pred.score >= 50) { badgeText = '⏳ 有机会，关注临近预报'; badgeColor = 'rgba(255,212,59,.15)'; }
-  else { badgeText = '⚠️ 条件不佳，建议调整行程'; badgeColor = 'rgba(255,107,107,.15)'; }
-  badgeEl.textContent = badgeText;
-  badgeEl.style.display = 'inline-block';
-  badgeEl.style.background = badgeColor;
-  badgeEl.style.color = getScoreColor(pred.score);
-}
-
-function formatDateDisplay(dateStr, dayIdx) {
-  if (!dateStr) return '';
-  const today = new Date().toISOString().substring(0,10);
-  if (dateStr === today) return '📅 今天';
-  const tomorrow = new Date(Date.now() + 86400000).toISOString().substring(0,10);
-  if (dateStr === tomorrow) return '📅 明天';
-  const weekDays = ['周日','周一','周二','周三','周四','周五','周六'];
-  const d = new Date(dateStr);
-  return `${dateStr.substring(5)} ${weekDays[d.getDay()]}`;
-}
-
-/* ---- 当前天气 ---- */
-function renderCurrentWeather() {
-  const g = document.getElementById('currentWeatherGrid');
-  if (!currentData) { g.innerHTML = '<div class="error-msg">暂无实况数据</div>'; return; }
-  const cd = currentData;
-  const wm = WMO[cd.weather_code] || WMO[0];
-  g.innerHTML = `
-    <div class="status-item">
-      <div class="icon">${wm.icon}</div>
-      <div class="val">${cd.temperature_2m.toFixed(0)}°C</div>
-      <div class="lbl">气温</div>
-    </div>
-    <div class="status-item">
-      <div class="icon">🌡️</div>
-      <div class="val">${cd.apparent_temperature.toFixed(0)}°C</div>
-      <div class="lbl">体感温度</div>
-    </div>
-    <div class="status-item">
-      <div class="icon">💧</div>
-      <div class="val">${cd.relative_humidity_2m.toFixed(0)}%</div>
-      <div class="lbl">湿度</div>
-    </div>
-    <div class="status-item">
-      <div class="icon">☁️</div>
-      <div class="val">${cd.cloud_cover.toFixed(0)}%</div>
-      <div class="lbl">云量</div>
-    </div>
-    <div class="status-item">
-      <div class="icon">💨</div>
-      <div class="val">${cd.wind_speed_10m.toFixed(1)} km/h</div>
-      <div class="lbl">风速</div>
-    </div>
-    <div class="status-item">
-      <div class="icon">🌊</div>
-      <div class="val">${cd.pressure_msl ? cd.pressure_msl.toFixed(0) + ' hPa' : '--'}</div>
-      <div class="lbl">气压</div>
-    </div>
-    <div class="status-item">
-      <div class="icon">${cd.precipitation > 0 ? (cd.precipitation < 0.1 ? '🌂' : '☔') : '☀️'}</div>
-      <div class="val">${cd.precipitation.toFixed(1)} mm</div>
-      <div class="lbl">降水</div>
-    </div>
-    <div class="status-item">
-      <div class="icon">🏔️</div>
-      <div class="val">${wm.desc}</div>
-      <div class="lbl">天气</div>
-    </div>
-  `;
-}
-
-/* ---- 逐时云量 ---- */
-function renderHourlyTimeline(dayIdx) {
-  const wrap = document.getElementById('hourlyTimeline');
-  if (!horlyData) { wrap.innerHTML = '<div class="error-msg">无数据</div>'; return; }
-
-  const datePrefix = dailyData.time[dayIdx];
-  const items = [];
-  let sunriseIdx = -1, sunsetIdx = -1;
-
-  // 找到日出日落对应的小时索引
-  const sunriseStr = dailyData.sunrise[dayIdx];
-  const sunsetStr  = dailyData.sunset[dayIdx];
-  const sunriseH = sunriseStr ? parseInt(sunriseStr.substring(11,13),10) : -1;
-  const sunsetH  = sunsetStr ? parseInt(sunsetStr.substring(11,13),10) : -1;
-
-  for (let i = 0; i < horlyData.time.length && items.length < 24; i++) {
-    const t = horlyData.time[i];
-    if (!t.startsWith(datePrefix)) continue;
-    const h = parseInt(t.substring(11,13), 10);
-    const cc = horlyData.cloud_cover[i];
-    const wc = horlyData.weather_code[i];
-    const wm = WMO[wc] || WMO[0];
-    const isSunrise = h === sunriseH;
-    const isSunset  = h === sunsetH;
-
-    if (isSunrise) sunriseIdx = items.length;
-    if (isSunset)  sunsetIdx  = items.length;
-
-    items.push({ h, cc, icon: wm.icon, isSunrise, isSunset, i });
+// ---- Best Day Recommendation ----
+function renderBestDay(curPred){
+  // Rank all days and find best
+  const all=[];
+  for(let i=0;i<dd.time.length;i++){
+    const p=dayPred(i,mode);
+    if(p) all.push(p);
   }
+  all.sort((a,b)=>b.score-a.score);
+  const best=all[0];
+  const el=document.getElementById('bestDayHero');
+  document.getElementById('bestDayText').textContent=fmtDate(best.dateStr,best.dayIdx)+' · '+best.sr.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})+' 日出';
+  const arrivalT=new Date(best.sr.getTime()-best.arrivalMin*60000);
+  document.getElementById('bestDayDetail').innerHTML=
+    `建议 <b>${arrivalT.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})}</b> 前到达飞来寺 · 云量 ${best.cc}% · ${best.wmo.i} ${best.wmo.d}`+
+    ` · 能见度 ${best.cc<=20?'优良':'中等'} · 降水概率 ${best.pp}%`;
+  document.getElementById('bestDayScore').textContent=best.score+'%';
+  document.getElementById('bestDayStars').textContent=starsStr(best.stars);
+}
 
-  if (items.length === 0) { wrap.innerHTML = '<div class="error-msg">无时序数据</div>'; return; }
+// ---- Main Prediction ----
+function renderMainPred(pred,di){
+  const c=document.getElementById('mainCircle');
+  const circ=314; const off=circ-(pred.score/100)*circ;
+  c.setAttribute('stroke',colorScore(pred.score));
+  c.style.strokeDashoffset=off;
+  document.getElementById('mainPredVal').textContent=pred.score;
+  document.getElementById('mainPredLevel').innerHTML=
+    `${pred.level} · ${pred.score}% <span style="font-size:.75rem;color:rgba(255,255,255,.35)">${starsStr(pred.stars)}</span>`;
+  document.getElementById('mainPredLevel').style.color=colorScore(pred.score);
+  const modeLabel=mode==='sunrise'?'日出':'日落';
+  const srT=pred.sr.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'});
+  const ssT=pred.ss.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'});
+  const arrT=new Date(pred.sr.getTime()-pred.arrivalMin*60000);
+  document.getElementById('mainPredTime').innerHTML=
+    `${fmtDate(pred.dateStr,di)} · ${modeLabel} <b>${srT}</b> · 建议 <b>${arrT.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})}</b> 前到达`+
+    ` · 日落 ${ssT}`;
 
-  wrap.innerHTML = items.map((it, idx) => {
-    const highlight = (currentMode === 'sunrise' && it.isSunrise) || (currentMode === 'sunset' && it.isSunset);
-    const barColor = it.cc <= 20 ? '#51cf66' : it.cc <= 50 ? '#ffd43b' : '#ff6b6b';
-    const cls = highlight ? 'timeline-item sunrise-block' : 'timeline-item';
-    const marker = highlight ? (currentMode === 'sunrise' ? '🌅' : '🌇') : '';
-    return `<div class="${cls}">
-      <div class="h">${it.h}:00${marker ? '<br>'+marker : ''}</div>
-      <div class="ic">${it.icon}</div>
-      <div class="cc">${it.cc}%</div>
-      <div class="bar" style="background:${barColor};width:${Math.min(30, it.cc * 0.3 + 6)}px"></div>
+  const tags=[];
+  if(pred.stars>=4) tags.push({text:'🌟 强烈推荐',clr:'#FFD700',bg:'rgba(255,215,0,.15)'});
+  else if(pred.stars>=3) tags.push({text:'✅ 值得前往',clr:'#51cf66',bg:'rgba(81,207,102,.15)'});
+  else if(pred.stars>=2) tags.push({text:'⏳ 关注变化',clr:'#ffd43b',bg:'rgba(255,212,59,.12)'});
+  else tags.push({text:'⚠️ 条件不佳',clr:'#ff6b6b',bg:'rgba(255,107,107,.12)'});
+  if(pred.cc<=20) tags.push({text:'☀️ 晴朗无遮挡',clr:'#51cf66',bg:'rgba(81,207,102,.12)'});
+  else if(pred.cc<=40) tags.push({text:'⛅ 疏云可看',clr:'#ffd43b',bg:'rgba(255,212,59,.1)'});
+  else if(pred.cc<=60) tags.push({text:'☁️ 云量偏多',clr:'#ff922b',bg:'rgba(255,146,43,.1)'});
+  else tags.push({text:'☁️ 云层较厚',clr:'#ff6b6b',bg:'rgba(255,107,107,.1)'});
+
+  document.getElementById('mainPredTags').innerHTML=tags.map(t=>
+    `<span class="tag" style="color:${t.clr};background:${t.bg}">${t.text}</span>`
+  ).join('');
+}
+
+// ---- Countdown ----
+function renderCountdown(pred,di){
+  const el=document.getElementById('countdownBar');
+  const lb=document.getElementById('countdownLabel');
+  const t=mode==='sunrise'?pred.sr:pred.ss;
+  const now=new Date(); const diff=t-now;
+  const ml=mode==='sunrise'?'下次日出':'下次日落';
+  lb.textContent=`${ml}：${fmtDate(pred.dateStr,di)} ${t.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})}`;
+  if(diff<=0){el.innerHTML='<span style="color:rgba(255,255,255,.3)">已过今日时段 · 查看明日预测</span>';return;}
+  const h=Math.floor(diff/36e5), m=Math.floor((diff%36e5)/6e4), s=Math.floor((diff%6e4)/1e3);
+  el.innerHTML=
+    `<div class="countdown-item"><div class="num">${String(h).padStart(2,'0')}</div><div class="lbl">小时</div></div>`+
+    `<div class="countdown-item"><div class="num">${String(m).padStart(2,'0')}</div><div class="lbl">分钟</div></div>`+
+    `<div class="countdown-item"><div class="num">${String(s).padStart(2,'0')}</div><div class="lbl">秒</div></div>`;
+}
+
+// ---- Current Weather ----
+function renderWeather(){
+  const g=document.getElementById('wxGrid');
+  if(!cur){g.innerHTML='<div class="loading">暂无实况</div>';return;}
+  const wm=WMO[cur.weather_code]||WMO[0];
+  g.innerHTML=
+    `<div class="wx-item"><div class="wi">${wm.i}</div><div class="wv">${cur.temperature_2m.toFixed(0)}°C</div><div class="wl">${wm.d}</div></div>`+
+    `<div class="wx-item"><div class="wi">🌡️</div><div class="wv">${cur.apparent_temperature.toFixed(0)}°C</div><div class="wl">体感温度</div></div>`+
+    `<div class="wx-item"><div class="wi">💧</div><div class="wv">${cur.relative_humidity_2m.toFixed(0)}%</div><div class="wl">相对湿度</div></div>`+
+    `<div class="wx-item"><div class="wi">☁️</div><div class="wv">${cur.cloud_cover.toFixed(0)}%</div><div class="wl">云量</div></div>`+
+    `<div class="wx-item"><div class="wi">💨</div><div class="wv">${cur.wind_speed_10m.toFixed(1)} km/h</div><div class="wl">风速</div></div>`+
+    `<div class="wx-item"><div class="wi">🌊</div><div class="wv">${cur.pressure_msl?cur.pressure_msl.toFixed(0)+' hPa':'--'}</div><div class="wl">气压</div></div>`+
+    `<div class="wx-item"><div class="wi">${cur.precipitation>0?'🌂':'☀️'}</div><div class="wv">${cur.precipitation.toFixed(1)} mm</div><div class="wl">降水</div></div>`;
+}
+
+// ---- 7-Day Cards ----
+function renderDays(){
+  const g=document.getElementById('daysGrid'); g.innerHTML='';
+  const all=[];
+  for(let i=0;i<dd.time.length;i++){
+    const p=dayPred(i,mode);
+    if(p) all.push(p);
+  }
+  // Sort by score descending
+  const sorted=[...all].sort((a,b)=>b.score-a.score);
+  const bestScore=sorted[0].score;
+
+  all.forEach((p,i)=>{
+    const c=document.createElement('div');
+    let cls='day-card';
+    if(p.score===bestScore&&p.score>0) cls+=' best';
+    else if(i<dd.time.length&&p.score>=bestScore-10&&p.score>=50) cls+=' second-best';
+    c.className=cls;
+    const arrT=new Date(p.sr.getTime()-p.arrivalMin*60000);
+    c.innerHTML=
+      `<div class="date">${p.dateStr}</div>`+
+      `<div class="dayname">${fmtDate(p.dateStr,i)}</div>`+
+      `<div class="wicon">${p.wmo.i}</div>`+
+      `<div class="score-big" style="color:${colorScore(p.score)}">${p.score}%</div>`+
+      `<div class="stars" style="color:${colorScore(p.score)}">${starsStr(p.stars)}</div>`+
+      `<div class="meta">☀️ ${p.sr.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})}</div>`+
+      `<div class="meta">☁️ 云量 ${p.cc}%</div>`+
+      `<div class="arrival">⏰ ${arrT.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})} 前到达</div>`+
+      `<div class="cloud-bar" style="background:${p.cc<=20?'#51cf66':p.cc<=50?'#ffd43b':'#ff6b6b'};width:${Math.min(80,p.cc*0.8+6)}px"></div>`+
+      `<div class="temps">🌡️ ${p.low.toFixed(0)}° / ${p.high.toFixed(0)}°</div>`;
+    g.appendChild(c);
+  });
+}
+
+// ---- Trend Chart ----
+function renderTrend(){
+  const el=document.getElementById('trendChart');
+  const all=[];
+  for(let i=0;i<dd.time.length;i++){
+    const p=dayPred(i,mode);
+    if(p) all.push(p);
+  }
+  const mx=Math.max(...all.map(p=>p.score),1);
+  el.innerHTML=all.map(p=>{
+    const h=Math.max(8,Math.round((p.score/mx)*90));
+    const isRec=p.score===Math.max(...all.map(x=>x.score));
+    return `<div class="trend-bar ${isRec?'recommend':''}" style="height:${h}px;background:${colorScore(p.score)}">
+      <div class="val" style="color:${colorScore(p.score)}">${p.score}%</div>
+      <div class="lbl">${fmtDate(p.dateStr,p.dayIdx).substring(0,2)}</div>
     </div>`;
   }).join('');
 }
 
-/* ---- 7日预测 ---- */
-function render7DayForecast() {
-  const g = document.getElementById('forecastGrid');
-  if (!dailyData) { g.innerHTML = '<div class="error-msg">无数据</div>'; return; }
-
-  g.innerHTML = '';
-  const weekDays = ['周日','周一','周二','周三','周四','周五','周六'];
-  const todayStr = new Date().toISOString().substring(0,10);
-
-  for (let i = 0; i < Math.min(7, dailyData.time.length); i++) {
-    const pred = calcDayPrediction(i, currentMode);
-    if (!pred) continue;
-    const d = new Date(dailyData.time[i] + 'T12:00:00');
-    const dateLabel = dailyData.time[i] === todayStr
-      ? '今天'
-      : (dailyData.time[i] === new Date(Date.now() + 86400000).toISOString().substring(0,10) ? '明天' : `${monthDay(d)} ${weekDays[d.getDay()]}`);
-    const wm = WMO[dailyData.weather_code[i]] || WMO[0];
-    const color = getScoreColor(pred.score);
-    const emoji = getScoreEmoji(pred.score);
-
-    const card = document.createElement('div');
-    card.className = 'forecast-day';
-    card.innerHTML = `
-      <div class="date">${dateLabel}</div>
-      <div class="weather-icon">${wm.icon}</div>
-      <div class="predict-val" style="color:${color}">${emoji} ${pred.score}%</div>
-      <div class="predict-lbl" style="color:${color}">${pred.level.replace(/[🌟👍🤞😕😢]+\s*/,'')}</div>
-      <div class="temps">${dailyData.temperature_2m_min[i].toFixed(0)}° / ${dailyData.temperature_2m_max[i].toFixed(0)}°</div>
-    `;
-    g.appendChild(card);
+// ---- Summary Table ----
+function renderSummary(){
+  const tb=document.getElementById('summaryBody'); tb.innerHTML='';
+  const all=[];
+  for(let i=0;i<dd.time.length;i++){
+    const p=dayPred(i,mode);
+    if(p) all.push(p);
   }
+  const bestS=Math.max(...all.map(p=>p.score));
+
+  all.forEach(p=>{
+    const tr=document.createElement('tr');
+    const arrT=new Date(p.sr.getTime()-p.arrivalMin*60000);
+    const isBest=p.score===bestS&&p.score>0;
+    const srStr=p.sr.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'});
+    const arrStr=arrT.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'});
+    tr.innerHTML=
+      `<td>${fmtDate(p.dateStr,p.dayIdx)}<br><span style="font-size:.65rem;color:rgba(255,255,255,.3)">${p.dateStr}</span></td>`+
+      `<td>${isBest?'<span class="rec-badge" style="background:rgba(255,215,0,.15);color:#FFD700">🏆最佳</span>':
+        p.score>=bestS-10&&p.score>=50?'<span class="rec-badge" style="background:rgba(81,207,102,.12);color:#51cf66">👍推荐</span>':
+        '<span style="color:rgba(255,255,255,.2)">--</span>'}</td>`+
+      `<td style="font-weight:600;color:${colorScore(p.score)}">${p.score}%</td>`+
+      `<td>${srStr}</td><td>${arrStr}</td>`+
+      `<td>${p.cc}% <span style="font-size:.65rem;color:${p.cc<=20?'#51cf66':p.cc<=50?'#ffd43b':'#ff6b6b'}">(${p.cc<=20?'优':p.cc<=40?'良':p.cc<=60?'中':'差'})</span></td>`+
+      `<td>${p.wmo.i} ${p.wmo.d}</td>`+
+      `<td>${p.hu}%</td>`+
+      `<td>${p.pp}%</td>`+
+      `<td style="font-size:.9rem;color:${colorScore(p.score)}">${starsStr(p.stars)}</td>`;
+    tb.appendChild(tr);
+  });
 }
 
-function monthDay(d) { return `${d.getMonth()+1}/${d.getDate()}`; }
-
-/* ---- 因子分解 ---- */
-function renderFactors(pred) {
-  const fl = document.getElementById('factorList');
-  if (!pred) { fl.innerHTML = '<div class="error-msg">无数据</div>'; return; }
-
-  const factors = [
-    {
-      icon: '☁️',
-      name: '云量（权重 35%）',
-      detail: `日出前后云量 ${pred.cc}%`,
-      score: pred.ccScore,
-      ideal: '≤20% 为佳',
-    },
-    {
-      icon: '🌤️',
-      name: '天气状况（权重 25%）',
-      detail: `${pred.wm ? pred.wm.icon + ' ' + pred.wm.desc : '--'} · WMO ${pred.wcode}`,
-      score: pred.wcScore,
-      ideal: '晴天/少云',
-    },
-    {
-      icon: '🌧️',
-      name: '降水概率（权重 20%）',
-      detail: `降水概率 ${pred.pp}%`,
-      score: pred.ppScore,
-      ideal: '≤10% 为佳',
-    },
-    {
-      icon: '💧',
-      name: '空气湿度（权重 10%）',
-      detail: `相对湿度 ${pred.hum}%`,
-      score: pred.humScore,
-      ideal: '≤50% 为佳',
-    },
-    {
-      icon: '📅',
-      name: '季节因子（权重 10%）',
-      detail: `当前评分 ${pred.sf}/100`,
-      score: pred.sf,
-      ideal: '10-4月最佳',
-    },
+// ---- Factors ----
+function renderFactors(pred){
+  const g=document.getElementById('factorsGrid');
+  const items=[
+    {i:'☁️',n:'云量 (权重35%)',d:`日出前后云量 ${pred.cc}% · 理想≤20%`,s:pred.ccS},
+    {i:'🌤️',n:'天气状况 (权重25%)',d:`${pred.wmo.i} ${pred.wmo.d} · 理想为晴天/少云`,s:pred.wcS},
+    {i:'🌧️',n:'降水概率 (权重20%)',d:`降水概率 ${pred.pp}% · 理想≤10%`,s:pred.ppS},
+    {i:'💧',n:'空气湿度 (权重10%)',d:`相对湿度 ${pred.hu}% · 理想≤50%`,s:pred.huS},
+    {i:'📅',n:'季节因子 (权重10%)',d:`当前评分 ${pred.sf}/100 · 10月-4月最佳`,s:pred.sf},
   ];
-
-  fl.innerHTML = factors.map(f => {
-    const color = getScoreColor(f.score);
-    const barW = Math.max(4, f.score);
-    return `<div class="factor-row">
-      <div class="factor-icon">${f.icon}</div>
-      <div class="factor-info">
-        <div class="name">${f.name}</div>
-        <div class="detail">${f.detail} · 理想: ${f.ideal}</div>
+  g.innerHTML=items.map(it=>{
+    const c=colorScore(it.s);
+    return `<div class="factor-item">
+      <div class="fi">${it.i}</div>
+      <div class="fb">
+        <div class="fn">${it.n}</div>
+        <div class="fd">${it.d}</div>
+        <div class="fbar"><div class="ffill" style="width:${Math.max(4,it.s)}%;background:${c}"></div></div>
       </div>
-      <div class="factor-bar-wrap">
-        <div class="factor-bar-bg"><div class="factor-bar-fill" style="width:${barW}%;background:${color}"></div></div>
-      </div>
-      <div class="factor-score" style="color:${color}">${f.score}</div>
+      <div class="fs" style="color:${c}">${it.s}</div>
     </div>`;
   }).join('');
 }
 
-/* ---- AI 分析报告 ---- */
-function renderAnalysis(pred, dayIdx) {
-  const el = document.getElementById('analysisReport');
-  if (!pred) { el.innerHTML = '<div class="error-msg">数据不足，无法分析</div>'; return; }
+// ---- Hourly ----
+function renderHourly(dayIdx){
+  const el=document.getElementById('hourlyTimeline');
+  if(!hr){el.innerHTML='<div class="loading">无数据</div>';return;}
+  const p=dd.time[dayIdx];
+  const srH=mode==='sunrise'?new Date(dd.sunrise[dayIdx]).getHours():-1;
+  const items=[];
+  for(let i=0;i<hr.time.length;i++){
+    const t=hr.time[i];
+    if(!t.startsWith(p)) continue;
+    const h=parseInt(t.substring(11,13),10);
+    if(items.length>=24) break;
+    const cc=hr.cloud_cover[i], wc=hr.weather_code[i], wm=WMO[wc]||WMO[0];
+    items.push({h,cc,ic:wm.i,isSR:h===srH});
+  }
+  el.innerHTML=items.map(it=>{
+    const dotC=it.cc<=20?'#51cf66':it.cc<=50?'#ffd43b':'#ff6b6b';
+    return `<div class="tl-item ${it.isSR?'sr':''}">
+      <div class="th">${String(it.h).padStart(2,'0')}:00${it.isSR?'<br>🌅':''}</div>
+      <div class="tic">${it.ic}</div>
+      <div class="tcc">${it.cc}%</div>
+      <div class="tl-dot" style="background:${dotC}"></div>
+    </div>`;
+  }).join('');
+}
 
-  const modeLabel = currentMode === 'sunrise' ? '日照金山（日出）' : '晚霞金山（日落）';
-  const dateLabel = formatDateDisplay(pred.dateStr, dayIdx);
-  const s = pred.score;
+// ---- AI Analysis ----
+function renderAnalysis(pred,di){
+  const el=document.getElementById('analysisBox');
+  const ml=mode==='sunrise'?'日照金山（日出）':'晚霞金山（日落）';
+  const lines=[];
 
-  // 构建分析文本
-  const lines = [];
+  lines.push(`📊 <b>分析时间</b>：${new Date().toLocaleString('zh-CN',{hour12:false,month:'long',day:'numeric',hour:'numeric',minute:'numeric'})}`);
+  lines.push(`<b>目标时段</b>：${fmtDate(pred.dateStr,di)} · ${ml}`);
 
-  // 今日日期
-  const now = new Date();
-  lines.push(`📊 分析时间：${now.toLocaleString('zh-CN', { hour12: false, month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}`);
-
-  // 主结论
-  if (s >= 85) {
-    lines.push(`<p><span class="tag" style="background:rgba(255,215,0,.15);color:#FFD700">极大概率</span> ${dateLabel}的${modeLabel}预测概率高达 <span class="highlight">${s}%</span>，是非常理想的观赏窗口。`);
-    lines.push(`核心利好：云量仅 <span class="good">${pred.cc}%</span>（几乎无遮挡），天气 ${pred.wm.desc}，降水概率 <span class="good">${pred.pp}%</span>。`);
-  } else if (s >= 70) {
-    lines.push(`<p><span class="tag" style="background:rgba(81,207,102,.15);color:#51cf66">概率较高</span> ${dateLabel}的${modeLabel}预测概率为 <span class="highlight">${s}%</span>，值得期待。`);
-    lines.push(`云量 ${pred.cc}%，天气 ${pred.wm.desc}，降水概率 ${pred.pp}%。整体条件较为有利。`);
-  } else if (s >= 50) {
-    lines.push(`<p><span class="tag" style="background:rgba(255,212,59,.15);color:#ffd43b">有机会但不确定</span> ${dateLabel}的${modeLabel}预测概率为 <span class="highlight">${s}%</span>。`);
-    lines.push(`云量 <span class="mid">${pred.cc}%</span>，天气 ${pred.wm.desc}，降水概率 ${pred.pp}%。建议关注临近预报变化。`);
-  } else if (s >= 30) {
-    lines.push(`<p><span class="tag" style="background:rgba(255,146,43,.15);color:#ff922b">条件不佳</span> ${dateLabel}的${modeLabel}预测概率仅 <span class="highlight">${s}%</span>，可能性较低。`);
-  } else {
-    lines.push(`<p><span class="tag" style="background:rgba(255,107,107,.15);color:#ff6b6b">很不乐观</span> ${dateLabel}的${modeLabel}预测概率仅 <span class="highlight">${s}%</span>，很难看到。`);
+  // Main conclusion
+  if(pred.score>=85){
+    lines.push(`<span style="background:rgba(255,215,0,.12);color:#FFD700;padding:0 6px;border-radius:4px;font-weight:600">🌟 极大概率（${pred.score}%）</span> — 非常难得的完美窗口！云量仅 <span class="ok">${pred.cc}%</span>，${pred.wmo.d}，几乎无降水干扰。`);
+    lines.push(`<b>📌 必去建议</b>：强烈建议当天前往。${pred.stars}星评价，年度最佳窗口之一。记得提前占位！`);
+  }else if(pred.score>=70){
+    lines.push(`<span style="background:rgba(81,207,102,.12);color:#51cf66;padding:0 6px;border-radius:4px;font-weight:600">👍 概率较高（${pred.score}%）</span> — 条件有利，值得出发。云量 ${pred.cc}%，${pred.wmo.d}，降水概率 ${pred.pp}%。`);
+    lines.push(`<b>📌 建议</b>：按计划前往。清晨通常比预报更稳定，高原天气变化快，值得一搏。`);
+  }else if(pred.score>=50){
+    lines.push(`<span style="background:rgba(255,212,59,.1);color:#ffd43b;padding:0 6px;border-radius:4px;font-weight:600">🤞 有机会（${pred.score}%）</span> — 不确定因素较多。云量 ${pred.cc}%，${pred.wmo.d}，降水概率 ${pred.pp}%。`);
+    lines.push(`<b>📌 建议</b>：关注临近预报。如果当天凌晨云图好转，可以临时决定出发。高原天气常有意外惊喜。`);
+  }else if(pred.score>=30){
+    lines.push(`<span style="background:rgba(255,146,43,.1);color:#ff922b;padding:0 6px;border-radius:4px;font-weight:600">😕 较低（${pred.score}%）</span> — 条件不理想。`);
+    lines.push(`<b>📌 建议</b>：不建议专程前往。如果已经在德钦，可以早起碰碰运气——雪山天气常在黎明前突变。`);
+  }else{
+    lines.push(`<span style="background:rgba(255,107,107,.1);color:#ff6b6b;padding:0 6px;border-radius:4px;font-weight:600">😢 很低（${pred.score}%）</span> — 很难看到金色山峰。`);
+    lines.push(`<b>📌 建议</b>：调整行程至附近其他景点，或选择更佳季节（10月-4月）再来。`);
   }
 
-  // 高级分析
-  lines.push('<br>');
+  // Cloud analysis
+  lines.push(`<b>· 云层诊断</b>：${pred.cc<=10?'万里无云，卡瓦格博峰一览无余，<span class="ok">完美条件</span>。':
+    pred.cc<=30?'少量云系点缀，<span class="ok">少量云层反而增加日照金山的层次感和光影变化</span>。':
+    pred.cc<=50?'中等云量。可能出现"<span style="color:#ffd43b">云中金山</span>"的若隐若现效果，别有韵味。':
+    '云量较高（'+pred.cc+'%），大概率遮挡主峰。但高海拔天气瞬息万变，可关注实时云图。'}`);
 
-  // 云量分析
-  if (pred.cc <= 10) {
-    lines.push(`<b>· 云量分析</b>：云量仅 ${pred.cc}%，几乎万里无云，<span class="good">极佳条件</span>。梅里主峰卡瓦格博完全无遮挡。`);
-  } else if (pred.cc <= 30) {
-    lines.push(`<b>· 云量分析</b>：云量 ${pred.cc}%，少量云系经过。根据历史经验，<span class="good">少量云反而可能增加日照金山的层次感</span>，金色光线穿透云隙效果惊艳。`);
-  } else if (pred.cc <= 50) {
-    lines.push(`<b>· 云量分析</b>：云量 ${pred.cc}%，中等云量。卡瓦格博峰可能出现"<span class="mid">云中金山</span>"的若隐若现效果——也别有韵味。`);
-  } else {
-    lines.push(`<b>· 云量分析</b>：云量 <span class="bad-warn">${pred.cc}%</span>，云层较厚。大概率遮挡主峰。但高海拔天气瞬息万变，仍可关注实况云图。`);
+  // Wind
+  if(pred.ws!==undefined){
+    if(pred.ws<8) lines.push(`<b>· 风力条件</b>：风速 <span class="ok">${pred.ws.toFixed(1)} km/h</span>，微风有利于保持低空通透。`);
+    else if(pred.ws<20) lines.push(`<b>· 风力条件</b>：风速 ${pred.ws.toFixed(1)} km/h，风力中等。高原早晚温差大，带好防风外套。`);
+    else lines.push(`<b>· 风力条件</b>：风速 <span class="warn">${pred.ws.toFixed(1)} km/h</span>，强风可能影响体感和拍摄稳定性。`);
   }
 
-  // 降水分析
-  if (pred.pp > 50) lines.push(`<b>· 降水风险</b>：降水概率 <span class="bad-warn">${pred.pp}%</span>，较高。`);
-  else if (pred.pp > 20) lines.push(`<b>· 降水风险</b>：降水概率 ${pred.pp}%，有一定风险。高海拔下午易对流，建议清晨尽早出发。`);
-  else lines.push(`<b>· 降水风险</b>：降水概率 <span class="good">${pred.pp}%</span>，几乎无降水干扰。`);
+  // Season
+  const sf=seasonScore();
+  if(sf===100) lines.push(`<b>· 季节评估</b>：正值 <span class="hl">旱季黄金期</span>（10-4月），日照金山概率全年最高。`);
+  else if(sf===70) lines.push(`<b>· 季节评估</b>：处于 <span style="color:#ffd43b">旱雨季过渡期（5月）</span>，仍有不错机会，清晨窗口最佳。`);
+  else lines.push(`<b>· 季节评估</b>：处于 <span style="color:#ff922b">雨季</span>（6-9月），概率全年最低。但偶尔雨过天晴的清晨会有"云瀑金山"奇景。`);
 
-  // 风速
-  const targetIdx = pred.targetIdx;
-  let windSpeed = '--';
-  if (targetIdx >= 0 && horlyData.wind_speed_10m[targetIdx] !== undefined) {
-    windSpeed = horlyData.wind_speed_10m[targetIdx].toFixed(1) + ' km/h';
-    const ws = horlyData.wind_speed_10m[targetIdx];
-    if (ws < 10) lines.push(`<b>· 风力条件</b>：风速 <span class="good">${windSpeed}</span>，微风有利于保持低空能见度。`);
-    else if (ws < 25) lines.push(`<b>· 风力条件</b>：风速 ${windSpeed}，风力中等。高原早晚温差大，请带好防风衣物。`);
-    else lines.push(`<b>· 风力条件</b>：风速 <span class="bad-warn">${windSpeed}</span>，风力较大。高海拔强风可能携带沙尘降低能见度。`);
-  } else {
-    lines.push(`<b>· 风力条件</b>：数据不足`);
-  }
+  // Practical tips
+  const arrT=new Date(pred.sr.getTime()-pred.arrivalMin*60000);
+  lines.push(`<br><b>📋 实用攻略</b>`);
+  lines.push(`🕐 日出：<span class="hl">${pred.sr.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})}</span>`);
+  lines.push(`🚗 建议 <span class="hl">${arrT.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})}</span> 前到达飞来寺观景台 · 德钦县城出发约20分钟车程`);
+  lines.push(`🎯 拍摄方向：面朝东南，卡瓦格博主峰正前方偏左 · 建议带长焦镜头（70-200mm以上）`);
+  lines.push(`🧥 飞来寺海拔3,400m，清晨气温 ${pred.low.toFixed(0)}°C 左右，务必穿羽绒服/冲锋衣`);
+  lines.push(`🏨 推荐住宿飞来寺周边客栈（步行5分钟到观景台）或德钦县城`);
 
-  // 季节建议
-  const sf = seasonFactor();
-  if (sf === 100) {
-    lines.push(`<b>· 季节提示</b>：当前正值旱季（10月-4月），是一年中观赏日照金山的<span class="highlight">黄金窗口</span>。`);
-  } else if (sf === 70) {
-    lines.push(`<b>· 季节提示</b>：目前处于旱季向雨季过渡期（5月）。仍有不错的机会，但不确定性增加。清晨通常比下午更稳定。`);
-  } else {
-    lines.push(`<b>· 季节提示</b>：目前处于雨季（6-9月），日照金山概率全年最低。建议关注凌晨云图实时变化，<span class="mid">仍有"云开雾散"的惊喜可能</span>。凌晨4-5点天未亮时云量最少。`);
-  }
+  if(pred.stars>=4) lines.push(`<br>✨ <span class="hl">综合推荐：★★★★★ 强烈推荐 · 这是近期最佳窗口，不要错过！</span>`);
+  else if(pred.stars>=3) lines.push(`<br>✨ <span class="hl">综合推荐：★★★★ 值得前往 · 条件不错，大概率能看到。</span>`);
 
-  // 最佳观赏攻略
-  if (currentMode === 'sunrise') {
-    const sunriseT = dailyData.sunrise[dayIdx];
-    if (sunriseT) {
-      const st = new Date(sunriseT);
-      const hh = String(st.getHours()).padStart(2,'0');
-      const mm = String(st.getMinutes()).padStart(2,'0');
-      lines.push(`<br><b>📌 实用建议</b>：`);
-      lines.push(`· 🕐 日出时间：<span class="highlight">${hh}:${mm}</span>，建议提前 30-40 分钟到达飞来寺观景台占好机位。`);
-      lines.push(`· 🏔️ 拍摄方向：面向东南，主峰卡瓦格博位于正前方偏左。`);
-      lines.push(`· 📸 最佳拍摄：日出前 15 分钟至日出后 10 分钟，金色光辉最浓郁。`);
-      lines.push(`· 🧥 着装提醒：飞来寺海拔约 3,400m，清晨气温常在 0-8°C，务必穿厚外套/羽绒服。`);
-      lines.push(`· 🏨 住宿推荐：飞来寺周边有多家客栈，步行 5 分钟可达观景台。也可住德钦县城（车程 20 分钟）。`);
+  lines.push(`<br><span style="font-size:.7rem;color:rgba(255,255,255,.2)">⚠️ 基于 ECMWF 数值模型 · 建议结合 <a href="https://satellites.cma.gov.cn" target="_blank" style="color:rgba(255,215,0,.3)">卫星云图</a> 和 <a href="https://www.windy.com/28.45/98.78" target="_blank" style="color:rgba(255,215,0,.3)">Windy</a> 综合判断</span>`);
+
+  el.innerHTML=lines.join('<br>');
+}
+
+// ---- Season Context ----
+function renderSeason(){
+  const el=document.getElementById('seasonBox');
+  const m=new Date().getMonth()+1;
+  if(m>=10||m<=4)
+    el.innerHTML='当前为 <b style="color:#FFD700">旱季（10月-4月）</b>，观赏日照金山的<span class="hl">黄金窗口</span>。受南支西风控制，天气晴朗稳定，空气干燥，能见度极佳。🏆 <b>最佳月份：11月-1月</b>，成功率可达70-85%。';
+  else if(m>=6&&m<=9)
+    el.innerHTML='当前为 <b style="color:#ff922b">雨季（6月-9月）</b>，受西南季风影响，水汽充沛，概率处于全年最低（约15-30%）。💡 但雨过天晴的清晨偶有"<span style="color:#ffd43b">云瀑金山</span>"奇景。凌晨4-5点云量往往最少。';
+  else
+    el.innerHTML='当前为 <b style="color:#ffd43b">旱雨季过渡期（5月）</b>，天气系统不稳定。📊 5月平均可见率约40-60%，清晨通常比下午稳定。建议出发前3天关注预报。';
+}
+
+// ---- Countdown tick ----
+function startCountdown(){
+  if(countdownTimer) clearInterval(countdownTimer);
+  countdownTimer=setInterval(()=>{
+    if(data){
+      const di=curTargetIdx(mode);
+      const p=dayPred(di,mode);
+      if(p) renderCountdown(p,di);
     }
-  } else {
-    const sunsetT = dailyData.sunset[dayIdx];
-    if (sunsetT) {
-      const st = new Date(sunsetT);
-      const hh = String(st.getHours()).padStart(2,'0');
-      const mm = String(st.getMinutes()).padStart(2,'0');
-      lines.push(`<br><b>📌 实用建议</b>：`);
-      lines.push(`· 🕐 日落时间：<span class="highlight">${hh}:${mm}</span>，建议提前 1 小时到达。`);
-      lines.push(`· 🏔️ 日落金山的光线更柔和，色彩层次更丰富，适合摄影创作。`);
-      lines.push(`· 🧥 日落前后降温迅速，注意保暖。`);
-    }
+  },1000);
+}
+
+// ---- Switch mode ----
+function switchMode(m){
+  mode=m;
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector(`[data-mode="${m}"]`).classList.add('active');
+  render();
+  startCountdown();
+}
+
+// ===================================================================
+//  Init
+// ===================================================================
+(async function(){
+  // Generate stars
+  const starsDiv=document.querySelector('.stars');
+  for(let i=0;i<60;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    s.style.left=Math.random()*100+'%';
+    s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=Math.random()*3+'s';
+    s.style.width=s.style.height=(Math.random()*2+1)+'px';
+    starsDiv.appendChild(s);
   }
 
-  // 置信度说明
-  lines.push(`<br><span style="font-size:.75rem;color:rgba(255,255,255,.3)">⚠️ 高海拔山区天气变化极快，本预测基于 ECMWF 数值模型，仅供参考。建议结合实时<a href="https://satellites.cma.gov.cn" target="_blank" style="color:rgba(255,215,0,.5)">卫星云图</a>和<a href="https://www.windy.com" target="_blank" style="color:rgba(255,215,0,.5)">Windy</a>综合判断。</span>`);
-
-  el.innerHTML = lines.join('\n');
-}
-
-/* ---- 季节背景 ---- */
-function renderSeasonContext() {
-  const el = document.getElementById('seasonContext');
-  const m = new Date().getMonth() + 1;
-  let text = '';
-  if (m >= 10 || m <= 4) {
-    text = `当前是 <span style="color:#FFD700">旱季（10月-次年4月）</span>，也是观赏梅里雪山日照金山的黄金窗口。此时受南支西风控制，天气晴朗稳定，空气干燥，能见度高。<br><br>🏆 最佳月份：11月-1月，成功率可达 70-85%。飞来寺清晨经常万里无云，卡瓦格博峰一览无余。`;
-  } else if (m >= 6 && m <= 9) {
-    text = `当前是 <span style="color:#ff922b">雨季（6月-9月）</span>，受西南季风影响，水汽充沛，云量较多。日照金山概率处于全年最低水平（约 15-30%）。<br><br>💡 但别灰心！雨过天晴的清晨偶有惊艳——运气好时能看到"云瀑金山"的奇景。凌晨 4-5 点时段云量往往最少。`;
-  } else {
-    text = `当前是 <span style="color:#ffd43b">过渡期（5月）</span>，旱季向雨季转换。天气系统不稳定，偶有惊喜。清晨通常比下午稳定。<br><br>📊 5月平均可见率约 40-60%，建议出发前 3 天开始密切关注预报。`;
-  }
-  el.innerHTML = text;
-}
-
-/* ---- 倒计时 ---- */
-function renderCountdown(pred, dayIdx) {
-  const bar = document.getElementById('countdownBar');
-  const display = document.getElementById('countdownDisplay');
-  if (!pred || !dailyData) { display.textContent = '加载中…'; return; }
-
-  const targetStr = currentMode === 'sunrise' ? dailyData.sunrise[dayIdx] : dailyData.sunset[dayIdx];
-  if (!targetStr) { display.textContent = '无法获取目标时间'; return; }
-
-  const target = new Date(targetStr);
-  const now = new Date();
-  const diff = target - now;
-  const modeLabel = currentMode === 'sunrise' ? '🌅 下次日出' : '🌇 下次日落';
-  const hh = String(target.getHours()).padStart(2,'0');
-  const mm = String(target.getMinutes()).padStart(2,'0');
-  const dateLabel = formatDateDisplay(targetStr.substring(0,10), dayIdx);
-  display.textContent = `${modeLabel}：${dateLabel} ${hh}:${mm}`;
-
-  if (diff <= 0) {
-    bar.innerHTML = '<span style="color:rgba(255,215,0,.5)">已过今日观赏时段，查看明天预测</span>';
-    return;
-  }
-
-  const hours = Math.floor(diff / 3600000);
-  const mins = Math.floor((diff % 3600000) / 60000);
-  const secs = Math.floor((diff % 60000) / 1000);
-
-  bar.innerHTML = `
-    <div class="countdown-item"><div class="num">${String(hours).padStart(2,'0')}</div><div class="lbl">小时</div></div>
-    <div class="countdown-item"><div class="num">${String(mins).padStart(2,'0')}</div><div class="lbl">分钟</div></div>
-    <div class="countdown-item"><div class="num">${String(secs).padStart(2,'0')}</div><div class="lbl">秒</div></div>
-  `;
-}
-
-/* ---- 切换日出/日落 ---- */
-function switchMode(mode) {
-  currentMode = mode;
-  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
-  renderAll();
-  // 重启 countdown 定时器
-  startCountdownTick();
-}
-
-/* ---- 倒计时 tick ---- */
-let countdownTimer = null;
-function startCountdownTick() {
-  if (countdownTimer) clearInterval(countdownTimer);
-  countdownTimer = setInterval(() => {
-    if (weatherData) {
-      const dayIdx = getCurrentTargetIdx(currentMode);
-      const pred = calcDayPrediction(dayIdx, currentMode);
-      renderCountdown(pred, dayIdx);
-    }
-  }, 1000);
-}
-
-/* ===================================================================
-   初始化
-   =================================================================== */
-async function init() {
-  try {
-    await fetchWeather();
-    renderAll();
-    startCountdownTick();
-    // 每15分钟自动刷新
-    setInterval(async () => {
-      try {
-        await fetchWeather();
-        renderAll();
-      } catch(e) {
-        console.warn('Auto-refresh failed:', e);
-      }
-    }, 15 * 60 * 1000);
-  } catch (e) {
-    document.getElementById('updateTime').textContent = '⚠️ 数据获取失败';
-    document.getElementById('predictionLevel').textContent = '⚠️ 连接异常';
-    document.getElementById('predictionDesc').textContent = '请检查网络后刷新页面';
+  try{
+    await fetchData();
+    render();
+    startCountdown();
+    setInterval(async()=>{try{await fetchData();render()}catch(e){console.warn(e)}},15*60*1000);
+  }catch(e){
+    document.getElementById('updateTime').textContent='⚠️ 数据获取失败，请刷新重试';
+    document.getElementById('mainPredLevel').textContent='⚠️ 网络连接异常';
     console.error(e);
   }
-}
-
-init();
+})();
 </script>
 </body>
 </html>
